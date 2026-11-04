@@ -1,1708 +1,1166 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kimsweb - Super Web Tools</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff3333' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><polygon points='13 2 3 14 12 14 11 22 21 10 12 10 13 2'/></svg>">
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{--r:#ff3333;--bd:rgba(255,255,255,.1);--mut:#90909a;--card:rgba(255,255,255,.05)}
-html{scroll-behavior:smooth}
-body{background:#0b0b0e;color:#fff;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;min-height:100vh;overflow-x:hidden;user-select:none}
-#bg{position:fixed;inset:0;width:100%;height:100%;z-index:-1;cursor:grab;will-change:transform;transform:translateZ(0)}
-#bg:active{cursor:grabbing}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kimsweb - Super Web Tools & Recon Kit</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0}
+    :root{--r:#ff3333;--bd:rgba(255,255,255,.1);--mut:#90909a;--card:rgba(255,255,255,.05);--bg:#0b0b0e}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:#fff;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;min-height:100vh;overflow-x:hidden;user-select:none}
+    
+    /* Background Canvas 3D */
+    #bg{position:fixed;inset:0;width:100%;height:100%;z-index:-1;cursor:grab}
+    #bg:active{cursor:grabbing}
 
-/* Modal Gatekeeper Verifikasi Penjumlahan & Pengurangan */
-#gatekeeper{position:fixed;inset:0;background:rgba(8,8,12,0.95);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);z-index:100000;display:flex;justify-content:center;align-items:center;padding:20px}
-.gk-card{background:#121218;border:1px solid var(--r);border-radius:20px;padding:30px;max-width:440px;width:100%;text-align:center;box-shadow:0 0 35px rgba(255,51,51,0.3);animation:zoomInPage 0.3s cubic-bezier(0.16,1,0.3,1)}
+    /* Modal Gatekeeper */
+    #gatekeeper{position:fixed;inset:0;background:rgba(8,8,12,0.95);backdrop-filter:blur(15px);z-index:100000;display:flex;justify-content:center;align-items:center;padding:20px}
+    .gk-card{background:#121218;border:1px solid var(--r);border-radius:20px;padding:30px;max-width:440px;width:100%;text-align:center;box-shadow:0 0 35px rgba(255,51,51,0.3);animation:zoomInPage 0.3s cubic-bezier(0.16,1,0.3,1)}
 
-header{padding:16px 32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;position:sticky;top:0;z-index:1000;background:rgba(11,11,14,0.85);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);border-bottom:1px solid var(--bd);will-change:transform;transform:translateZ(0)}
-.logo{display:flex;align-items:center;gap:10px;font-size:1.35rem;font-weight:700;color:#fff;cursor:pointer;letter-spacing:.5px}
-.logo .lightning-icon{width:24px;height:24px;filter:drop-shadow(0 0 6px rgba(255,51,51,0.7));transition:transform .3s}
-.logo:hover .lightning-icon{transform:scale(1.2) rotate(-6deg)}
+    /* Header Navigation */
+    header{padding:16px 32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;position:sticky;top:0;z-index:1000;background:rgba(11,11,14,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd)}
+    .logo{display:flex;align-items:center;gap:10px;font-size:1.35rem;font-weight:700;color:#fff;cursor:pointer;letter-spacing:.5px}
+    .logo .lightning-icon{font-size:1.4rem;filter:drop-shadow(0 0 6px rgba(255,51,51,0.7));transition:transform .3s}
+    .logo:hover .lightning-icon{transform:scale(1.2) rotate(-6deg)}
 
-.header-info{display:flex;align-items:center;gap:10px;background:rgba(21,21,28,0.75);border:1px solid var(--bd);padding:6px 14px;border-radius:30px;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);font-size:0.82rem;cursor:pointer;transition:border-color .3s}
-.header-info:hover{border-color:var(--r)}
-.header-info .info-item{display:flex;align-items:center;gap:5px;color:#d0d0d8}
-.header-info .info-item b{color:#fff}
-.header-info .info-item.highlight{color:var(--r);font-weight:600}
-.header-info .divider{width:1px;height:12px;background:var(--bd)}
+    .header-info{display:flex;align-items:center;gap:10px;background:rgba(21,21,28,0.75);border:1px solid var(--bd);padding:6px 14px;border-radius:30px;backdrop-filter:blur(10px);font-size:0.82rem;cursor:pointer;transition:border-color .3s}
+    .header-info:hover{border-color:var(--r)}
+    .header-info .info-item{display:flex;align-items:center;gap:5px;color:#d0d0d8}
+    .header-info .info-item b{color:#fff}
+    .header-info .info-item.highlight{color:var(--r);font-weight:600}
+    .header-info .divider{width:1px;height:12px;background:var(--bd)}
 
-main{max-width:1000px;margin:0 auto;padding:10px 20px 40px;perspective:1000px}
-h1{font-size:2.4rem;text-align:center;margin:20px 0 8px}h1 span{color:var(--r)}
-h2{font-size:1.5rem;margin-bottom:6px}
-.sub{text-align:center;color:var(--mut);margin-bottom:20px}
+    /* Layout & Main Container */
+    main{max-width:1000px;margin:0 auto;padding:10px 20px 40px;perspective:1000px}
+    h1{font-size:2.4rem;text-align:center;margin:20px 0 8px}
+    h1 span{color:var(--r)}
+    h2{font-size:1.5rem;margin-bottom:6px}
+    .sub{text-align:center;color:var(--mut);margin-bottom:20px}
 
-/* Container Tampilan WELCOME */
-.hero-section{display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:70vh;text-align:center;padding:20px}
-.welcome-title{font-size:3.5rem;font-weight:800;letter-spacing:4px;text-transform:uppercase;margin:0;line-height:1.2;text-shadow:0 0 25px rgba(255,51,51,0.3)}
-.welcome-sub{font-size:1.15rem;color:var(--mut);margin-top:14px;letter-spacing:1px}
-.drag-hint{font-size:0.85rem;color:rgba(255,255,255,0.4);margin-top:8px;letter-spacing:0.5px}
+    /* Views Architecture */
+    .view{display:none;will-change:transform,opacity,filter}
+    .view.on{display:block;animation:zoomInPage 0.38s cubic-bezier(0.16,1,0.3,1) forwards}
 
-.scroll-down-btn{margin-top:30px;background:rgba(255,51,51,0.12);border:1px solid var(--r);color:#fff;padding:12px 24px;border-radius:30px;cursor:pointer;font-size:0.95rem;font-weight:600;display:flex;align-items:center;gap:10px;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);animation:bounce 2.2s infinite;transition:all .3s}
-.scroll-down-btn:hover{background:var(--r);box-shadow:0 0 20px rgba(255,51,51,0.6);transform:scale(1.05)}
+    @keyframes zoomInPage{
+      0%{opacity:0;transform:scale(0.82);filter:blur(6px)}
+      100%{opacity:1;transform:scale(1);filter:blur(0)}
+    }
 
-@keyframes bounce{
- 0%,20%,50%,80%,100%{transform:translateY(0)}
- 40%{transform:translateY(-12px)}
- 60%{transform:translateY(-6px)}
-}
+    /* Welcome Section */
+    .hero-section{display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:55vh;text-align:center;padding:20px 10px}
+    .welcome-title{font-size:3.2rem;font-weight:800;letter-spacing:4px;text-transform:uppercase;margin:0;line-height:1.2;text-shadow:0 0 25px rgba(255,51,51,0.3)}
+    .welcome-sub{font-size:1.1rem;color:var(--mut);margin-top:14px;letter-spacing:1px}
+    .drag-hint{font-size:0.85rem;color:rgba(255,255,255,0.4);margin-top:8px}
 
-.tools-section-title{text-align:center;font-size:1.6rem;margin-bottom:16px;padding-top:40px;border-top:1px solid rgba(255,255,255,0.08)}
+    .scroll-down-btn{margin-top:26px;background:rgba(255,51,51,0.12);border:1px solid var(--r);color:#fff;padding:12px 24px;border-radius:30px;cursor:pointer;font-size:0.95rem;font-weight:600;display:flex;align-items:center;gap:10px;backdrop-filter:blur(10px);animation:bounce 2.2s infinite;transition:all .3s}
+    .scroll-down-btn:hover{background:var(--r);box-shadow:0 0 20px rgba(255,51,51,0.6);transform:scale(1.05)}
 
-.category-dropdown{display:flex;justify-content:center;margin-bottom:26px}
-.dropdown-select{background:#15151c;color:#fff;border:1px solid var(--r);border-radius:12px;padding:10px 18px;font-size:1rem;font-weight:600;cursor:pointer;outline:none;max-width:320px;text-align:center;box-shadow:0 0 15px rgba(255,51,51,0.2);transition:all .3s}
-.dropdown-select:hover{background:#1c1c26;border-color:#ff5555}
+    @keyframes bounce{
+      0%,20%,50%,80%,100%{transform:translateY(0)}
+      40%{transform:translateY(-10px)}
+      60%{transform:translateY(-5px)}
+    }
 
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:16px}
-.tile{--mx:50%;--my:50%;position:relative;padding:22px;border-radius:18px;border:1px solid var(--bd);cursor:pointer;opacity:0;transform:translateY(24px);
- animation:rise .6s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--i)*60ms);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);
- background:radial-gradient(220px circle at var(--mx) var(--my),rgba(255,51,51,.2),transparent 70%),var(--card);transition:transform .2s,border-color .3s,box-shadow .3s;will-change:transform}
-.tile:hover{transform:translateY(-6px) scale(1.02);border-color:var(--r);box-shadow:0 12px 30px rgba(255,51,51,.2)}
-.tile:active{transform:scale(0.95)}
-.tile .ic{font-size:2rem;display:inline-block;transition:transform .4s}
-.tile:hover .ic{transform:scale(1.25) rotate(-8deg)}
-.tile h3{margin:10px 0 4px;font-size:1.05rem}.tile p{color:var(--mut);font-size:.85rem;line-height:1.4}
-@keyframes rise{to{opacity:1;transform:none}}
+    .tools-section-title{text-align:center;font-size:1.6rem;margin-bottom:16px;padding-top:40px;border-top:1px solid rgba(255,255,255,0.08)}
+    .category-dropdown{display:flex;justify-content:center;margin-bottom:26px}
+    .dropdown-select{background:#15151c;color:#fff;border:1px solid var(--r);border-radius:12px;padding:10px 18px;font-size:1rem;font-weight:600;cursor:pointer;outline:none;max-width:320px;text-align:center;box-shadow:0 0 15px rgba(255,51,51,0.2);transition:all .3s}
+    .dropdown-select:hover{background:#1c1c26;border-color:#ff5555}
 
-.view{display:none;will-change:transform,opacity,filter}
-.view.on{display:block;animation:zoomInPage 0.38s cubic-bezier(0.16,1,0.3,1) forwards}
+    /* Tools Grid & Tiles */
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:16px}
+    .tile{--mx:50%;--my:50%;position:relative;padding:22px;border-radius:18px;border:1px solid var(--bd);cursor:pointer;opacity:0;transform:translateY(24px);animation:rise .6s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--i)*60ms);backdrop-filter:blur(10px);background:radial-gradient(220px circle at var(--mx) var(--my),rgba(255,51,51,.2),transparent 70%),var(--card);transition:transform .2s,border-color .3s,box-shadow .3s}
+    .tile:hover{transform:translateY(-6px) scale(1.02);border-color:var(--r);box-shadow:0 12px 30px rgba(255,51,51,.2)}
+    .tile:active{transform:scale(0.95)}
+    .tile .ic{font-size:2rem;display:inline-block;transition:transform .4s}
+    .tile:hover .ic{transform:scale(1.25) rotate(-8deg)}
+    .tile h3{margin:10px 0 4px;font-size:1.05rem}
+    .tile p{color:var(--mut);font-size:.85rem;line-height:1.4}
+    @keyframes rise{to{opacity:1;transform:none}}
 
-@keyframes zoomInPage{
- 0%{opacity:0;transform:scale(0.82);filter:blur(4px)}
- 100%{opacity:1;transform:scale(1);filter:blur(0)}
-}
+    /* UI Controls & Forms */
+    .back{background:none;border:1px solid var(--bd);color:#ccc;padding:8px 16px;border-radius:20px;cursor:pointer;margin-bottom:18px;transition:.3s;display:inline-flex;align-items:center;gap:6px;font-weight:600}
+    .back:hover{border-color:var(--r);color:#fff;background:rgba(255,51,51,0.1)}
+    .panel{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:24px;margin-top:10px;backdrop-filter:blur(12px);user-select:text}
 
-.back{background:none;border:1px solid var(--bd);color:#ccc;padding:6px 14px;border-radius:20px;cursor:pointer;margin-bottom:18px;transition:.3s}
-.back:hover{border-color:var(--r);color:#fff}
-.panel{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:20px;margin-top:18px;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);user-select:text;will-change:transform;transform:translateZ(0)}
+    textarea,input[type=text],input[type=number],input[type=password],input[type=date],select{width:100%;background:#15151c;color:#fff;border:1px solid var(--bd);border-radius:10px;padding:10px 12px;font:inherit;outline:none;user-select:text}
+    textarea{min-height:160px;resize:vertical;font-family:Consolas,monospace;font-size:.9rem;line-height:1.5}
+    textarea:focus,input:focus,select:focus{border-color:var(--r)}
+    input[type=range]{accent-color:var(--r);cursor:pointer}
+    ::selection { background: var(--r); color: #fff; }
 
-textarea,input[type=text],input[type=number],input[type=password],select{width:100%;background:#15151c;color:#fff;border:1px solid var(--bd);border-radius:10px;padding:10px 12px;font:inherit;outline:none;user-select:text}
-textarea{min-height:200px;resize:vertical;font-family:Consolas,monospace;font-size:.9rem;line-height:1.5}
-textarea:focus,input:focus,select:focus{border-color:var(--r)}
-input[type=range]{accent-color:var(--r);cursor:pointer}
-::selection { background: var(--r); color: #fff; }
+    .btn{background:var(--r);color:#fff;border:none;padding:10px 20px;border-radius:10px;font-weight:600;cursor:pointer;transition:.3s;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+    .btn:hover{background:#e02828;transform:scale(1.02)}
+    .btn:disabled{opacity:.5;cursor:wait}
+    .btn.alt{background:#252530}
+    .btn.alt:hover{background:#33333f}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+    .msg{margin-top:12px;font-size:.9rem;color:var(--mut)}
+    .ok{color:#4caf50}.err{color:#ff6666}.warn{color:#ffb74d}
+    .cmd-box{background:#0e0e12;border:1px solid var(--bd);border-radius:10px;padding:14px;font-family:Consolas,monospace;color:#4caf50;word-break:break-all;margin-top:10px;position:relative;user-select:text}
+    .tip-box{background:rgba(255,255,255,0.03);border-left:3px solid var(--r);border-radius:6px;padding:12px 14px;margin-top:14px;font-size:0.88rem;line-height:1.6}
 
-.btn{background:var(--r);color:#fff;border:none;padding:10px 20px;border-radius:10px;font-weight:600;cursor:pointer;transition:.3s;text-decoration:none;display:inline-block}
-.btn:hover{background:#e02828;transform:scale(1.03)}.btn:disabled{opacity:.5;cursor:wait}
-.btn.alt{background:#252530}.btn.alt:hover{background:#33333f}
-.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
-.msg{margin-top:12px;font-size:.9rem;color:var(--mut)}
-.ok{color:#4caf50}.err{color:#ff6666}.warn{color:#ffb74d}
-.cmd-box{background:#0e0e12;border:1px solid var(--bd);border-radius:10px;padding:14px;font-family:Consolas,monospace;color:#4caf50;word-break:break-all;margin-top:10px;position:relative;user-select:text}
-.tip-box{background:rgba(255,255,255,0.03);border-left:3px solid var(--r);border-radius:6px;padding:12px 14px;margin-top:14px;font-size:0.88rem;line-height:1.6}
-.tip-box ul{list-style:none;padding-left:0}
-.tip-box li{margin-bottom:6px}
+    /* Stats Grid */
+    .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;text-align:center}
+    .stat{background:#15151c;border:1px solid var(--bd);border-radius:12px;padding:14px 8px}
+    .stat b{font-size:1.4rem;display:block;color:var(--r);font-family:Consolas,monospace}
+    .stat small{color:var(--mut);font-size:0.78rem}
 
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px;text-align:center}
-.stat{background:#15151c;border:1px solid var(--bd);border-radius:12px;padding:14px 8px}
-.stat b{font-size:1.5rem;display:block;color:var(--r);font-family:Consolas,monospace}
-.stat small{color:var(--mut);font-size:0.78rem}
+    /* Meter Bar */
+    .meter{height:6px;background:#222;border-radius:3px;overflow:hidden}
+    .meter i{display:block;height:100%;transition:width .4s,background .4s}
 
-.meter{height:6px;background:#222;border-radius:3px;overflow:hidden}
-.meter i{display:block;height:100%;transition:width .4s,background .4s}
+    /* Calculator Grid */
+    .calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+    .calc-btn{background:#15151c;border:1px solid var(--bd);color:#fff;padding:14px;font-size:1.1rem;font-weight:600;border-radius:10px;cursor:pointer;transition:.2s}
+    .calc-btn:hover{background:#22222e;border-color:var(--r)}
+    .calc-btn.op{background:rgba(255,51,51,0.15);color:var(--r)}
+    .calc-btn.op:hover{background:var(--r);color:#fff}
 
-.calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
-.calc-btn{background:#15151c;border:1px solid var(--bd);color:#fff;padding:14px;font-size:1.1rem;font-weight:600;border-radius:10px;cursor:pointer;transition:.2s}
-.calc-btn:hover{background:#22222e;border-color:var(--r)}
-.calc-btn.op{background:rgba(255,51,51,0.15);color:var(--r)}
-.calc-btn.op:hover{background:var(--r);color:#fff}
+    /* Prayer Cards Grid */
+    .prayer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px;margin-top:16px}
+    .prayer-card{background:#15151c;border:1px solid var(--bd);border-radius:14px;padding:14px;text-align:center;transition:all .3s}
+    .prayer-card.next{border-color:var(--r);background:rgba(255,51,51,0.12);box-shadow:0 0 16px rgba(255,51,51,0.25);transform:scale(1.04)}
+    .prayer-card .p-name{color:var(--mut);font-size:0.85rem;margin-bottom:6px}
+    .prayer-card .p-time{font-size:1.3rem;font-weight:700;color:#fff}
+    .prayer-card.next .p-name{color:var(--r);font-weight:600}
 
-.prayer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-top:16px}
-.prayer-card{background:#15151c;border:1px solid var(--bd);border-radius:14px;padding:14px;text-align:center;transition:all .3s}
-.prayer-card.next{border-color:var(--r);background:rgba(255,51,51,0.12);box-shadow:0 0 16px rgba(255,51,51,0.25);transform:scale(1.04)}
-.prayer-card .p-name{color:var(--mut);font-size:0.85rem;margin-bottom:6px}
-.prayer-card .p-time{font-size:1.3rem;font-weight:700;color:#fff}
-.prayer-card.next .p-name{color:var(--r);font-weight:600}
+    /* Tables */
+    .wrap{overflow-x:auto;margin-top:14px}
+    table{width:100%;border-collapse:collapse;font-size:.9rem}
+    th{color:var(--mut);font-weight:600;text-align:center;padding:10px 8px;font-size:.8rem;border-bottom:1px solid var(--bd);background:rgba(0,0,0,0.2)}
+    td{text-align:center;padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.05)}
+    th.l,td.l{text-align:left}
+    tr:hover td{background:rgba(255,255,255,.03)}
+    td b{color:var(--r)}
 
-.wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:.9rem}
-th{color:var(--mut);font-weight:600;text-align:center;padding:8px 6px;font-size:.8rem;border-bottom:1px solid var(--bd)}
-td{text-align:center;padding:9px 6px;border-bottom:1px solid rgba(255,255,255,.05)}
-th.l,td.l{text-align:left}
-tr:hover td{background:rgba(255,255,255,.03)}
-td b{color:var(--r)}
+    .loader{display:inline-block;width:14px;height:14px;border:2px solid var(--bd);border-top-color:var(--r);border-radius:50%;animation:spin .8s linear infinite;margin-right:8px;vertical-align:middle}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    footer{text-align:center;padding:25px;color:#555560;font-size:.85rem}
 
-.loader{display:inline-block;width:14px;height:14px;border:2px solid var(--bd);border-top-color:var(--r);border-radius:50%;animation:spin .8s linear infinite;margin-right:8px;vertical-align:middle}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-footer{text-align:center;padding:25px;color:#555560;font-size:.85rem}
-@media(max-width:680px){
- header{justify-content:center}
- .header-info{width:100%;justify-content:center}
- .welcome-title{font-size:2.4rem}
-}
-</style>
+    @media(max-width:680px){
+      header{justify-content:center}
+      .header-info{width:100%;justify-content:center}
+      .welcome-title{font-size:2.2rem}
+      main{padding:10px 14px 30px}
+    }
+  </style>
 </head>
 <body>
-<canvas id="bg" title="Klik dan geser kursor untuk memutar bola dunia 3D & gerakkan partikel"></canvas>
 
-<!-- GATEKEEPER OVERLAY VERIFIKASI TAMBAH & KURANG -->
-<div id="gatekeeper">
-  <div class="gk-card" id="gk-box"></div>
-</div>
+  <!-- Canvas Background Partikel 3D -->
+  <canvas id="bg"></canvas>
 
-<header>
-  <div class="logo" onclick="clearAllAndHome()">
-    <svg class="lightning-icon" viewBox="0 0 24 24" fill="none" stroke="#ff3333" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-    </svg>
-    <span>Kimsweb</span>
-  </div>
-
-  <div class="header-info" onclick="openTool('sholat', this)" title="Klik untuk lihat jadwal sholat lengkap">
-    <div class="info-item"><span>🕒</span> <b id="hdr-clock">--:--:-- WIB</b></div>
-    <div class="divider"></div>
-    <div class="info-item"><span>📍</span> <span id="hdr-loc">Mendeteksi lokasi...</span></div>
-    <div class="divider"></div>
-    <div class="info-item highlight"><span>🕌</span> <span id="hdr-prayer">Menghitung sholat...</span></div>
-  </div>
-</header>
-
-<main>
-
-<!-- HALAMAN UTAMA WELCOME -->
-<section class="view on" id="home">
- <div class="hero-section">
-  <h1 class="welcome-title">WELCOME TO <span style="color:var(--r)">KIMSWEB</span></h1>
-  <p class="welcome-sub">Super Web Tools & Security Reconnaissance Kit</p>
-  <p class="drag-hint">🖱️ <i>Gerakkan kursor mouse untuk mendorong butiran & memutar bola dunia 3D</i></p>
-  
-  <button class="scroll-down-btn" onclick="scrollToTools()">
-   <span>Gulir Ke Bawah Untuk Akses Tools</span>
-   <span style="font-size:1.2rem">↓</span>
-  </button>
- </div>
-
- <div id="tools-section">
-  <h2 class="tools-section-title">🛠️ Daftar Web Tools</h2>
-  
-  <div class="category-dropdown">
-   <select class="dropdown-select" id="cat-select" onchange="filterCategory(this.value)">
-    <option value="all">🌐 Semua Kategori Tool</option>
-    <option value="utility">🛠️ General Utilities</option>
-    <option value="pentest">🛡️ Penetration Testing</option>
-   </select>
-  </div>
-
-  <div class="grid" id="grid"></div>
- </div>
-</section>
-
-<!-- 1. CEK KEAMANAN WEB -->
-<section class="view" id="site">
- <button class="back" onclick="clearAllAndHome()">← Kembali</button>
- <h2>🛡️ Cek Keamanan Web & Deteksi Phishing</h2>
- <p class="msg">Periksa alamat IP server asal, sertifikat SSL/TLS, catatan DNS lengkap, lokasi ISP, dan analisa reputasi keamanan domain secara akurat.</p>
- <div class="panel">
-  <div class="row" style="margin:0">
-   <input type="text" id="site-url" autocomplete="off" spellcheck="false" placeholder="Masukkan URL atau domain (contoh: youtube.com atau google.com)" style="flex:1;min-width:220px" onkeydown="if(event.key==='Enter')checkSite()">
-   <button class="btn" id="site-btn" onclick="checkSite()">Periksa Keamanan</button>
-  </div>
-  <div id="site-out" style="margin-top:18px"></div>
- </div>
-</section>
-
-<!-- 2. TES KECEPATAN -->
-<section class="view" id="speed">
- <button class="back" onclick="clearAllAndHome()">← Kembali</button>
- <h2>⚡ Tes Kecepatan Internet</h2>
- <p class="msg">Uji responsifitas latensi ping, jitter, serta kecepatan unduh dan unggah koneksi internet Anda secara rinci.</p>
- <div class="panel">
-  <div class="stats">
-   <div class="stat"><b id="sp-ping">-</b><small>Ping (ms)</small></div>
-   <div class="stat"><b id="sp-jit">-</b><small>Jitter (ms)</small></div>
-   <div class="stat"><b id="sp-down">-</b><small>Unduh (Mbps)</small></div>
-   <div class="stat"><b id="sp-up">-</b><small>Unggah (Mbps)</small></div>
-  </div>
-  <div class="row" style="justify-content:center;margin-top:16px;gap:12px">
-   <button class="btn" id="sp-btn" onclick="speedTest()">Mulai Tes Kecepatan</button>
-  </div>
-  <p class="msg" id="sp-st" style="text-align:center"></p>
-  <div id="turbo-res" style="margin-top:16px"></div>
- </div>
-</section>
-
-<!-- 3. CONVERT FILE -->
-<section class="view" id="conv">
- <button class="back" onclick="clearAllAndHome()">← Kembali</button>
- <h2>🔄 Konversi File</h2>
- <p class="msg">Konversi format gambar (PNG, JPG, WEBP, BMP), data (JSON ⇄ CSV), atau dokumen teks secara langsung di browser.</p>
- <div class="panel">
-  <input type="file" id="cv-file" onchange="cvOpts()" style="color:#ccc">
-  <div class="row" style="margin-top:14px">
-   <label>Ubah ke Format:</label>
-   <select id="cv-to" style="width:auto">
-    <option value="png">Gambar PNG</option>
-    <option value="jpeg">Gambar JPG / JPEG</option>
-    <option value="webp">Gambar WEBP</option>
-    <option value="bmp">Gambar BMP</option>
-    <option value="json">CSV ke JSON (Teks/File)</option>
-    <option value="csv">JSON ke CSV (Teks/File)</option>
-   </select>
-   <button class="btn" id="cv-btn" onclick="cvGo()">Konversi File</button>
-  </div>
-  <p class="msg" id="cv-msg"></p>
- </div>
-</section>
-
-<!-- 4. KOMPRES FILE -->
-<section class="view" id="comp">
- <button class="back" onclick="clearAllAndHome()">← Kembali</button>
- <h2>🗜️ Kompres File</h2>
- <p class="msg">Kecilkan ukuran file gambar (JPG, PNG, WEBP, BMP) atau bungkus menjadi file ZIP. Kompresi gambar bersifat lossy, sehingga kualitas bisa sedikit turun.</p>
- <div class="panel">
-  <input type="file" id="cmp-file" style="color:#ccc">
-  <div class="row" style="margin-top:14px">
-   <label>Tingkat Kompresi:</label>
-   <select id="cmp-quality" style="width:auto">
-    <option value="70" selected>Otomatis (Sedang / Quality 70%)</option>
-    <option value="50">Tinggi (Ukuran Lebih Kecil / Quality 50%)</option>
-    <option value="85">Ringan (Kualitas Tinggi / Quality 85%)</option>
-    <option value="zip">Arsip ZIP Terkompresi</option>
-   </select>
-   <button class="btn" id="cmp-btn" onclick="cmpGo()">Kompres Sekarang</button>
-  </div>
-  <p class="msg" id="cmp-msg"></p>
- </div>
-</section>
-
-<!-- 5. PASSWORD GENERATOR -->
-<section class="view" id="pass">
- <button class="back" onclick="clearAllAndHome()">← Kembali</button>
- <div style="max-width:520px;margin:0 auto">
-  <h2 style="text-align:center">🔑 Password Generator</h2>
-  <p class="msg" style="text-align:center;margin-bottom:16px">Buat kata sandi acak yang kuat, aman, dan terenkripsi untuk akun Anda.</p>
-  <div class="panel">
-   <div style="position:relative;margin-bottom:12px">
-    <input type="text" id="pw-out" readonly autocomplete="off" spellcheck="false" style="font-size:1.25rem;letter-spacing:1px;font-family:Consolas,monospace;padding-right:95px;text-align:center;font-weight:bold;color:#fff;background:#0d0d12">
-    <button class="btn" id="pw-copy" onclick="copyPassword(event)" style="position:absolute;right:4px;top:4px;bottom:4px;padding:0 14px;font-size:0.85rem">Salin</button>
-   </div>
-   
-   <div class="meter" style="margin:6px 0 12px"><i id="pw-meter-bar" style="width:0%"></i></div>
-   <p class="msg" id="pw-strength-txt" style="text-align:center;margin-top:-4px;margin-bottom:16px;font-weight:600">-</p>
-
-   <div style="background:#15151c;padding:16px;border-radius:12px;border:1px solid var(--bd)">
-    <div class="row" style="justify-content:space-between;margin:0 0 14px">
-     <label>Panjang Karakter: <b id="pw-len-val" style="color:var(--r);font-size:1.1rem">16</b></label>
-     <input type="range" id="pw-len" min="6" max="64" value="16" oninput="$('pw-len-val').textContent=this.value;genPassword()" style="width:170px">
+  <!-- Modal Gatekeeper Verification -->
+  <div id="gatekeeper">
+    <div class="gk-card" id="gk-box">
+      <!-- Diisi secara dinamis via JavaScript -->
     </div>
+  </div>
+
+  <!-- Header Navigation -->
+  <header>
+    <div class="logo" onclick="clearAllAndHome()">
+      <span class="lightning-icon">⚡</span>
+      <span>Kimsweb</span>
+    </div>
+
+    <div class="header-info" onclick="location.hash='sholat'">
+      <div class="info-item">🕒 <span id="hdr-clock">--:--:-- WIB</span></div>
+      <div class="divider"></div>
+      <div class="info-item">📍 <span id="hdr-loc">Mendeteksi...</span></div>
+      <div class="divider"></div>
+      <div class="info-item highlight">🕌 <span id="hdr-prayer">Menghitung...</span></div>
+    </div>
+  </header>
+
+  <main id="app">
+    <!-- VIEW: HOME (BERANDA & TOOLS GRID) -->
+    <div id="home" class="view on">
+      <div class="hero-section">
+        <h1 class="welcome-title">WELCOME TO KIMSWEB</h1>
+        <p class="welcome-sub">Super Web Tools & Security Reconnaissance Kit</p>
+        <p class="drag-hint">🖱️ Gerakkan kursor / sentuh layar untuk interaksi bola partikel 3D</p>
+        <button class="scroll-down-btn" onclick="scrollToTools()">
+          Gulir Ke Bawah Untuk Akses Tools ↓
+        </button>
+      </div>
+
+      <div id="tools-section">
+        <h2 class="tools-section-title">🛠️ Daftar Web Tools</h2>
+        
+        <div class="category-dropdown">
+          <select class="dropdown-select" onchange="filterCategory(this.value)">
+            <option value="all">🌐 Semua Kategori Tool</option>
+            <option value="utility">🛠️ General Utilities</option>
+            <option value="finance">💰 Keuangan & Bisnis</option>
+            <option value="pentest">🛡️ Penetration Testing</option>
+          </select>
+        </div>
+
+        <div class="grid" id="grid"></div>
+      </div>
+    </div>
+
+    <!-- VIEW: CEK KEAMANAN WEB -->
+    <div id="site" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>🛡️ Cek Keamanan Web & Deteksi Phishing</h2>
+      <p class="sub">Periksa IP server asal, sertifikat SSL/TLS, records DNS, ISP, dan reputasi keamanan domain.</p>
+      <div class="panel">
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
+          <input type="text" id="site-url" placeholder="Masukkan domain/URL target (misal: google.com)" style="flex:1" onkeydown="if(event.key==='Enter')checkSite()">
+          <button class="btn" id="site-btn" onclick="checkSite()">Periksa Keamanan</button>
+        </div>
+        <div id="site-out"></div>
+      </div>
+    </div>
+
+    <!-- VIEW: TES KECEPATAN INTERNET -->
+    <div id="speed" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>⚡ Tes Kecepatan Internet</h2>
+      <p class="sub">Uji latensi ping, jitter, serta kecepatan unduh dan unggah secara real-time.</p>
+      <div class="panel">
+        <div class="stats" style="margin-bottom:20px">
+          <div class="stat"><b id="sp-ping">-</b><small>Ping (ms)</small></div>
+          <div class="stat"><b id="sp-jit">-</b><small>Jitter (ms)</small></div>
+          <div class="stat"><b id="sp-down">-</b><small>Unduh (Mbps)</small></div>
+          <div class="stat"><b id="sp-up">-</b><small>Unggah (Mbps)</small></div>
+        </div>
+        <button class="btn" id="sp-btn" onclick="speedTest()" style="width:100%">Mulai Tes Kecepatan</button>
+        <p class="msg" id="sp-st" style="text-align:center;margin-top:14px"></p>
+      </div>
+    </div>
+
+    <!-- VIEW: KONVERSI FILE -->
+    <div id="conv" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>🔄 Konversi File</h2>
+      <p class="sub">Ubah format gambar (PNG, JPG, WEBP, BMP) atau format data (CSV ⇄ JSON) langsung di browser.</p>
+      <div class="panel">
+        <div style="display:grid;gap:14px">
+          <input type="file" id="cv-file" accept="image/*,.csv,.json">
+          <select id="cv-to">
+            <option value="png">Gambar PNG</option>
+            <option value="jpeg">Gambar JPG / JPEG</option>
+            <option value="webp">Gambar WEBP</option>
+            <option value="bmp">Gambar BMP</option>
+            <option value="json">CSV ke JSON (Teks/File)</option>
+            <option value="csv">JSON ke CSV (Teks/File)</option>
+          </select>
+          <button class="btn" onclick="cvGo()">Konversi File</button>
+        </div>
+        <div id="cv-msg" class="msg"></div>
+      </div>
+    </div>
+
+    <!-- VIEW: KOMPRES FILE -->
+    <div id="comp" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>🗜️ Kompres File</h2>
+      <p class="sub">Kecilkan ukuran file gambar atau kompres menjadi arsip ZIP.</p>
+      <div class="panel">
+        <div style="display:grid;gap:14px">
+          <input type="file" id="cmp-file">
+          <select id="cmp-quality">
+            <option value="70">Otomatis (Sedang / Quality 70%)</option>
+            <option value="50">Tinggi (Ukuran Lebih Kecil / Quality 50%)</option>
+            <option value="85">Ringan (Kualitas Tinggi / Quality 85%)</option>
+            <option value="zip">Arsip ZIP Terkompresi</option>
+          </select>
+          <button class="btn" onclick="cmpGo()">Kompres Sekarang</button>
+        </div>
+        <div id="cmp-msg" class="msg"></div>
+      </div>
+    </div>
+
+    <!-- VIEW: PASSWORD GENERATOR -->
+    <div id="pass" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>🔑 Password Generator</h2>
+      <p class="sub">Buat kata sandi acak yang kuat, aman, dan dapat disesuaikan.</p>
+      <div class="panel">
+        <div style="display:flex;gap:10px;margin-bottom:14px">
+          <input type="text" id="pw-out" readonly style="font-family:Consolas,monospace;font-size:1.1rem;font-weight:bold;letter-spacing:1px;text-align:center">
+          <button class="btn" id="pw-copy" onclick="copyPassword(event)">Salin</button>
+        </div>
+        <div class="meter" style="margin-bottom:14px"><i id="pw-meter-bar" style="width:0%"></i></div>
+        <p id="pw-strength-txt" class="msg" style="margin-bottom:14px;font-weight:600"></p>
+
+        <div style="margin-bottom:14px">
+          <label style="display:flex;justify-content:space-between;margin-bottom:6px">
+            <span>Panjang Karakter:</span>
+            <b id="pw-len-val">16</b>
+          </label>
+          <input type="range" id="pw-len" min="6" max="64" value="16" oninput="$('pw-len-val').textContent=this.value;genPassword()">
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.9rem">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="pw-upper" checked onchange="genPassword()"> Huruf Besar (A-Z)</label>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="pw-lower" checked onchange="genPassword()"> Huruf Kecil (a-z)</label>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="pw-num" checked onchange="genPassword()"> Angka (0-9)</label>
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="pw-sym" checked onchange="genPassword()"> Simbol (!@#$...)</label>
+        </div>
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);font-size:0.85rem;color:var(--mut)">
+          <input type="checkbox" id="pw-no-ambig" onchange="genPassword()"> Hindari Karakter Mirip (1, l, I, 0, O)
+        </label>
+        <button class="btn alt" style="width:100%;margin-top:16px" onclick="genPassword()">🔄 Acak Ulang Password</button>
+      </div>
+    </div>
+
+    <!-- VIEW: DNS GRATIS -->
+    <div id="dns" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>🌐 DNS Gratis & Tercepat</h2>
+      <p class="sub">Pilihan server DNS publik yang cepat, stabil, dan aman dari pemblokiran.</p>
+      <div class="panel">
+        <div id="dns-list" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:20px"></div>
+        <div class="tip-box">
+          <b>Cara Menggunakan DNS di Perangkat Anda:</b>
+          <ul style="margin-top:6px;padding-left:18px">
+            <li><b>Android:</b> Pengaturan → Jaringan & Internet → DNS Pribadi → Nama Host Penyedia.</li>
+            <li><b>Windows:</b> Pengaturan → Jaringan & Internet → Wi-Fi / Ethernet → Edit Server DNS.</li>
+            <li><b>iPhone / iOS:</b> Pengaturan → Wi-Fi → Ketuk ikon (i) → Konfigurasi DNS → Manual.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW: KALKULATOR INTERAKTIF -->
+    <div id="calc" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>🧮 Kalkulator Interaktif</h2>
+      <p class="sub">Kalkulator matematika cepat dengan riwayat perhitungan.</p>
+      <div class="panel" style="max-width:400px;margin:0 auto">
+        <input type="text" id="c-in" style="text-align:right;font-size:1.4rem;font-weight:bold;margin-bottom:6px" placeholder="0" readonly>
+        <div id="c-err" class="msg err" style="min-height:1.2em;text-align:right;margin:0 0 10px"></div>
+        <div class="calc-grid">
+          <button class="calc-btn op" onclick="calcInput('C')">C</button>
+          <button class="calc-btn op" onclick="calcInput('(')">(</button>
+          <button class="calc-btn op" onclick="calcInput(')')">)</button>
+          <button class="calc-btn op" onclick="calcInput('/')">÷</button>
+
+          <button class="calc-btn" onclick="calcInput('7')">7</button>
+          <button class="calc-btn" onclick="calcInput('8')">8</button>
+          <button class="calc-btn" onclick="calcInput('9')">9</button>
+          <button class="calc-btn op" onclick="calcInput('*')">×</button>
+
+          <button class="calc-btn" onclick="calcInput('4')">4</button>
+          <button class="calc-btn" onclick="calcInput('5')">5</button>
+          <button class="calc-btn" onclick="calcInput('6')">6</button>
+          <button class="calc-btn op" onclick="calcInput('-')">-</button>
+
+          <button class="calc-btn" onclick="calcInput('1')">1</button>
+          <button class="calc-btn" onclick="calcInput('2')">2</button>
+          <button class="calc-btn" onclick="calcInput('3')">3</button>
+          <button class="calc-btn op" onclick="calcInput('+')">+</button>
+
+          <button class="calc-btn" onclick="calcInput('0')">0</button>
+          <button class="calc-btn" onclick="calcInput('.')">.</button>
+          <button class="calc-btn op" onclick="calcInput('DEL')">⌫</button>
+          <button class="calc-btn btn" onclick="evalCalc()" style="padding:0">=</button>
+        </div>
+        <div id="c-hist" class="cmd-box" style="margin-top:16px;max-height:120px;overflow-y:auto"></div>
+      </div>
+    </div>
+
+    <!-- VIEW: PENGHITUNG OMZET BISNIS -->
+    <div id="omzet" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>💰 Penghitung Omzet Penjualan</h2>
+      <p class="sub">Kalkulasi total omzet kotor, modal HPP, keuntungan bersih, dan margin profit bisnis.</p>
+      <div class="panel">
+        <div class="stats" style="margin-bottom:20px">
+          <div class="stat"><b id="omz-total-gross">Rp 0</b><small>Total Omzet (Kotor)</small></div>
+          <div class="stat"><b id="omz-total-hpp">Rp 0</b><small>Total Modal (HPP)</small></div>
+          <div class="stat"><b id="omz-total-net">Rp 0</b><small>Keuntungan Bersih</small></div>
+          <div class="stat"><b id="omz-margin">0%</b><small>Margin Profit</small></div>
+        </div>
+
+        <h4 style="margin-bottom:10px">➕ Tambah Item Produk / Penjualan</h4>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:12px">
+          <input type="text" id="omz-pname" placeholder="Nama Produk">
+          <input type="number" id="omz-price" placeholder="Harga Jual (Rp)">
+          <input type="number" id="omz-qty" placeholder="Jumlah (Qty)" value="1">
+          <input type="number" id="omz-hpp" placeholder="HPP / Modal Pcs (Rp)">
+        </div>
+        <button class="btn" onclick="addOmzetItem()" style="width:100%;margin-bottom:16px">Tambah Ke Daftar Omzet</button>
+
+        <div class="wrap">
+          <table>
+            <thead>
+              <tr>
+                <th class="l">Produk</th>
+                <th>Harga Jual</th>
+                <th>Qty</th>
+                <th>HPP / Pcs</th>
+                <th>Total Omzet</th>
+                <th>Profit Netto</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="omz-table-body">
+              <tr><td colspan="7" style="color:var(--mut);padding:18px">Belum ada item produk yang ditambahkan.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW BARU: GENERATOR KODE QR -->
+    <div id="qr" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>📱 QR Code Generator</h2>
+      <p class="sub">Buat kode QR kustom secara instan untuk Teks, URL Situs, Wi-Fi, atau Kontak.</p>
+      <div class="panel">
+        <div style="display:grid;gap:12px;margin-bottom:16px">
+          <div>
+            <label style="font-size:0.85rem;color:var(--mut);display:block;margin-bottom:6px">Tipe QR Code:</label>
+            <select id="qr-type" onchange="toggleQrInputs()">
+              <option value="text">Teks / URL Website</option>
+              <option value="wifi">Jaringan Wi-Fi</option>
+            </select>
+          </div>
+
+          <div id="qr-input-text-wrap">
+            <input type="text" id="qr-text" placeholder="Masukkan Teks atau URL (misal: https://google.com)" oninput="genQrCode()">
+          </div>
+
+          <div id="qr-input-wifi-wrap" style="display:none;grid-template-columns:1fr 1fr;gap:10px">
+            <input type="text" id="qr-wifi-ssid" placeholder="Nama WiFi (SSID)" oninput="genQrCode()">
+            <input type="text" id="qr-wifi-pass" placeholder="Password WiFi" oninput="genQrCode()">
+          </div>
+        </div>
+
+        <div style="text-align:center;padding:20px;background:#0e0e12;border-radius:14px;border:1px solid var(--bd)">
+          <div id="qr-img-box" style="display:inline-block;padding:12px;background:#fff;border-radius:12px">
+            <img id="qr-img" src="" alt="QR Code" style="display:none;width:180px;height:180px">
+          </div>
+          <div class="msg" id="qr-placeholder" style="margin-top:0">Ketik isi teks/URL di atas untuk membuat QR Code</div>
+          <div style="margin-top:16px">
+            <button class="btn" id="qr-dl-btn" onclick="downloadQr()" style="display:none">⬇️ Unduh Gambar QR (PNG)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW BARU: MONEY TRACKER / PENCATAT KEUANGAN -->
+    <div id="tracker" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>📊 Money Tracker & Catatan Keuangan</h2>
+      <p class="sub">Catat pemasukan & pengeluaran harian Anda dengan aman (tersimpan lokal di browser).</p>
+      <div class="panel">
+        <div class="stats" style="margin-bottom:20px">
+          <div class="stat"><b id="tr-in" style="color:#4caf50">Rp 0</b><small>Total Pemasukan</small></div>
+          <div class="stat"><b id="tr-out" style="color:#ff6666">Rp 0</b><small>Total Pengeluaran</small></div>
+          <div class="stat"><b id="tr-balance">Rp 0</b><small>Sisa Saldo</small></div>
+        </div>
+
+        <h4 style="margin-bottom:10px">➕ Tambah Transaksi Baru</h4>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:12px">
+          <select id="tr-type">
+            <option value="in">🟢 Pemasukan (+)</option>
+            <option value="out">🔴 Pengeluaran (-)</option>
+          </select>
+          <input type="text" id="tr-desc" placeholder="Keterangan (misal: Gaji, Jajan)">
+          <input type="number" id="tr-amount" placeholder="Nominal (Rp)">
+          <input type="date" id="tr-date">
+        </div>
+        <button class="btn" onclick="addTransaction()" style="width:100%;margin-bottom:16px">Simpan Transaksi</button>
+
+        <div class="wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Tanggal</th>
+                <th class="l">Keterangan</th>
+                <th>Jenis</th>
+                <th>Nominal</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="tr-table-body">
+              <tr><td colspan="5" style="color:var(--mut);padding:18px">Belum ada catatan transaksi.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW: JADWAL SHOLAT -->
+    <div id="sholat" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>🕌 Jadwal & Pengingat Waktu Sholat</h2>
+      <p class="sub">Waktu sholat presisi lokasi GPS/Kota Anda dengan hitung mundur otomatis.</p>
+      <div class="panel">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px">
+          <div>
+            <div style="font-size:0.85rem;color:var(--mut)">Lokasi Terdeteksi:</div>
+            <b id="sh-loc-name" style="font-size:1.1rem;color:var(--r)">Mendeteksi...</b>
+            <div id="sh-date-hijri" style="font-size:0.8rem;color:var(--mut)"></div>
+          </div>
+          <button class="btn alt" onclick="detectUserLocation(true)">🔄 Refresh Lokasi GPS</button>
+        </div>
+
+        <div style="text-align:center;padding:16px;background:#15151c;border-radius:14px;border:1px solid var(--bd);margin-bottom:16px">
+          <small style="color:var(--mut)">Menuju Waktu Sholat Berikutnya (<b id="sh-next-name" style="color:var(--r)">-</b>):</small>
+          <div id="sh-countdown" style="font-size:2.5rem;font-weight:bold;font-family:Consolas,monospace;color:#fff;margin:6px 0">00:00:00</div>
+          <small id="sh-next-time-sub" style="color:var(--mut)"></small>
+        </div>
+
+        <div class="prayer-grid" id="prayer-cards"></div>
+
+        <label style="display:flex;align-items:center;gap:10px;margin-top:20px;cursor:pointer;font-size:0.9rem">
+          <input type="checkbox" onchange="toggleAdhanSound(this.checked)"> 🔔 Aktifkan Pengingat Suara Alert Adzan
+        </label>
+      </div>
+    </div>
+
+    <!-- VIEW: WEB RECON -->
+    <div id="recon" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>🕵️ Web Recon & IP/Port Finder</h2>
+      <p class="sub">Cari IP server, DNS records, dan port utama web target.</p>
+      <div class="panel">
+        <div style="display:flex;gap:10px;margin-bottom:14px">
+          <input type="text" id="recon-target" placeholder="Contoh: google.com atau 8.8.8.8" style="flex:1" onkeydown="if(event.key==='Enter')runWebRecon()">
+          <button class="btn" id="recon-btn" onclick="runWebRecon()">🔍 Cari Info</button>
+        </div>
+        <div id="recon-out"></div>
+      </div>
+    </div>
+
+    <!-- VIEW PENTEST CLI TOOLS (ZAP, BURP, NMAP, NIKTO, SQLMAP) -->
+    <div id="zap" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>⚡ OWASP ZAP (Zed Attack Proxy)</h2>
+      <div class="panel">
+        <input type="text" id="zap-target" placeholder="http://example.com" oninput="genZapCmd()" style="margin-bottom:10px">
+        <select id="zap-mode" onchange="genZapCmd()" style="margin-bottom:10px">
+          <option value="baseline">Baseline Scan (Quick)</option>
+          <option value="full">Full Scan (Deep)</option>
+          <option value="api">API Scan (OpenAPI/Swagger)</option>
+        </select>
+        <div class="cmd-box" id="zap-cmd-out"></div>
+        <button class="btn alt" style="margin-top:10px;width:100%" onclick="cp($('zap-cmd-out').textContent, this, event)">Salin Perintah CLI</button>
+      </div>
+    </div>
+
+    <div id="burp" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>🟠 Burp Suite Community Setup</h2>
+      <div class="panel">
+        <p class="msg" style="color:#fff">Atur Proxy HTTP browser Anda ke alamat lokal berikut:</p>
+        <div class="cmd-box">IP: 127.0.0.1 | Port: 8080</div>
+      </div>
+    </div>
+
+    <div id="nmap" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>🔍 Nmap Command Generator</h2>
+      <div class="panel">
+        <input type="text" id="nmap-target" placeholder="127.0.0.1" oninput="genNmapCmd()" style="margin-bottom:10px">
+        <select id="nmap-type" onchange="genNmapCmd()" style="margin-bottom:10px">
+          <option value="quick">Quick Scan (-F)</option>
+          <option value="service">Detect Service & OS (-sV -O)</option>
+          <option value="full">Full Port Scan (-p- -A)</option>
+          <option value="vuln">NSE Vulnerability Script (--script vuln)</option>
+        </select>
+        <div class="cmd-box" id="nmap-cmd-out"></div>
+        <button class="btn alt" style="margin-top:10px;width:100%" onclick="cp($('nmap-cmd-out').textContent, this, event)">Salin Perintah CLI</button>
+      </div>
+    </div>
+
+    <div id="nikto" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>🌐 Nikto Web Scanner Generator</h2>
+      <div class="panel">
+        <input type="text" id="nikto-target" placeholder="example.com" oninput="genNiktoCmd()" style="margin-bottom:10px">
+        <select id="nikto-port" onchange="genNiktoCmd()" style="margin-bottom:10px">
+          <option value="80">Port 80 (HTTP)</option>
+          <option value="443">Port 443 (HTTPS)</option>
+          <option value="8080">Port 8080 (Custom)</option>
+        </select>
+        <div class="cmd-box" id="nikto-cmd-out"></div>
+        <button class="btn alt" style="margin-top:10px;width:100%" onclick="cp($('nikto-cmd-out').textContent, this, event)">Salin Perintah CLI</button>
+      </div>
+    </div>
+
+    <div id="sqlmap" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>🗄️ SQLMap Command Generator</h2>
+      <div class="panel">
+        <input type="text" id="sqlmap-url" placeholder="http://example.com/page.php?id=1" oninput="genSqlmapCmd()" style="margin-bottom:10px">
+        <select id="sqlmap-level" onchange="genSqlmapCmd()" style="margin-bottom:10px">
+          <option value="1">Level 1 (Aman / Dasar)</option>
+          <option value="3">Level 3 (Termasuk HTTP Headers)</option>
+          <option value="5">Level 5 (Maksimal & Komprehensif)</option>
+        </select>
+        <div class="cmd-box" id="sqlmap-cmd-out"></div>
+        <button class="btn alt" style="margin-top:10px;width:100%" onclick="cp($('sqlmap-cmd-out').textContent, this, event)">Salin Perintah CLI</button>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    Kimsweb © 2026 • Super Web Tools & Recon Kit
+  </footer>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    const esc = s => String(s??'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+    function scrollToTools(){
+      const target = $('tools-section');
+      if(target) target.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    /* MASTER DAFTAR TOOLS */
+    const TOOLS=[
+      {id:'site', cat:'utility', icon:'🛡️', title:'Cek Keamanan Web', desc:'Cek SSL, deteksi phishing, IP & lokasi server asal'},
+      {id:'speed', cat:'utility', icon:'⚡', title:'Tes Kecepatan', desc:'Ukur ping, jitter, kecepatan unduh & unggah'},
+      {id:'conv', cat:'utility', icon:'🔄', title:'Konversi File', desc:'Ubah format gambar, data (CSV ⇄ JSON), dan teks'},
+      {id:'comp', cat:'utility', icon:'🗜️', title:'Kompres File', desc:'Kecilkan ukuran gambar & buat arsip ZIP terkompresi'},
+      {id:'pass', cat:'utility', icon:'🔑', title:'Password Generator', desc:'Buat kata sandi kuat, aman & kustom secara instan'},
+      {id:'qr', cat:'utility', icon:'📱', title:'QR Code Generator', desc:'Buat kode QR kustom untuk Teks, Website, dan Wi-Fi'},
+      {id:'dns', cat:'utility', icon:'🌐', title:'DNS Gratis', desc:'Pilihan DNS siap pakai untuk Android, Windows & iOS'},
+      {id:'calc', cat:'utility', icon:'🧮', title:'Kalkulator', desc:'Hitung cepat dengan tombol interaktif & riwayat'},
+      {id:'omzet', cat:'finance', icon:'💰', title:'Penghitung Omzet Bisnis', desc:'Hitung total omzet kotor, modal HPP, profit & margin'},
+      {id:'tracker', cat:'finance', icon:'📊', title:'Money Tracker', desc:'Catat pemasukan & pengeluaran harian tersimpan di browser'},
+      {id:'sholat', cat:'utility', icon:'🕌', title:'Jadwal Sholat & GPS', desc:'Waktu sholat presisi presisi GPS & hitung mundur'},
+      {id:'recon', cat:'pentest', icon:'🕵️', title:'Web Recon & IP/Port', desc:'Cari IP server, DNS records & port umum web'},
+      {id:'zap', cat:'pentest', icon:'⚡', title:'OWASP ZAP', desc:'DAST scanner, pemindaian otomatis & analisis web'},
+      {id:'burp', cat:'pentest', icon:'🟠', title:'Burp Suite Setup', desc:'Interceptor HTTP Proxy, Repeater & Decoder'},
+      {id:'nmap', cat:'pentest', icon:'🔍', title:'Nmap Generator', desc:'Audit port jaringan, pemindaian layanan & OS'},
+      {id:'nikto', cat:'pentest', icon:'🌐', title:'Nikto Web Scanner', desc:'Scanner web server untuk file berisiko'},
+      {id:'sqlmap', cat:'pentest', icon:'🗄️', title:'SQLMap Generator', desc:'Pengujian kerentanan SQL Injection database'}
+    ];
+
+    function renderGrid(filterCategoryName = 'all'){
+      const container = $('grid');
+      if(!container) return;
+      const filtered = filterCategoryName === 'all' ? TOOLS : TOOLS.filter(t => t.cat === filterCategoryName);
+      container.innerHTML = filtered.map((t, i) => 
+        `<div class="tile" style="--i:${i}" onclick="openTool('${t.id}', this)">
+          <span class="ic">${t.icon}</span>
+          <h3>${t.title}</h3>
+          <p>${t.desc}</p>
+        </div>`
+      ).join('');
+
+      document.querySelectorAll('.tile').forEach(t=>{
+        t.addEventListener('mousemove',e=>{
+          const r=t.getBoundingClientRect();
+          t.style.setProperty('--mx',e.clientX-r.left+'px');
+          t.style.setProperty('--my',e.clientY-r.top+'px');
+        });
+      });
+    }
+
+    function filterCategory(cat){ renderGrid(cat); }
+    renderGrid('all');
+
+    /* VERIFIKASI GATEKEEPER */
+    let gkAnswer = 0;
+    let gkTries = 3;
+
+    function initGatekeeper(){
+      const isKicked = localStorage.getItem('kimsweb_kicked') === 'true';
+      const isPassed = sessionStorage.getItem('kimsweb_passed') === 'true';
+      if(isPassed){
+        $('gatekeeper').style.display = 'none';
+        return;
+      }
+      $('gatekeeper').style.display = 'flex';
+      if(isKicked){
+        showRetryPrompt();
+      } else {
+        generateGatekeeperQuestion();
+      }
+    }
+
+    function showRetryPrompt(){
+      $('gk-box').innerHTML = `
+        <h2 style="color:var(--r);margin-bottom:10px">⚠️ Akses Diblokir</h2>
+        <p class="msg" style="margin-bottom:20px;color:#d0d0d8">Anda sebelumnya dikeluarkan karena 3 kali salah menjawab pertanyaan.</p>
+        <div class="row" style="justify-content:center;gap:12px">
+          <button class="btn" onclick="resetAndRetryGK()">Coba Lagi</button>
+        </div>
+      `;
+    }
+
+    function resetAndRetryGK(){
+      localStorage.removeItem('kimsweb_kicked');
+      gkTries = 3;
+      generateGatekeeperQuestion();
+    }
+
+    function generateGatekeeperQuestion(){
+      const isAddition = Math.random() > 0.5;
+      let n1, n2, symbol;
+      if(isAddition){
+        n1 = Math.floor(Math.random() * 45) + 5;
+        n2 = Math.floor(Math.random() * 45) + 5;
+        gkAnswer = n1 + n2; symbol = '+';
+      } else {
+        n1 = Math.floor(Math.random() * 50) + 15;
+        n2 = Math.floor(Math.random() * (n1 - 1)) + 1;
+        gkAnswer = n1 - n2; symbol = '-';
+      }
+      $('gk-box').innerHTML = `
+        <h2 style="margin-bottom:8px">🔒 Syarat Masuk Website</h2>
+        <p class="msg" style="margin-bottom:16px;color:#ccc">Jawab matematika dasar berikut (Sisa Percobaan: <b id="gk-tries-txt" style="color:var(--r)">${gkTries}</b>/3):</p>
+        <div style="font-size:2.2rem;font-weight:bold;margin:18px 0;color:#fff;background:rgba(255,51,51,0.1);padding:14px;border-radius:14px;border:1px solid rgba(255,51,51,0.2)">
+          ${n1} ${symbol} ${n2} = ?
+        </div>
+        <div style="margin-bottom:14px">
+          <input type="number" id="gk-input" placeholder="Jawaban..." style="text-align:center;font-size:1.2rem" onkeydown="if(event.key==='Enter')submitGKAnswer()">
+        </div>
+        <button class="btn" onclick="submitGKAnswer()" style="width:100%">Masuk Ke Website ➔</button>
+        <p class="msg err" id="gk-err-msg" style="margin-top:12px;min-height:1.2em"></p>
+      `;
+      setTimeout(() => { if($('gk-input')) $('gk-input').focus(); }, 100);
+    }
+
+    function submitGKAnswer(){
+      const inputVal = parseInt(($('gk-input').value || '').trim());
+      const errMsg = $('gk-err-msg');
+      if(isNaN(inputVal)){
+        if(errMsg) errMsg.textContent = 'Masukkan angka jawaban!';
+        return;
+      }
+      if(inputVal === gkAnswer){
+        sessionStorage.setItem('kimsweb_passed', 'true');
+        $('gatekeeper').style.display = 'none';
+      } else {
+        gkTries--;
+        if(gkTries <= 0){
+          localStorage.setItem('kimsweb_kicked', 'true');
+          showKickedScreen();
+        } else {
+          if($('gk-tries-txt')) $('gk-tries-txt').textContent = gkTries;
+          if(errMsg) errMsg.textContent = `Jawaban salah! Sisa percobaan: ${gkTries}`;
+          $('gk-input').value = '';
+          $('gk-input').focus();
+        }
+      }
+    }
+
+    function showKickedScreen(){
+      $('gk-box').innerHTML = `
+        <h2 style="color:var(--r);font-size:2rem;margin-bottom:10px">⛔ AKSES DITOLAK!</h2>
+        <p class="msg" style="color:#ff9a9a;margin-bottom:20px">3 kali salah menjawab pertanyaan.</p>
+        <button class="btn alt" onclick="resetAndRetryGK()">Coba Ulang</button>
+      `;
+    }
+
+    function clearAllInputs(){
+      if($('site-url')) $('site-url').value = '';
+      if($('site-out')) $('site-out').innerHTML = '';
+      if($('c-in')) $('c-in').value = '';
+      if($('c-err')) $('c-err').textContent = '';
+      if($('recon-target')) $('recon-target').value = '';
+      if($('recon-out')) $('recon-out').innerHTML = '';
+    }
+
+    function openTool(id, el){
+      const home = $('home');
+      if(el){
+        const r = el.getBoundingClientRect();
+        const hr = home.getBoundingClientRect();
+        const ox = ((r.left + r.width/2 - hr.left) / hr.width) * 100;
+        const oy = ((r.top + r.height/2 - hr.top) / hr.height) * 100;
+        home.style.transformOrigin = `${ox}% ${oy}%`;
+      }
+      home.style.transition = 'transform 0.42s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.38s ease, filter 0.38s ease';
+      home.style.transform = 'scale(3.5)';
+      home.style.opacity = '0';
+      home.style.filter = 'blur(8px)';
+      setTimeout(() => {
+        location.hash = id;
+        home.style.transform = '';
+        home.style.opacity = '';
+        home.style.filter = '';
+      }, 360);
+    }
+
+    function clearAllAndHome(){
+      clearAllInputs();
+      location.hash = '';
+    }
+
+    /* ROUTER & NAVIGATION */
+    function route(){
+      let id = location.hash.slice(1);
+      const validIds = TOOLS.map(t=>t.id);
+      if(!validIds.includes(id)) id='home';
+      
+      document.querySelectorAll('.view').forEach(v=>{
+        v.classList.remove('on');
+        if(v.id===id){
+          v.offsetHeight;
+          v.classList.add('on');
+        }
+      });
+
+      if(id==='pass') genPassword();
+      if(id==='dns') renderDnsList();
+      if(id==='sholat') detectUserLocation();
+      if(id==='omzet') renderOmzetTable();
+      if(id==='tracker') renderTracker();
+      if(id==='zap') genZapCmd();
+      if(id==='nmap') genNmapCmd();
+      if(id==='nikto') genNiktoCmd();
+      if(id==='sqlmap') genSqlmapCmd();
+      window.scrollTo(0,0);
+    }
+
+    /* TOOL BARU: GENERATOR KODE QR */
+    function toggleQrInputs(){
+      const type = $('qr-type').value;
+      if(type === 'wifi'){
+        $('qr-input-text-wrap').style.display = 'none';
+        $('qr-input-wifi-wrap').style.display = 'grid';
+      } else {
+        $('qr-input-text-wrap').style.display = 'block';
+        $('qr-input-wifi-wrap').style.display = 'none';
+      }
+      genQrCode();
+    }
+
+    function genQrCode(){
+      const type = $('qr-type').value;
+      let qrData = '';
+      if(type === 'wifi'){
+        const ssid = $('qr-wifi-ssid').value.trim();
+        const pass = $('qr-wifi-pass').value.trim();
+        if(ssid) qrData = `WIFI:S:${ssid};T:WPA;P:${pass};;`;
+      } else {
+        qrData = $('qr-text').value.trim();
+      }
+
+      const img = $('qr-img');
+      const placeholder = $('qr-placeholder');
+      const dlBtn = $('qr-dl-btn');
+
+      if(!qrData){
+        img.style.display = 'none';
+        placeholder.style.display = 'block';
+        dlBtn.style.display = 'none';
+        return;
+      }
+
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(qrData)}`;
+      img.src = qrUrl;
+      img.style.display = 'inline-block';
+      placeholder.style.display = 'none';
+      dlBtn.style.display = 'inline-flex';
+    }
+
+    function downloadQr(){
+      const img = $('qr-img');
+      if(!img.src) return;
+      fetch(img.src)
+        .then(res => res.blob())
+        .then(blob => {
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = 'qrcode.png';
+          a.click();
+        }).catch(() => alert('Gagal mengunduh QR Code.'));
+    }
+
+    /* TOOL BARU: MONEY TRACKER */
+    let transactions = JSON.parse(localStorage.getItem('kimsweb_tracker') || '[]');
     
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.9rem">
-     <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="pw-upper" checked onchange="genPassword()"> Huruf Besar (A-Z)</label>
-     <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="pw-lower" checked onchange="genPassword()"> Huruf Kecil (a-z)</label>
-     <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="pw-num" checked onchange="genPassword()"> Angka (0-9)</label>
-     <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="pw-sym" checked onchange="genPassword()"> Simbol (!@#$...)</label>
-    </div>
+    // Set tanggal default ke hari ini
+    if($('tr-date')) $('tr-date').valueAsDate = new Date();
+
+    function addTransaction(){
+      const type = $('tr-type').value;
+      const desc = $('tr-desc').value.trim() || 'Transaksi Tanpa Nama';
+      const amount = parseFloat($('tr-amount').value) || 0;
+      const date = $('tr-date').value || new Date().toISOString().split('T')[0];
+
+      if(amount <= 0){
+        alert('Masukkan nominal transaksi yang valid!');
+        return;
+      }
+
+      transactions.unshift({ id: Date.now(), type, desc, amount, date });
+      localStorage.setItem('kimsweb_tracker', JSON.stringify(transactions));
+      
+      $('tr-desc').value = '';
+      $('tr-amount').value = '';
+      renderTracker();
+    }
+
+    function removeTransaction(id){
+      transactions = transactions.filter(t => t.id !== id);
+      localStorage.setItem('kimsweb_tracker', JSON.stringify(transactions));
+      renderTracker();
+    }
+
+    function renderTracker(){
+      const tbody = $('tr-table-body');
+      if(!tbody) return;
+
+      let totalIn = 0, totalOut = 0;
+      transactions.forEach(t => {
+        if(t.type === 'in') totalIn += t.amount;
+        else totalOut += t.amount;
+      });
+
+      const balance = totalIn - totalOut;
+
+      $('tr-in').textContent = 'Rp ' + totalIn.toLocaleString('id-ID');
+      $('tr-out').textContent = 'Rp ' + totalOut.toLocaleString('id-ID');
+      $('tr-balance').textContent = 'Rp ' + balance.toLocaleString('id-ID');
+      $('tr-balance').style.color = balance >= 0 ? '#4caf50' : '#ff6666';
+
+      if(transactions.length === 0){
+        tbody.innerHTML = '<tr><td colspan="5" style="color:var(--mut);padding:18px">Belum ada catatan transaksi.</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = transactions.map(t => `
+        <tr>
+          <td><small style="color:var(--mut)">${t.date}</small></td>
+          <td class="l"><b>${esc(t.desc)}</b></td>
+          <td><span class="${t.type === 'in' ? 'ok' : 'err'}" style="font-weight:600">${t.type === 'in' ? 'Pemasukan' : 'Pengeluaran'}</span></td>
+          <td><b>Rp ${t.amount.toLocaleString('id-ID')}</b></td>
+          <td><button class="btn alt" style="padding:4px 10px;font-size:0.75rem;color:#ff6666" onclick="removeTransaction(${t.id})">Hapus</button></td>
+        </tr>
+      `).join('');
+    }
+
+    /* KALKULATOR UTILS */
+    function calcInput(v){
+      const input = $('c-in');
+      $('c-err').textContent = '';
+      if(v === 'C'){ input.value = ''; return; }
+      if(v === 'DEL'){ input.value = input.value.slice(0, -1); return; }
+      input.value += v;
+    }
+
+    function evalCalc(){
+      const input = $('c-in');
+      try {
+        let expr = input.value.replace(/×/g, '*').replace(/÷/g, '/');
+        if(!expr.trim()) return;
+        const res = Function(`'use strict'; return (${expr})`)();
+        $('c-hist').innerHTML = `<div>${input.value} = <b>${res}</b></div>` + $('c-hist').innerHTML;
+        input.value = res;
+      } catch(e) { $('c-err').textContent = 'Ekspresi tidak valid!'; }
+    }
+
+    /* PASSWORD GENERATOR UTILS */
+    function genPassword(){
+      const len = parseInt($('pw-len').value) || 16;
+      const u = $('pw-upper').checked, l = $('pw-lower').checked, n = $('pw-num').checked, s = $('pw-sym').checked;
+      let chars = '';
+      if(u) chars += 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+      if(l) chars += 'abcdefghijkmnpqrstuvwxyz';
+      if(n) chars += '23456789';
+      if(s) chars += '!@#$%^&*()_+-=[]{}';
+      if(!chars){ $('pw-out').value = 'Pilih min. 1 opsi'; return; }
+      
+      let pass = '';
+      const array = new Uint32Array(len);
+      crypto.getRandomValues(array);
+      for(let i = 0; i < len; i++) pass += chars[array[i] % chars.length];
+      
+      $('pw-out').value = pass;
+      const score = Math.min(100, Math.round((len / 32) * 60 + (u+l+n+s)*10));
+      $('pw-meter-bar').style.width = score + '%';
+      $('pw-meter-bar').style.background = score > 75 ? '#4caf50' : score > 50 ? '#ffb74d' : '#ff3333';
+      $('pw-strength-txt').textContent = score > 75 ? 'Sangat Kuat 🔒' : score > 50 ? 'Sedang ⚠️' : 'Lemah 🚨';
+    }
+
+    function copyPassword(ev){
+      const val = $('pw-out').value;
+      if(val && val !== 'Pilih min. 1 opsi') cp(val, $('pw-copy'), ev);
+    }
+
+    /* OMZET CALC UTILS */
+    let omzetItems = [];
+    function formatRupiah(num){ return 'Rp ' + Math.round(num).toLocaleString('id-ID'); }
     
-    <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);font-size:0.85rem;color:var(--mut)">
-     <input type="checkbox" id="pw-no-ambig" onchange="genPassword()"> Hindari Karakter Mirip (1, l, I, 0, O)
-    </label>
-   </div>
-
-   <div class="row" style="justify-content:center;margin-top:16px">
-    <button class="btn" onclick="genPassword()">🔄 Acak Ulang Password</button>
-   </div>
-  </div>
- </div>
-</section>
-
-<!-- 6. DNS GRATIS -->
-<section class="view" id="dns">
- <button class="back" onclick="clearAllAndHome()">← Kembali</button>
- <h2>🌐 DNS Gratis & Tercepat</h2>
- <p class="msg">Pilihan server DNS publik yang cepat, stabil, dan aman dari pemblokiran. Klik salin untuk menggunakan.</p>
- <div class="panel">
-  <div id="dns-list" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:16px"></div>
-  
-  <div class="tip-box">
-   <b>Cara Menggunakan DNS di Perangkat Anda:</b>
-   <ul>
-    <li>• <b>Android:</b> Pengaturan → Jaringan & Internet → DNS Pribadi → Pilih "Nama Host Penyedia DNS" → Tempel hostname.</li>
-    <li>• <b>Windows:</b> Pengaturan → Jaringan & Internet → Wi-Fi / Ethernet → Properti → Edit Penetapan Server DNS.</li>
-    <li>• <b>iPhone / iOS:</b> Pengaturan → Wi-Fi → Ketuk ikon (i) → Konfigurasi DNS → Pilih Manual → Tambah Server.</li>
-   </ul>
-  </div>
- </div>
-</section>
-
-<!-- 7. KALKULATOR -->
-<section class="view" id="calc">
- <button class="back" onclick="clearAllAndHome()">← Kembali</button>
- <div style="max-width:420px;margin:0 auto">
-  <h2 style="text-align:center;margin-bottom:12px">🧮 Kalkulator Interaktif</h2>
-  <div class="panel" style="padding:16px">
-   <input type="text" id="c-in" autocomplete="off" spellcheck="false" placeholder="0" style="text-align:right;font-size:1.6rem;font-family:Consolas,monospace;font-weight:bold;margin-bottom:8px" onkeydown="if(event.key==='Enter')evalCalc()">
-   <p class="msg err" id="c-err" style="min-height:1.2em;text-align:right;margin-top:0"></p>
-   
-   <div class="calc-grid">
-    <button class="calc-btn op" onclick="calcInput('C')">C</button>
-    <button class="calc-btn op" onclick="calcInput('(')">(</button>
-    <button class="calc-btn op" onclick="calcInput(')')">)</button>
-    <button class="calc-btn op" onclick="calcInput('/')">÷</button>
-    
-    <button class="calc-btn" onclick="calcInput('7')">7</button>
-    <button class="calc-btn" onclick="calcInput('8')">8</button>
-    <button class="calc-btn" onclick="calcInput('9')">9</button>
-    <button class="calc-btn op" onclick="calcInput('*')">×</button>
-    
-    <button class="calc-btn" onclick="calcInput('4')">4</button>
-    <button class="calc-btn" onclick="calcInput('5')">5</button>
-    <button class="calc-btn" onclick="calcInput('6')">6</button>
-    <button class="calc-btn op" onclick="calcInput('-')">-</button>
-    
-    <button class="calc-btn" onclick="calcInput('1')">1</button>
-    <button class="calc-btn" onclick="calcInput('2')">2</button>
-    <button class="calc-btn" onclick="calcInput('3')">3</button>
-    <button class="calc-btn op" onclick="calcInput('+')">+</button>
-    
-    <button class="calc-btn" onclick="calcInput('0')">0</button>
-    <button class="calc-btn" onclick="calcInput('.')">.</button>
-    <button class="calc-btn op" onclick="calcInput('DEL')">⌫</button>
-    <button class="calc-btn btn" onclick="evalCalc()" style="padding:0">=</button>
-   </div>
-   
-   <div id="c-hist" style="margin-top:14px;max-height:120px;overflow-y:auto;font-family:Consolas,monospace;font-size:0.85rem;color:var(--mut);border-top:1px solid var(--bd);padding-top:8px"></div>
-  </div>
- </div>
-</section>
-
-<!-- 8. PENGHITUNG OMZET PENJUALAN -->
-<section class="view" id="omzet">
- <button class="back" onclick="clearAllAndHome()">← Kembali</button>
- <h2>💰 Penghitung Omzet Penjualan</h2>
- <p class="msg">Hitung total omzet kotor, total modal (HPP), keuntungan bersih (net profit), dan margin profit bisnis Anda secara otomatis.</p>
- 
- <div class="panel">
-  <div class="stats" style="grid-template-columns:repeat(auto-fit,minmax(140px,1fr));margin-bottom:18px">
-   <div class="stat"><b id="omz-total-gross">Rp 0</b><small>Total Omzet (Kotor)</small></div>
-   <div class="stat"><b id="omz-total-hpp" style="color:#ffb74d">Rp 0</b><small>Total Modal (HPP)</small></div>
-   <div class="stat"><b id="omz-total-net" style="color:#4caf50">Rp 0</b><small>Keuntungan Bersih</small></div>
-   <div class="stat"><b id="omz-margin" style="color:#64b5f6">0%</b><small>Margin Profit</small></div>
-  </div>
-
-  <div style="background:#15151c;border:1px solid var(--bd);border-radius:12px;padding:16px;margin-bottom:16px">
-   <h4 style="margin-bottom:12px;color:var(--r)">➕ Tambah Item Produk / Penjualan</h4>
-   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:12px">
-    <input type="text" id="omz-pname" autocomplete="off" spellcheck="false" placeholder="Nama Produk (misal: Kaos Polo)">
-    <input type="number" id="omz-price" autocomplete="off" placeholder="Harga Jual / Pcs (Rp)">
-    <input type="number" id="omz-qty" autocomplete="off" placeholder="Jumlah Terjual (Qty)" value="1">
-    <input type="number" id="omz-hpp" autocomplete="off" placeholder="Modal / HPP Pcs (Rp)">
-   </div>
-   <button class="btn" onclick="addOmzetItem()" style="width:100%">Tambah Ke Daftar Omzet</button>
-  </div>
-
-  <div class="wrap">
-   <table>
-    <thead>
-     <tr>
-      <th class="l">Produk</th>
-      <th>Harga Jual</th>
-      <th>Qty</th>
-      <th>HPP / Pcs</th>
-      <th>Total Omzet</th>
-      <th>Profit Netto</th>
-      <th>Aksi</th>
-     </tr>
-    </thead>
-    <tbody id="omz-table-body">
-     <tr><td colspan="7" style="color:var(--mut);padding:18px">Belum ada item produk yang ditambahkan.</td></tr>
-    </tbody>
-   </table>
-  </div>
- </div>
-</section>
-
-<!-- 9. SHOLAT -->
-<section class="view" id="sholat">
- <button class="back" onclick="clearAllAndHome()">← Kembali</button>
- <h2>🕌 Jadwal & Pengingat Waktu Sholat</h2>
- <p class="msg">Waktu sholat presisi sesuai lokasi GPS/Kota Anda dengan hitung mundur dan pengingat adzan.</p>
- 
- <div class="panel">
-  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--bd)">
-   <div>
-    <small style="color:var(--mut);display:block">📍 Lokasi Terdeteksi:</small>
-    <b id="sh-loc-name" style="font-size:1.15rem;color:#fff">Mendeteksi...</b>
-    <small id="sh-date-hijri" style="color:var(--r);display:block;margin-top:2px"></small>
-   </div>
-   <button class="btn alt" onclick="detectUserLocation(true)">🔄 Refresh Lokasi GPS</button>
-  </div>
-
-  <div style="text-align:center;padding:24px 10px 16px;background:rgba(255,51,51,0.06);border-radius:14px;margin-top:16px;border:1px solid rgba(255,51,51,0.2)">
-   <small style="color:var(--mut);letter-spacing:1px;text-transform:uppercase;font-weight:600">Menuju Waktu Sholat Berikutnya</small>
-   <h3 id="sh-next-name" style="font-size:1.8rem;margin:6px 0;color:var(--r)">-</h3>
-   <div id="sh-countdown" style="font-size:2.2rem;font-weight:800;letter-spacing:1px;font-family:Consolas,monospace;color:#fff">00:00:00</div>
-   <p class="msg" id="sh-next-time-sub" style="margin-top:4px">-</p>
-  </div>
-
-  <div class="prayer-grid" id="prayer-cards"></div>
-
-  <div class="row" style="justify-content:space-between;margin-top:20px;padding-top:14px;border-top:1px solid var(--bd)">
-   <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:0.9rem">
-    <input type="checkbox" id="sh-sound-opt" onchange="toggleAdhanSound(this.checked)"> 🔔 Aktifkan Pengingat Suara Adzan / Alert
-   </label>
-   <small style="color:var(--mut)">Standar Perhitungan: Kemenag RI / MABIMS</small>
-  </div>
- </div>
-</section>
-
-<!-- RECON -->
-<section class="view" id="recon">
- <button class="back" onclick="clearAllAndHome()">← Kembali</button>
- <h2>🕵️ Web Recon & IP/Port Finder</h2>
- <p class="msg">Cari alamat IP server, catatan DNS, port utama web, serta rincian header HTTP target.</p>
- <div class="panel">
-  <div class="row" style="margin:0">
-   <input type="text" id="recon-target" autocomplete="off" spellcheck="false" placeholder="Masukkan domain atau IP (contoh: example.com)" style="flex:1;min-width:220px" onkeydown="if(event.key==='Enter')runWebRecon()">
-   <button class="btn" id="recon-btn" onclick="runWebRecon()">🔍 Cari Informasi Web</button>
-  </div>
-  
-  <div id="recon-out" style="margin-top:18px"></div>
-
-  <div class="tip-box">
-   <b>Tips Singkat Penggunaan:</b>
-   <ul>
-    <li>• Gunakan nama domain tanpa http:// (misal: google.com atau IP 8.8.8.8). Tekan Enter untuk memproses.</li>
-    <li>• Fitur ini membantu tahap awal reconnaissance untuk memetakan IP target & DNS sebelum pengujian jaringan.</li>
-   </ul>
-  </div>
- </div>
-</section>
-
-<!-- ZAP -->
-<section class="view" id="zap">
- <button class="back" onclick="clearAllAndHome()">← Kembali</button>
- <h2>⚡ OWASP ZAP (Zed Attack Proxy)</h2>
- <p class="msg">Panduan penggunaan dan generator perintah pemindaian keamanan aplikasi web berbasis OWASP ZAP.</p>
- <div class="panel">
-  <h3>🛠️ CLI Command Generator</h3>
-  <div class="row">
-   <input type="text" id="zap-target" autocomplete="off" spellcheck="false" placeholder="Target URL (misal: http://example.com)" value="http://example.com" style="flex:1" oninput="genZapCmd()" onkeydown="if(event.key==='Enter')genZapCmd()">
-   <select id="zap-mode" style="width:auto" onchange="genZapCmd()">
-    <option value="baseline">Baseline Scan (Quick)</option>
-    <option value="full">Full Scan (Deep)</option>
-    <option value="api">API Scan (OpenAPI/Swagger)</option>
-   </select>
-  </div>
-  <div class="cmd-box" id="zap-cmd-out">zap-baseline.py -t http://example.com -g gen.conf -r report.html</div>
-  <button class="btn alt" style="margin-top:10px" onclick="cp($('zap-cmd-out').textContent, this, event)">Salin Perintah CLI</button>
-
-  <div class="tip-box">
-   <b>Tips Singkat Pemakaian ZAP:</b>
-   <ul>
-    <li>• <b>Mode GUI:</b> Buka ZAP desktop → Masukkan URL di Automated Scan → Klik Attack untuk pemindaian cepat.</li>
-    <li>• <b>Mode CLI/Docker:</b> Salin perintah di atas untuk otomasi CI/CD atau audit terjadwal via terminal.</li>
-    <li>• Mulai selalu dengan Baseline Scan agar tidak mengganggu kinerja server target.</li>
-   </ul>
-  </div>
- </div>
-</section>
-
-<!-- BURP -->
-<section class="view" id="burp">
- <button class="back" onclick="clearAllAndHome()">← Kembali</button>
- <h2>🟠 Burp Suite Community</h2>
- <p class="msg">Panduan konfigurasi Proxy Interceptor, Repeater, dan Decoder untuk audit keamanan web secara praktis.</p>
- <div class="panel">
-  <h3>🌐 Quick Setup Browser Proxy</h3>
-  <p class="msg">Atur Proxy HTTP browser Anda ke alamat lokal berikut untuk mengintersepsi trafik lalu lintas:</p>
-  <div class="cmd-box">IP: 127.0.0.1  |  Port: 8080</div>
-
-  <div class="tip-box">
-   <b>Tips Singkat Pemakaian Burp Suite:</b>
-   <ul>
-    <li>• Tekan tombol Open Browser di tab Proxy -> Intercept (menggunakan browser bawaan Burp).</li>
-    <li>• Aktifkan Intercept is on untuk menahan dan mengedit request HTTP sebelum terkirim ke server.</li>
-    <li>• Klik kanan request → Send to Repeater (Ctrl+R) untuk uji coba pengiriman payload secara cepat.</li>
-   </ul>
-  </div>
- </div>
-</section>
-
-<!-- NMAP -->
-<section class="view" id="nmap">
- <button class="back" onclick="clearAllAndHome()">← Kembali</button>
- <h2>🔍 Nmap (Network Mapper)</h2>
- <p class="msg">Generator perintah audit port & analisis layanan jaringan menggunakan Nmap CLI.</p>
- <div class="panel">
-  <h3>⚙️ Command Generator</h3>
-  <div class="row">
-   <input type="text" id="nmap-target" autocomplete="off" spellcheck="false" placeholder="Target IP / Hostname (misal: 192.168.1.1)" value="127.0.0.1" style="flex:1" oninput="genNmapCmd()" onkeydown="if(event.key==='Enter')genNmapCmd()">
-   <select id="nmap-type" style="width:auto" onchange="genNmapCmd()">
-    <option value="quick">Quick Scan (-F)</option>
-    <option value="service">Detect Service & OS (-sV -O)</option>
-    <option value="full">Full Port Scan (-p- -A)</option>
-    <option value="vuln">NSE Vulnerability Script (--script vuln)</option>
-   </select>
-  </div>
-  <div class="cmd-box" id="nmap-cmd-out">nmap -F 127.0.0.1</div>
-  <button class="btn alt" style="margin-top:10px" onclick="cp($('nmap-cmd-out').textContent, this, event)">Salin Perintah CLI</button>
-
-  <div class="tip-box">
-   <b>Tips Singkat Pemakaian Nmap:</b>
-   <ul>
-    <li>• Gunakan -F untuk cek 100 port paling umum terlebih dahulu (hemat waktu).</li>
-    <li>• Gunakan -sV untuk mengetahui versi aplikasi yang berjalan di balik port terbuka.</li>
-    <li>• Pada Linux/Mac, jalankan dengan sudo nmap untuk pemindaian mode Stealth (SYN Scan).</li>
-   </ul>
-  </div>
- </div>
-</section>
-
-<!-- NIKTO -->
-<section class="view" id="nikto">
- <button class="back" onclick="clearAllAndHome()">← Kembali</button>
- <h2>🌐 Nikto Web Server Scanner</h2>
- <p class="msg">Generator perintah pemindaian konfigurasi server dan file sensitif berbahaya dengan Nikto CLI.</p>
- <div class="panel">
-  <h3>⚙️ Command Generator</h3>
-  <div class="row">
-   <input type="text" id="nikto-target" autocomplete="off" spellcheck="false" placeholder="Target Host / URL (misal: example.com)" value="example.com" style="flex:1" oninput="genNiktoCmd()" onkeydown="if(event.key==='Enter')genNiktoCmd()">
-   <select id="nikto-port" style="width:auto" onchange="genNiktoCmd()">
-    <option value="80">Port 80 (HTTP)</option>
-    <option value="443">Port 443 (HTTPS)</option>
-    <option value="8080">Port 8080 (Custom)</option>
-   </select>
-  </div>
-  <div class="cmd-box" id="nikto-cmd-out">nikto -h example.com -p 80</div>
-  <button class="btn alt" style="margin-top:10px" onclick="cp($('nikto-cmd-out').textContent, this, event)">Salin Perintah CLI</button>
-
-  <div class="tip-box">
-   <b>Tips Singkat Pemakaian Nikto:</b>
-   <ul>
-    <li>• Jalankan di terminal untuk memindai direktori tersembunyi (seperti /admin, /config, .env).</li>
-    <li>• Tambahkan opsi -ssl di akhir perintah jika server menggunakan enkripsi HTTPS.</li>
-   </ul>
-  </div>
- </div>
-</section>
-
-<!-- SQLMAP -->
-<section class="view" id="sqlmap">
- <button class="back" onclick="clearAllAndHome()">← Kembali</button>
- <h2>🗄️ SQLMap</h2>
- <p class="msg">Generator perintah dan acuan parameter pengujian kerentanan SQL Injection pada aplikasi database.</p>
- <div class="panel">
-  <h3>⚙️ Command Generator</h3>
-  <div class="row">
-   <input type="text" id="sqlmap-url" autocomplete="off" spellcheck="false" placeholder="URL Parameter Target (misal: http://example.com/page.php?id=1)" value="http://example.com/page.php?id=1" style="flex:1" oninput="genSqlmapCmd()" onkeydown="if(event.key==='Enter')genSqlmapCmd()">
-   <select id="sqlmap-level" style="width:auto" onchange="genSqlmapCmd()">
-    <option value="1">Level 1 (Aman / Dasar)</option>
-    <option value="3">Level 3 (Termasuk HTTP Headers)</option>
-    <option value="5">Level 5 (Maksimal & Komprehensif)</option>
-   </select>
-  </div>
-  <div class="cmd-box" id="sqlmap-cmd-out">sqlmap -u "http://example.com/page.php?id=1" --level=1 --batch --dbs</div>
-  <button class="btn alt" style="margin-top:10px" onclick="cp($('sqlmap-cmd-out').textContent, this, event)">Salin Perintah CLI</button>
-
-  <div class="tip-box">
-   <b>Tips Singkat Pemakaian SQLMap:</b>
-   <ul>
-    <li>• Salin perintah CLI lalu jalankan di Terminal / Command Prompt yang terinstall Python.</li>
-    <li>• Parameter --batch berguna agar SQLMap tidak terus-menerus meminta jawaban manual (Y/N).</li>
-    <li>• Gunakan --dbs terlebih dahulu untuk memastikan nama-nama database sebelum mengekstrak tabel.</li>
-   </ul>
-  </div>
- </div>
-</section>
-
-</main>
-
-<footer>Kimsweb &copy; 2026</footer>
-
-<script>
-const $ = id => document.getElementById(id);
-const esc = s => String(s??'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-
-function scrollToTools(){
- const target = $('tools-section');
- if(target) target.scrollIntoView({ behavior: 'smooth' });
-}
-
-/* DAFTAR TOOLS */
-const TOOLS=[
- {id:'site', cat:'utility', icon:'🛡️', title:'Cek Keamanan Web', desc:'Cek SSL, deteksi phishing, IP & lokasi server asal'},
- {id:'speed', cat:'utility', icon:'⚡', title:'Tes Kecepatan & Turbo', desc:'Tes ping, jitter, unduh & unggah koneksi instan'},
- {id:'conv', cat:'utility', icon:'🔄', title:'Konversi File', desc:'Ubah format gambar, data (CSV ⇄ JSON), dan teks'},
- {id:'comp', cat:'utility', icon:'🗜️', title:'Kompres File', desc:'Kecilkan ukuran gambar & buat arsip ZIP terkompresi'},
- {id:'pass', cat:'utility', icon:'🔑', title:'Password Generator', desc:'Buat kata sandi kuat, aman & kustom secara instan'},
- {id:'dns', cat:'utility', icon:'🌐', title:'DNS Gratis', desc:'Pilihan DNS siap pakai untuk Android, Windows & iOS'},
- {id:'calc', cat:'utility', icon:'🧮', title:'Kalkulator', desc:'Hitung cepat dengan tombol interaktif & riwayat'},
- {id:'omzet', cat:'utility', icon:'💰', title:'Penghitung Omzet Penjualan', desc:'Hitung total omzet kotor, modal HPP, profit & margin'},
- {id:'recon', cat:'pentest', icon:'🕵️', title:'Web Recon & IP/Port Finder', desc:'Cari IP server, DNS records & port umum web'},
- {id:'zap', cat:'pentest', icon:'⚡', title:'OWASP ZAP', desc:'DAST scanner, pemindaian otomatis & analisis web'},
- {id:'burp', cat:'pentest', icon:'🟠', title:'Burp Suite Community', desc:'Interceptor HTTP Proxy, Repeater & Decoder'},
- {id:'nmap', cat:'pentest', icon:'🔍', title:'Nmap', desc:'Audit port jaringan, pemindaian layanan & OS'},
- {id:'nikto', cat:'pentest', icon:'🌐', title:'Nikto', desc:'Scanner web server untuk file berisiko'},
- {id:'sqlmap', cat:'pentest', icon:'🗄️', title:'SQLMap', desc:'Pengujian kerentanan SQL Injection database'}
-];
-
-function renderGrid(filterCategoryName = 'all'){
- const container = $('grid');
- if(!container) return;
- const filtered = filterCategoryName === 'all' ? TOOLS : TOOLS.filter(t => t.cat === filterCategoryName);
- container.innerHTML = filtered.map((t, i) => 
-  `<div class="tile" style="--i:${i}" onclick="openTool('${t.id}', this)"><span class="ic">${t.icon}</span><h3>${t.title}</h3><p>${t.desc}</p></div>`
- ).join('');
- 
- document.querySelectorAll('.tile').forEach(t=>t.addEventListener('mousemove',e=>{
-  const r=t.getBoundingClientRect();
-  t.style.setProperty('--mx',e.clientX-r.left+'px');
-  t.style.setProperty('--my',e.clientY-r.top+'px');
- }, {passive: true}));
-}
-
-function filterCategory(cat){ renderGrid(cat); }
-renderGrid('all');
-
-/* VERIFIKASI GATEKEEPER */
-let gkAnswer = 0;
-let gkTries = 3;
-
-function initGatekeeper(){
- const isKicked = localStorage.getItem('kimsweb_kicked') === 'true';
- const isPassed = sessionStorage.getItem('kimsweb_passed') === 'true';
-
- if(isPassed){
-  $('gatekeeper').style.display = 'none';
-  return;
- }
-
- $('gatekeeper').style.display = 'flex';
- if(isKicked){ showRetryPrompt(); } else { generateGatekeeperQuestion(); }
-}
-
-function showRetryPrompt(){
- $('gk-box').innerHTML = `
-  <h2 style="color:var(--r);margin-bottom:10px">⚠️ Akses Diblokir</h2>
-  <p class="msg" style="margin-bottom:20px;color:#d0d0d8">Anda sebelumnya dikeluarkan karena 3 kali salah menjawab pertanyaan. Apakah Anda ingin mencoba lagi menjawab?</p>
-  <div class="row" style="justify-content:center;gap:12px">
-   <button class="btn" onclick="resetAndRetryGK()">Ya, Coba Lagi</button>
-   <button class="btn alt" onclick="showKickedScreen()">Tidak</button>
-  </div>
- `;
-}
-
-function resetAndRetryGK(){
- localStorage.removeItem('kimsweb_kicked');
- gkTries = 3;
- generateGatekeeperQuestion();
-}
-
-function generateGatekeeperQuestion(){
- const isAddition = Math.random() > 0.5;
- let n1, n2, symbol;
-
- if(isAddition){
-  n1 = Math.floor(Math.random() * 45) + 5;
-  n2 = Math.floor(Math.random() * 45) + 5;
-  gkAnswer = n1 + n2;
-  symbol = '+';
- } else {
-  n1 = Math.floor(Math.random() * 50) + 15;
-  n2 = Math.floor(Math.random() * (n1 - 1)) + 1;
-  gkAnswer = n1 - n2;
-  symbol = '-';
- }
-
- $('gk-box').innerHTML = `
-  <h2 style="margin-bottom:8px">🔒 Syarat Masuk Website</h2>
-  <p class="msg" style="margin-bottom:16px;color:#ccc">Jawab persoalan tambah / kurang di bawah ini untuk mengakses web (Sisa Percobaan: <b id="gk-tries-txt" style="color:var(--r);font-size:1.1rem">${gkTries}</b>/3):</p>
-  
-  <div style="font-size:2.4rem;font-weight:bold;margin:18px 0;color:#fff;letter-spacing:2px;background:rgba(255,51,51,0.1);padding:14px;border-radius:14px;border:1px solid rgba(255,51,51,0.2)">
-   ${n1} ${symbol} ${n2} = ?
-  </div>
-
-  <div style="margin-bottom:14px">
-   <input type="number" id="gk-input" autocomplete="off" placeholder="Masukkan jawaban..." style="text-align:center;font-size:1.25rem;font-weight:bold" onkeydown="if(event.key==='Enter')submitGKAnswer()">
-  </div>
-  
-  <button class="btn" onclick="submitGKAnswer()" style="width:100%;font-size:1rem;padding:12px">Masuk Ke Website ➔</button>
-  <p class="msg err" id="gk-err-msg" style="margin-top:12px;min-height:1.2em"></p>
- `;
- setTimeout(() => { if($('gk-input')) $('gk-input').focus(); }, 100);
-}
-
-function submitGKAnswer(){
- const inputVal = parseInt(($('gk-input').value || '').trim());
- const errMsg = $('gk-err-msg');
-
- if(isNaN(inputVal)){
-  if(errMsg) errMsg.textContent = 'Masukkan angka jawaban yang tepat!';
-  return;
- }
-
- if(inputVal === gkAnswer){
-  sessionStorage.setItem('kimsweb_passed', 'true');
-  $('gatekeeper').style.display = 'none';
- } else {
-  gkTries--;
-  if(gkTries <= 0){
-   localStorage.setItem('kimsweb_kicked', 'true');
-   showKickedScreen();
-  } else {
-   if($('gk-tries-txt')) $('gk-tries-txt').textContent = gkTries;
-   if(errMsg) errMsg.textContent = `Jawaban salah! Sisa percobaan: ${gkTries}`;
-   $('gk-input').value = '';
-   $('gk-input').focus();
-  }
- }
-}
-
-function showKickedScreen(){
- $('gk-box').innerHTML = `
-  <h2 style="color:var(--r);font-size:2rem;margin-bottom:10px">⛔ AKSES DITOLAK!</h2>
-  <p class="msg" style="font-size:1rem;color:#ff9a9a;margin-bottom:20px">Anda telah ditendang dari website karena 3 kali salah menjawab pertanyaan.</p>
-  <p class="msg" style="font-size:0.85rem">Refresh halaman jika Anda ingin mencoba lagi.</p>
- `;
-}
-
-function clearAllInputs(){
- if($('site-url')) $('site-url').value = '';
- if($('site-out')) $('site-out').innerHTML = '';
- if($('cv-file')) $('cv-file').value = '';
- if($('cv-msg')) $('cv-msg').innerHTML = '';
- if($('cmp-file')) $('cmp-file').value = '';
- if($('cmp-msg')) $('cmp-msg').innerHTML = '';
- if($('c-in')) $('c-in').value = '';
- if($('c-err')) $('c-err').textContent = '';
- if($('c-hist')) $('c-hist').innerHTML = '';
- if($('turbo-res')) $('turbo-res').innerHTML = '';
- if($('sp-st')) $('sp-st').textContent = '';
- if($('recon-target')) $('recon-target').value = '';
- if($('recon-out')) $('recon-out').innerHTML = '';
- ['sp-ping','sp-jit','sp-down','sp-up'].forEach(k=>{ if($(k)) $(k).textContent='-'; });
-}
-
-function openTool(id, el){
- const home = $('home');
- if(el){
-  const r = el.getBoundingClientRect();
-  const hr = home.getBoundingClientRect();
-  const ox = ((r.left + r.width/2 - hr.left) / hr.width) * 100;
-  const oy = ((r.top + r.height/2 - hr.top) / hr.height) * 100;
-  home.style.transformOrigin = `${ox}% ${oy}%`;
- } else {
-  home.style.transformOrigin = 'center center';
- }
- home.style.transition = 'transform 0.42s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.38s ease, filter 0.38s ease';
- home.style.transform = 'scale(3.5)';
- home.style.opacity = '0';
- home.style.filter = 'blur(8px)';
- 
- setTimeout(() => {
-  location.hash = id;
-  home.style.transform = '';
-  home.style.opacity = '';
-  home.style.filter = '';
-  home.style.transformOrigin = 'center center';
- }, 360);
-}
-
-function clearAllAndHome(){
- clearAllInputs();
- const currentView = document.querySelector('.view.on');
- if(currentView && currentView.id !== 'home'){
-  currentView.style.transition = 'transform 0.3s ease, opacity 0.3s ease, filter 0.3s ease';
-  currentView.style.transform = 'scale(0.85)';
-  currentView.style.opacity = '0';
-  currentView.style.filter = 'blur(4px)';
-  setTimeout(() => {
-   currentView.style.transform = '';
-   currentView.style.opacity = '';
-   currentView.style.filter = '';
-   location.hash = '';
-  }, 250);
- } else {
-  location.hash = '';
- }
-}
-
-/* 3D GLOBE & INTERAKSI BUTIRAN PARTIKEL (SUPER LIGHTWEIGHT 60FPS) */
-(function(){
- const cv = $('bg'), ctx = cv.getContext('2d');
- let w, h, cx, cy;
- let angleY = 0, angleX = 0;
- let velY = 0.004, velX = 0;
- let isDragging = false, lastMouseX = 0, lastMouseY = 0;
- let mouseX = -1000, mouseY = -1000;
-
- const resize = () => {
-  w = cv.width = window.innerWidth;
-  h = cv.height = window.innerHeight;
-  cx = w / 2; cy = h / 2;
- };
- window.addEventListener('resize', resize, {passive: true});
- resize();
-
- window.addEventListener('mousedown', e => {
-  if(e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') return;
-  isDragging = true;
-  lastMouseX = e.clientX;
-  lastMouseY = e.clientY;
- }, {passive: true});
-
- window.addEventListener('mousemove', e => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  if(!isDragging) return;
-  const dx = e.clientX - lastMouseX;
-  const dy = e.clientY - lastMouseY;
-  velY = dx * 0.005;
-  velX = dy * 0.005;
-  angleY += velY;
-  angleX += velX;
-  lastMouseX = e.clientX;
-  lastMouseY = e.clientY;
- }, {passive: true});
-
- window.addEventListener('mouseup', () => { isDragging = false; }, {passive: true});
- 
- window.addEventListener('touchstart', e => {
-  if(e.touches.length === 1){
-   mouseX = e.touches[0].clientX;
-   mouseY = e.touches[0].clientY;
-   isDragging = true;
-   lastMouseX = mouseX;
-   lastMouseY = mouseY;
-  }
- }, {passive: true});
-
- window.addEventListener('touchmove', e => {
-  if(e.touches.length === 1){
-   mouseX = e.touches[0].clientX;
-   mouseY = e.touches[0].clientY;
-   if(isDragging){
-    const dx = mouseX - lastMouseX;
-    const dy = mouseY - lastMouseY;
-    velY = dx * 0.005;
-    velX = dy * 0.005;
-    angleY += velY;
-    angleX += velX;
-    lastMouseX = mouseX;
-    lastMouseY = mouseY;
-   }
-  }
- }, {passive: true});
-
- window.addEventListener('touchend', () => { isDragging = false; }, {passive: true});
-
- // Jumlah partikel dioptimalkan dari 80 ke 45 agar scroll sangat lancar
- const particles = Array.from({length: 45}, () => ({
-  x: Math.random() * window.innerWidth,
-  y: Math.random() * window.innerHeight,
-  s: Math.random() * 2 + 1,
-  vx: (Math.random() - .5) * 0.8,
-  vy: (Math.random() - .5) * 0.8,
-  c: Math.random() > .4 ? 'rgba(255, 51, 51, 0.75)' : 'rgba(255, 255, 255, 0.65)'
- }));
-
- // Kerapatan garis globe disesuaikan untuk menghemat GPU/CPU
- const latCount = 10, lonCount = 14;
-
- function render(){
-  ctx.clearRect(0, 0, w, h);
-  
-  if(!isDragging){
-   velY *= 0.96;
-   velX *= 0.96;
-   angleY += velY + 0.002;
-   angleX += velX;
-  }
-
-  const radius = Math.min(w, h) * 0.32;
-  const cosX = Math.cos(angleX), sinX = Math.sin(angleX);
-  const cosY = Math.cos(angleY), sinY = Math.sin(angleY);
-
-  function project(lat, lon){
-   const x0 = radius * Math.cos(lat) * Math.sin(lon);
-   const y0 = radius * Math.sin(lat);
-   const z0 = radius * Math.cos(lat) * Math.cos(lon);
-
-   const x1 = x0 * cosY + z0 * sinY;
-   const z1 = -x0 * sinY + z0 * cosY;
-
-   const y2 = y0 * cosX - z1 * sinX;
-   const z2 = y0 * sinX + z1 * cosX;
-
-   const fov = 600;
-   const scale = fov / (fov + z2 + radius);
-   return { x: cx + x1 * scale, y: cy + y2 * scale, z: z2 };
-  }
-
-  function drawSegment(p1, p2){
-   const avgZ = (p1.z + p2.z) / 2;
-   const alpha = Math.max(0.02, Math.min(0.25, (avgZ + radius) / (2.5 * radius)));
-   ctx.strokeStyle = `rgba(255, 51, 51, ${alpha})`;
-   ctx.lineWidth = avgZ > 0 ? 0.95 : 0.45;
-   ctx.beginPath();
-   ctx.moveTo(p1.x, p1.y);
-   ctx.lineTo(p2.x, p2.y);
-   ctx.stroke();
-  }
-
-  for(let i = 1; i < latCount; i++){
-   const lat = (i / latCount - 0.5) * Math.PI;
-   for(let j = 0; j < lonCount; j++){
-    drawSegment(project(lat, (j / lonCount) * 2 * Math.PI), project(lat, ((j + 1) / lonCount) * 2 * Math.PI));
-   }
-  }
-
-  for(let j = 0; j < lonCount; j++){
-   const lon = (j / lonCount) * 2 * Math.PI;
-   for(let i = 0; i < latCount; i++){
-    drawSegment(project((i / latCount - 0.5) * Math.PI, lon), project(((i + 1) / latCount - 0.5) * Math.PI, lon));
-   }
-  }
-
-  // Animasi Partikel dengan Math Optimization (DistSq)
-  const maxDistSq = 19600; // 140 * 140
-  particles.forEach(p => {
-   p.x += p.vx;
-   p.y += p.vy;
-
-   if(p.x < 0) p.x = w; if(p.x > w) p.x = 0;
-   if(p.y < 0) p.y = h; if(p.y > h) p.y = 0;
-
-   const dx = mouseX - p.x;
-   const dy = mouseY - p.y;
-   const distSq = dx * dx + dy * dy;
-
-   if(distSq < maxDistSq && distSq > 0){
-    const dist = Math.sqrt(distSq);
-    const force = (140 - dist) / 140;
-    p.x -= (dx / dist) * force * 4;
-    p.y -= (dy / dist) * force * 4;
-   }
-
-   ctx.fillStyle = p.c;
-   ctx.beginPath();
-   ctx.arc(p.x, p.y, p.s, 0, Math.PI * 2);
-   ctx.fill();
-  });
-
-  requestAnimationFrame(render);
- }
- render();
-})();
-
-/* WAKTU & SHOLAT */
-let userLat = -6.2088, userLng = 106.8456, userCity = "Jakarta";
-let prayerTimings = null, enableAdhanSound = false;
-
-function updateWIBClock(){
- const now = new Date();
- const timeFormatter = new Intl.DateTimeFormat('id-ID', {
-  timeZone: 'Asia/Jakarta',
-  hour: '2-digit', minute: '2-digit', second: '2-digit',
-  hour12: false
- });
- if($('hdr-clock')) $('hdr-clock').textContent = `${timeFormatter.format(now)} WIB`;
- if(prayerTimings) updatePrayerCountdown();
-}
-setInterval(updateWIBClock, 1000);
-
-async function detectUserLocation(manual = false){
- if(manual && $('sh-loc-name')) $('sh-loc-name').textContent = 'Memperbarui GPS...';
- if('geolocation' in navigator){
-  navigator.geolocation.getCurrentPosition(
-   async (pos) => {
-    userLat = pos.coords.latitude; userLng = pos.coords.longitude;
-    await fetchReverseGeocode(userLat, userLng);
-    fetchPrayerSchedule(userLat, userLng);
-   },
-   async () => {
-    await fetchIPLocationFallback();
-    fetchPrayerSchedule(userLat, userLng);
-   },
-   { timeout: 7000 }
-  );
- } else {
-  await fetchIPLocationFallback();
-  fetchPrayerSchedule(userLat, userLng);
- }
-}
-
-async function fetchReverseGeocode(lat, lng){
- try{
-  const r = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=id`);
-  const d = await r.json();
-  userCity = d.city || d.locality || d.principalSubdivision || "Lokasi Anda";
-  if($('hdr-loc')) $('hdr-loc').textContent = userCity;
-  if($('sh-loc-name')) $('sh-loc-name').textContent = `${userCity} (${d.countryName || 'ID'})`;
- }catch(e){
-  userCity = "Koordinat Presisi";
-  if($('hdr-loc')) $('hdr-loc').textContent = userCity;
-  if($('sh-loc-name')) $('sh-loc-name').textContent = `${lat.toFixed(2)}, ${lng.toFixed(2)}`;
- }
-}
-
-async function fetchIPLocationFallback(){
- try{
-  const r = await fetch('https://ipapi.co/json/');
-  const d = await r.json();
-  if(d.latitude && d.longitude){
-   userLat = d.latitude; userLng = d.longitude;
-   userCity = d.city || "Jakarta";
-   if($('hdr-loc')) $('hdr-loc').textContent = userCity;
-   if($('sh-loc-name')) $('sh-loc-name').textContent = `${userCity}, ${d.region || ''}`;
-  }
- }catch(e){
-  userCity = "Jakarta (Default)";
-  if($('hdr-loc')) $('hdr-loc').textContent = userCity;
-  if($('sh-loc-name')) $('sh-loc-name').textContent = userCity;
- }
-}
-
-async function fetchPrayerSchedule(lat, lng){
- try{
-  const today = new Date();
-  const dateStr = `${today.getDate()}-${today.getMonth()+1}-${today.getFullYear()}`;
-  const r = await fetch(`https://api.aladhan.com/v1/timings/${dateStr}?latitude=${lat}&longitude=${lng}&method=20`);
-  const d = await r.json();
-  if(d.code === 200 && d.data){
-   prayerTimings = d.data.timings;
-   const hijri = d.data.date.hijri;
-   if($('sh-date-hijri')) $('sh-date-hijri').textContent = `${hijri.day} ${hijri.month.id || hijri.month.en} ${hijri.year} H`;
-   renderPrayerCards(prayerTimings);
-   updatePrayerCountdown();
-  }
- }catch(e){
-  if($('hdr-prayer')) $('hdr-prayer').textContent = "Jadwal offline";
- }
-}
-
-function renderPrayerCards(t){
- const pList = [
-  { k: 'Imsak', n: 'Imsak' }, { k: 'Fajr', n: 'Subuh' }, { k: 'Sunrise', n: 'Terbit' },
-  { k: 'Dhuhr', n: 'Dzuhur' }, { k: 'Asr', n: 'Ashar' }, { k: 'Maghrib', n: 'Maghrib' }, { k: 'Isha', n: 'Isya' }
- ];
- const container = $('prayer-cards');
- if(!container) return;
- container.innerHTML = pList.map(p => `
-  <div class="prayer-card" id="card-${p.k}">
-   <div class="p-name">${p.n}</div>
-   <div class="p-time">${t[p.k] || '--:--'}</div>
-  </div>
- `).join('');
-}
-
-function updatePrayerCountdown(){
- if(!prayerTimings) return;
- const now = new Date();
- const list = [
-  { key: 'Fajr', name: 'Subuh' }, { key: 'Dhuhr', name: 'Dzuhur' },
-  { key: 'Asr', name: 'Ashar' }, { key: 'Maghrib', name: 'Maghrib' }, { key: 'Isha', name: 'Isya' }
- ];
- let nextP = null, minDiff = Infinity;
-
- for(let p of list){
-  const [h, m] = prayerTimings[p.key].split(':');
-  const pDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), parseInt(h), parseInt(m), 0);
-  const diff = pDate - now;
-  if(diff > 0 && diff < minDiff){
-   minDiff = diff;
-   nextP = { ...p, timeStr: prayerTimings[p.key], diff: diff };
-  }
- }
-
- if(!nextP){
-  const [h, m] = prayerTimings['Fajr'].split(':');
-  const tomorrowSubuh = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, parseInt(h), parseInt(m), 0);
-  nextP = { key: 'Fajr', name: 'Subuh', timeStr: prayerTimings['Fajr'], diff: tomorrowSubuh - now };
- }
-
- const totalSec = Math.floor(nextP.diff / 1000);
- const hrs = String(Math.floor(totalSec / 3600)).padStart(2, '0');
- const mins = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0');
- const secs = String(totalSec % 60).padStart(2, '0');
-
- if($('hdr-prayer')) $('hdr-prayer').textContent = `${nextP.name} ${nextP.timeStr} (-${hrs}j ${mins}m)`;
- if($('sh-next-name')) $('sh-next-name').textContent = nextP.name;
- if($('sh-countdown')) $('sh-countdown').textContent = `${hrs}:${mins}:${secs}`;
- if($('sh-next-time-sub')) $('sh-next-time-sub').textContent = `Pukul ${nextP.timeStr} WIB (${userCity})`;
-
- document.querySelectorAll('.prayer-card').forEach(c => c.classList.remove('next'));
- if($( `card-${nextP.key}` )) $( `card-${nextP.key}` ).classList.add('next');
-
- if(totalSec === 0 && enableAdhanSound){
-  alert(`🕌 Waktu Sholat ${nextP.name} telah tiba untuk wilayah ${userCity} dan sekitarnya!`);
- }
-}
-
-function toggleAdhanSound(active){
- enableAdhanSound = active;
- if(active && Notification && Notification.permission !== 'granted'){
-  Notification.requestPermission();
- }
-}
-
-/* CEK KEAMANAN WEB */
-async function checkSite(){
- const rawUrl = $('site-url').value.trim();
- const box = $('site-out');
- const btn = $('site-btn');
- if(!rawUrl){ box.innerHTML = "<span class='err'>Masukkan URL atau nama domain situs terlebih dahulu!</span>"; return; }
- 
- btn.disabled = true;
- box.innerHTML = '<span class="loader"></span>Melakukan pemindaian DNS, enkripsi SSL/TLS, IP server asal, dan reputasi domain...';
- 
- try {
-  let cleanDomain = rawUrl.replace(/^https?:\/\//i, '').replace(/\/.*$/, '').toLowerCase();
-  const isHttps = rawUrl.startsWith('https://') || !rawUrl.startsWith('http://');
-
-  const [aRes, aaaaRes, mxRes, txtRes] = await Promise.all([
-   fetch(`https://dns.google/resolve?name=${encodeURIComponent(cleanDomain)}&type=A`).then(r=>r.json()),
-   fetch(`https://dns.google/resolve?name=${encodeURIComponent(cleanDomain)}&type=AAAA`).then(r=>r.json()),
-   fetch(`https://dns.google/resolve?name=${encodeURIComponent(cleanDomain)}&type=MX`).then(r=>r.json()),
-   fetch(`https://dns.google/resolve?name=${encodeURIComponent(cleanDomain)}&type=TXT`).then(r=>r.json())
-  ]);
-
-  const ipList = (aRes.Answer || []).filter(a => a.type === 1).map(a => a.data);
-  const ipv6List = (aaaaRes.Answer || []).filter(a => a.type === 28).map(a => a.data);
-  const mxList = (mxRes.Answer || []).map(a => a.data);
-  const txtList = (txtRes.Answer || []).map(a => a.data);
-
-  let primaryIp = ipList[0] || 'Tidak terdeteksi';
-  let locationStr = 'Lokasi Terproteksi / Cloud CDN';
-  let ispStr = 'Penyedia Cloud / Network';
-  let score = 100;
-  let checks = [];
-
-  if(primaryIp !== 'Tidak terdeteksi'){
-   try {
-    const ipRes = await fetch(`https://ipapi.co/${primaryIp}/json/`);
-    const ipData = await ipRes.json();
-    if(ipData.country_name) locationStr = `${ipData.city || '-'}, ${ipData.region || '-'}, ${ipData.country_name}`;
-    if(ipData.org) ispStr = ipData.org;
-   } catch(e){}
-  } else {
-   score -= 25;
-   checks.push({title: 'Catatan DNS A', status: 'warn', msg: 'Domain tidak mengembalikan IP A Record publik langsung.'});
-  }
-
-  if(isHttps){
-   checks.push({title: 'Sertifikat SSL / TLS', status: 'ok', msg: 'Koneksi HTTPS aktif dengan enkripsi terproteksi.'});
-  } else {
-   score -= 30;
-   checks.push({title: 'Sertifikat SSL / TLS', status: 'err', msg: 'Situs masih menggunakan HTTP tanpa enkripsi SSL.'});
-  }
-
-  if(cleanDomain.length > 35 || (cleanDomain.match(/\./g) || []).length > 3){
-   score -= 15;
-   checks.push({title: 'Struktur Domain', status: 'warn', msg: 'Nama domain/subdomain terlalu panjang atau kompleks.'});
-  } else {
-   checks.push({title: 'Struktur Domain', status: 'ok', msg: 'Nama domain bersih dan sesuai standar.'});
-  }
-
-  if(txtList.some(t => t.includes('v=spf1'))){
-   checks.push({title: 'Proteksi Email (SPF)', status: 'ok', msg: 'Record SPF terdeteksi untuk perlindungan spoofing email.'});
-  } else {
-   score -= 10;
-   checks.push({title: 'Proteksi Email (SPF)', status: 'warn', msg: 'Record SPF tidak terdeteksi pada DNS TXT.'});
-  }
-
-  checks.push({title: 'Database Threat Global', status: 'ok', msg: 'Domain bersih dari daftar pemblokiran Phishing global.'});
-
-  const verdict = score >= 85 ? '🔒 Sangat Aman (Safe)' : score >= 60 ? '⚠️ Waspada (Warning)' : '🚨 Berbahaya (High Risk)';
-  const badgeClass = score >= 85 ? 'ok' : score >= 60 ? 'warn' : 'err';
-
-  box.innerHTML = `
-   <div style="background:#15151c;padding:20px;border-radius:14px;border:1px solid var(--bd)">
-    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--bd)">
-     <div>
-      <small style="color:var(--mut);display:block">Target Web:</small>
-      <h3 style="margin:0;font-size:1.3rem;color:var(--r);word-break:break-all">${esc(cleanDomain)}</h3>
-     </div>
-     <div style="text-align:right">
-      <span class="${badgeClass}" style="font-size:1.15rem;font-weight:bold">${verdict}</span>
-      <div style="font-size:0.85rem;color:var(--mut);margin-top:2px">Skor Keamanan: <b style="color:#fff">${score}/100</b></div>
-     </div>
-    </div>
-
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;background:#0e0e12;padding:14px;border-radius:10px;margin-bottom:14px;border:1px solid var(--bd)">
-     <div><small style="color:var(--mut)">🌐 IP Server Utama (IPv4):</small><br><b style="color:#4caf50;font-size:1.1rem">${esc(primaryIp)}</b></div>
-     <div><small style="color:var(--mut)">📍 Lokasi Server:</small><br><b>${esc(locationStr)}</b></div>
-     <div><small style="color:var(--mut)">🏢 Provider / ISP:</small><br><b>${esc(ispStr)}</b></div>
-    </div>
-
-    <div style="margin-bottom:14px">
-     <h4 style="font-size:0.95rem;margin-bottom:8px">📋 Rincian Catatan DNS:</h4>
-     <div class="cmd-box" style="font-size:0.85rem">
-<b>IP IPv4 (A):</b> ${ipList.length ? ipList.join(', ') : 'Tidak ada'}<br>
-<b>IP IPv6 (AAAA):</b> ${ipv6List.length ? ipv6List.join(', ') : 'Tidak ada'}<br>
-<b>Mail Server (MX):</b> ${mxList.length ? mxList.join(' | ') : 'Tidak ada'}
-     </div>
-    </div>
-
-    <div>
-     <h4 style="font-size:0.95rem;margin-bottom:8px">🔍 Hasil Audit Keamanan & Phishing Detection:</h4>
-     ${checks.map(c => `<div style="margin-bottom:6px;padding:8px 12px;border-radius:8px;background:rgba(255,255,255,0.03);border-left:3px solid ${c.status==='ok'?'#4caf50':c.status==='warn'?'#ffb74d':'#ff6666'}"><b class="${c.status}">[${esc(c.title)}]</b> ${esc(c.msg)}</div>`).join('')}
-    </div>
-   </div>
-  `;
- } catch(e) {
-  box.innerHTML = `<span class="err">Gagal memeriksa keamanan website: ${esc(e.message)}</span>`;
- }
- btn.disabled = false;
-}
-
-/* TES KECEPATAN */
-async function speedTest(){
- const btn = $('sp-btn');
- const st = $('sp-st');
- btn.disabled = true;
- st.textContent = 'Menguji latensi ping & jitter koneksi...';
-
- const startPing = performance.now();
- try {
-  await fetch('https://dns.google/resolve?name=google.com&type=A', { cache: 'no-store' });
-  const ping = Math.round(performance.now() - startPing);
-  const jitter = Math.round(Math.random() * 4 + 1);
-  $('sp-ping').textContent = ping;
-  $('sp-jit').textContent = jitter;
-
-  st.textContent = 'Menguji kecepatan unduh...';
-  const dlStart = performance.now();
-  const res = await fetch('https://dns.google/resolve?name=youtube.com&type=A', { cache: 'no-store' });
-  await res.json();
-  const dlDuration = (performance.now() - dlStart) / 1000;
-  const simulatedSpeed = ((Math.random() * 45 + 35) / (dlDuration || 1)).toFixed(1);
-  $('sp-down').textContent = simulatedSpeed;
-
-  st.textContent = 'Menguji kecepatan unggah...';
-  await new Promise(r => setTimeout(r, 600));
-  const upSpeed = (parseFloat(simulatedSpeed) * 0.45).toFixed(1);
-  $('sp-up').textContent = upSpeed;
-
-  st.textContent = '✅ Pengujian kecepatan selesai!';
- } catch(e) {
-  st.textContent = 'Pengujian gagal, pastikan Anda terhubung ke internet.';
- }
- btn.disabled = false;
-}
-
-/* KONVERSI FILE */
-function cvOpts(){}
-
-function cvGo(){
- const fileInput = $('cv-file');
- const targetFormat = $('cv-to').value;
- const msg = $('cv-msg');
- 
- if(!fileInput.files.length){
-  msg.innerHTML = '<span class="err">Pilih file terlebih dahulu!</span>';
-  return;
- }
-
- const file = fileInput.files[0];
- msg.innerHTML = 'Memproses konversi file...';
-
- if(file.type.startsWith('image/')){
-  const reader = new FileReader();
-  reader.onload = function(e){
-   const img = new Image();
-   img.onload = function(){
-    const canvas = document.createElement('canvas');
-    canvas.width = img.width; canvas.height = img.height;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(img, 0, 0);
-    const mime = targetFormat === 'png' ? 'image/png' : targetFormat === 'jpeg' ? 'image/jpeg' : targetFormat === 'webp' ? 'image/webp' : 'image/bmp';
-    const dataUrl = canvas.toDataURL(mime, 0.92);
-    
-    msg.innerHTML = `
-     <span class="ok">✅ Konversi Gambar Berhasil!</span><br>
-     <a href="${dataUrl}" download="converted_${file.name.split('.')[0]}.${targetFormat}" class="btn" style="margin-top:10px">⬇️ Unduh File Konversi</a>
-    `;
-   };
-   img.src = e.target.result;
-  };
-  reader.readAsDataURL(file);
- } else {
-  setTimeout(() => {
-   msg.innerHTML = '<span class="ok">✅ File berhasil diproses!</span>';
-  }, 600);
- }
-}
-
-/* KOMPRES FILE */
-function cmpGo(){
- const fileInput = $('cmp-file');
- const quality = parseInt($('cmp-quality').value) || 70;
- const msg = $('cmp-msg');
-
- if(!fileInput.files.length){
-  msg.innerHTML = '<span class="err">Pilih file gambar yang ingin dikompres!</span>';
-  return;
- }
-
- const file = fileInput.files[0];
- msg.innerHTML = 'Mengompres file...';
-
- const reader = new FileReader();
- reader.onload = function(e){
-  const img = new Image();
-  img.onload = function(){
-   const canvas = document.createElement('canvas');
-   canvas.width = img.width; canvas.height = img.height;
-   const ctx = canvas.getContext('2d');
-   ctx.drawImage(img, 0, 0);
-   
-   canvas.toBlob((blob) => {
-    const url = URL.createObjectURL(blob);
-    const origMB = (file.size / 1024 / 1024).toFixed(2);
-    const compMB = (blob.size / 1024 / 1024).toFixed(2);
-    const ratio = Math.round((1 - blob.size / file.size) * 100);
-
-    msg.innerHTML = `
-     <span class="ok">✅ Kompresi Selesai! (Hemat ${ratio > 0 ? ratio : 0}%)</span><br>
-     <small style="color:var(--mut)">Ukuran Asli: ${origMB} MB | Ukuran Hasil: ${compMB} MB</small><br>
-     <a href="${url}" download="compressed_${file.name}" class="btn" style="margin-top:10px">⬇️ Unduh Gambar Kompresi</a>
-    `;
-   }, file.type || 'image/jpeg', quality / 100);
-  };
-  img.src = e.target.result;
- };
- reader.readAsDataURL(file);
-}
-
-/* PASSWORD GENERATOR */
-function genPassword(){
- const len = parseInt($('pw-len').value) || 16;
- const u = $('pw-upper').checked;
- const l = $('pw-lower').checked;
- const n = $('pw-num').checked;
- const s = $('pw-sym').checked;
- const noAmbig = $('pw-no-ambig').checked;
-
- let chars = '';
- if(u) chars += 'ABCDEFGHJKLMNPQRSTUVWXYZ';
- if(l) chars += 'abcdefghijkmnpqrstuvwxyz';
- if(n) chars += '23456789';
- if(s) chars += '!@#$%^&*()_+-=[]{}';
- if(!noAmbig && u) chars += 'IO';
- if(!noAmbig && l) chars += 'l';
- if(!noAmbig && n) chars += '01';
-
- if(!chars){
-  $('pw-out').value = 'Pilih min. 1 opsi';
-  return;
- }
-
- let pass = '';
- const array = new Uint32Array(len);
- crypto.getRandomValues(array);
- for(let i = 0; i < len; i++){
-  pass += chars[array[i] % chars.length];
- }
-
- $('pw-out').value = pass;
-
- const score = Math.min(100, Math.round((len / 32) * 60 + (u+l+n+s)*10));
- const bar = $('pw-meter-bar');
- const txt = $('pw-strength-txt');
- bar.style.width = score + '%';
- if(score > 75){
-  bar.style.background = '#4caf50'; txt.textContent = 'Kekuatan: Sangat Kuat 🔒'; txt.className = 'msg ok';
- } else if(score > 50){
-  bar.style.background = '#ffb74d'; txt.textContent = 'Kekuatan: Sedang ⚠️'; txt.className = 'msg warn';
- } else {
-  bar.style.background = '#ff3333'; txt.textContent = 'Kekuatan: Lemah 🚨'; txt.className = 'msg err';
- }
-}
-
-/* DNS GRATIS */
-const DNS_PROVIDERS = [
- { name: 'Cloudflare DNS', primary: '1.1.1.1', secondary: '1.0.0.1', host: 'one.one.one.one' },
- { name: 'Google Public DNS', primary: '8.8.8.8', secondary: '8.8.4.4', host: 'dns.google' },
- { name: 'AdGuard AdBlock DNS', primary: '94.140.14.14', secondary: '94.140.15.15', host: 'dns.adguard.com' },
- { name: 'Quad9 Secure DNS', primary: '9.9.9.9', secondary: '149.112.112.112', host: 'dns.quad9.net' }
-];
-
-function renderDnsList(){
- const box = $('dns-list');
- if(!box) return;
- box.innerHTML = DNS_PROVIDERS.map(d => `
-  <div style="background:#15151c;border:1px solid var(--bd);padding:14px;border-radius:12px">
-   <b style="color:#fff;font-size:1.05rem">${d.name}</b>
-   <div style="font-family:Consolas,monospace;margin:8px 0;font-size:0.9rem">
-    IP 1: <span style="color:var(--r)">${d.primary}</span><br>
-    IP 2: <span style="color:var(--r)">${d.secondary}</span><br>
-    Host: <span style="color:#4caf50">${d.host}</span>
-   </div>
-   <button class="btn alt" style="padding:4px 12px;font-size:0.8rem;width:100%" onclick="cp('${d.host}', this, event)">Salin Hostname DNS</button>
-  </div>
- `).join('');
-}
-
-/* KALKULATOR */
-function calcInput(v){
- const input = $('c-in');
- $('c-err').textContent = '';
- if(v === 'C'){ input.value = ''; return; }
- if(v === 'DEL'){ input.value = input.value.slice(0, -1); return; }
- input.value += v;
-}
-
-function evalCalc(){
- const input = $('c-in');
- const err = $('c-err');
- const hist = $('c-hist');
- try {
-  let expr = input.value.replace(/×/g, '*').replace(/÷/g, '/');
-  if(!expr.trim()) return;
-  const res = Function(`'use strict'; return (${expr})`)();
-  hist.innerHTML = `<div>${input.value} = <b>${res}</b></div>` + hist.innerHTML;
-  input.value = res;
-  err.textContent = '';
- } catch(e) {
-  err.textContent = 'Ekspresi matematika tidak valid!';
- }
-}
-
-/* PENGHITUNG OMZET PENJUALAN */
-let omzetItems = [];
-
-function formatRupiah(num){
- return 'Rp ' + Math.round(num).toLocaleString('id-ID');
-}
-
-function addOmzetItem(){
- const name = $('omz-pname').value.trim() || 'Produk ' + (omzetItems.length + 1);
- const price = parseFloat($('omz-price').value) || 0;
- const qty = parseInt($('omz-qty').value) || 0;
- const hpp = parseFloat($('omz-hpp').value) || 0;
-
- if(price <= 0 || qty <= 0){
-  alert('Masukkan harga jual dan jumlah terjual yang valid (lebih dari 0)!');
-  return;
- }
-
- omzetItems.push({ id: Date.now(), name, price, qty, hpp });
- 
- $('omz-pname').value = '';
- $('omz-price').value = '';
- $('omz-qty').value = '1';
- $('omz-hpp').value = '';
- 
- renderOmzetTable();
-}
-
-function removeOmzetItem(id){
- omzetItems = omzetItems.filter(item => item.id !== id);
- renderOmzetTable();
-}
-
-function renderOmzetTable(){
- const tbody = $('omz-table-body');
- if(!tbody) return;
-
- if(omzetItems.length === 0){
-  tbody.innerHTML = '<tr><td colspan="7" style="color:var(--mut);padding:18px">Belum ada item produk yang ditambahkan.</td></tr>';
-  $('omz-total-gross').textContent = 'Rp 0';
-  $('omz-total-hpp').textContent = 'Rp 0';
-  $('omz-total-net').textContent = 'Rp 0';
-  $('omz-margin').textContent = '0%';
-  return;
- }
-
- let totalGross = 0;
- let totalHpp = 0;
-
- tbody.innerHTML = omzetItems.map(item => {
-  const gross = item.price * item.qty;
-  const hppTotal = item.hpp * item.qty;
-  const net = gross - hppTotal;
-  
-  totalGross += gross;
-  totalHpp += hppTotal;
-
-  return `
-   <tr>
-    <td class="l"><b>${esc(item.name)}</b></td>
-    <td>${formatRupiah(item.price)}</td>
-    <td>${item.qty}</td>
-    <td>${formatRupiah(item.hpp)}</td>
-    <td><b style="color:#fff">${formatRupiah(gross)}</b></td>
-    <td><b style="color:${net >= 0 ? '#4caf50' : '#ff6666'}">${formatRupiah(net)}</b></td>
-    <td><button class="btn alt" style="padding:4px 10px;font-size:0.75rem;color:#ff6666" onclick="removeOmzetItem(${item.id})">Hapus</button></td>
-   </tr>
-  `;
- }).join('');
-
- const totalNet = totalGross - totalHpp;
- const marginPercent = totalGross > 0 ? ((totalNet / totalGross) * 100).toFixed(1) : 0;
-
- $('omz-total-gross').textContent = formatRupiah(totalGross);
- $('omz-total-hpp').textContent = formatRupiah(totalHpp);
- $('omz-total-net').textContent = formatRupiah(totalNet);
- $('omz-margin').textContent = marginPercent + '%';
-}
-
-/* WEB RECON */
-async function runWebRecon(){
- const input = $('recon-target').value.trim();
- const box = $('recon-out');
- const btn = $('recon-btn');
- if(!input){ box.innerHTML = '<span class="err">Masukkan domain atau alamat IP terlebih dahulu!</span>'; return; }
- 
- const cleanTarget = input.replace(/^https?:\/\//i, '').replace(/\/.*$/, '');
- btn.disabled = true;
- box.innerHTML = '<span class="loader"></span>Melakukan pencarian IP, resolver DNS, dan analisis port...';
-
- try{
-  const dnsRes = await fetch(`https://dns.google/resolve?name=${encodeURIComponent(cleanTarget)}&type=A`);
-  const dnsData = await dnsRes.json();
-  const ipList = (dnsData.Answer || []).filter(a => a.type === 1).map(a => a.data);
-
-  let ipInfoHtml = '';
-  if(ipList.length > 0){
-   const primaryIp = ipList[0];
-   const ipRes = await fetch(`https://ipapi.co/${primaryIp}/json/`);
-   const ipData = await ipRes.json();
-   
-   ipInfoHtml = `
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;background:#0e0e12;padding:14px;border-radius:10px;margin-bottom:14px;border:1px solid var(--bd)">
-     <div><small style="color:var(--mut)">🌐 IP Server Asal (A Record):</small><br><b style="color:#4caf50;font-size:1.1rem">${esc(primaryIp)}</b></div>
-     <div><small style="color:var(--mut)">📍 Lokasi & ISP:</small><br><b>${esc(ipData.city || '-')}, ${esc(ipData.country_name || '-')}</b><br><small style="color:var(--mut)">${esc(ipData.org || '-')}</small></div>
-     <div><small style="color:var(--mut)">🏢 ASN Network:</small><br><b>${esc(ipData.asn || '-')}</b></div>
-    </div>
-   `;
-  }
-
-  box.innerHTML = `
-   <div style="background:#15151c;padding:18px;border-radius:12px;border:1px solid var(--bd)">
-    <h3 style="margin-bottom:12px;color:var(--r)">Informasi Reconnaissance: ${esc(cleanTarget)}</h3>
-    ${ipInfoHtml}
-    
-    <div style="margin-bottom:14px">
-     <h4 style="font-size:0.95rem;margin-bottom:6px">📡 Status Port Web Utama:</h4>
-     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;font-size:0.85rem">
-      <div style="background:#0e0e12;padding:8px 12px;border-radius:8px">Port 80 (HTTP): <b style="color:#4caf50">Standar Web</b></div>
-      <div style="background:#0e0e12;padding:8px 12px;border-radius:8px">Port 443 (HTTPS): <b style="color:#4caf50">Enkripsi SSL</b></div>
-      <div style="background:#0e0e12;padding:8px 12px;border-radius:8px">Port 8080 (Alt Web): <small style="color:var(--mut)">Custom HTTP</small></div>
-      <div style="background:#0e0e12;padding:8px 12px;border-radius:8px">Port 8443 (Alt SSL): <small style="color:var(--mut)">Custom HTTPS</small></div>
-     </div>
-    </div>
-
-    <div>
-     <h4 style="font-size:0.95rem;margin-bottom:6px">📋 Hasil DNS A-Records:</h4>
-     <div class="cmd-box">${ipList.length ? ipList.join('\n') : 'Tidak ada catatan IP A-Record publik terdeteksi'}</div>
-    </div>
-   </div>
-  `;
- }catch(e){
-  box.innerHTML = `<span class="err">Gagal mengambil data recon: ${esc(e.message)}</span>`;
- }
- btn.disabled = false;
-}
-
-/* CLI GENERATORS */
-function genZapCmd(){
- const target = $('zap-target').value.trim() || 'http://example.com';
- const mode = $('zap-mode').value;
- let cmd = '';
- if(mode === 'baseline') cmd = `zap-baseline.py -t ${target} -g gen.conf -r report.html`;
- else if(mode === 'full') cmd = `zap-full-scan.py -t ${target} -g gen.conf -r full_report.html`;
- else if(mode === 'api') cmd = `zap-api-scan.py -t ${target} -f openapi -r api_report.html`;
- $('zap-cmd-out').textContent = cmd;
-}
-
-function genNmapCmd(){
- const target = $('nmap-target').value.trim() || '127.0.0.1';
- const type = $('nmap-type').value;
- let cmd = '';
- if(type === 'quick') cmd = `nmap -F ${target}`;
- else if(type === 'service') cmd = `nmap -sV -O ${target}`;
- else if(type === 'full') cmd = `nmap -p- -A ${target}`;
- else if(type === 'vuln') cmd = `nmap --script vuln ${target}`;
- $('nmap-cmd-out').textContent = cmd;
-}
-
-function genNiktoCmd(){
- const target = $('nikto-target').value.trim() || 'example.com';
- const port = $('nikto-port').value;
- $('nikto-cmd-out').textContent = `nikto -h ${target} -p ${port}`;
-}
-
-function genSqlmapCmd(){
- const url = $('sqlmap-url').value.trim() || 'http://example.com/page.php?id=1';
- const level = $('sqlmap-level').value;
- $('sqlmap-cmd-out').textContent = `sqlmap -u "${url}" --level=${level} --batch --dbs`;
-}
-
-function route(){
- let id = location.hash.slice(1);
- const validToolIds = TOOLS.map(t=>t.id).concat(['sholat']);
- if(!validToolIds.includes(id)) id='home';
- 
- document.querySelectorAll('.view').forEach(v=>{
-  v.classList.remove('on');
-  if(v.id===id){
-   v.offsetHeight;
-   v.classList.add('on');
-  }
- });
- clearAllInputs();
- if(id==='pass') genPassword();
- if(id==='dns') renderDnsList();
- if(id==='sholat') detectUserLocation();
- if(id==='omzet') renderOmzetTable();
- if(id==='zap') genZapCmd();
- if(id==='nmap') genNmapCmd();
- if(id==='nikto') genNiktoCmd();
- if(id==='sqlmap') genSqlmapCmd();
- scrollTo(0,0);
-}
-
-/* SALIN TEKS AMAN */
-function cp(t, b, ev){
- if(ev){
-  if(ev.preventDefault) ev.preventDefault();
-  if(ev.stopPropagation) ev.stopPropagation();
- }
- const textToCopy = String(t || '').trim();
- const origText = b ? b.textContent : '';
- const done = () => {
-  if(b){
-   b.textContent = 'Tersalin ✓';
-   setTimeout(() => { b.textContent = origText; }, 1200);
-  }
- };
-
- if(navigator.clipboard && window.isSecureContext){
-  navigator.clipboard.writeText(textToCopy).then(done).catch(() => fallbackCopy(textToCopy, done));
- } else {
-  fallbackCopy(textToCopy, done);
- }
-}
-
-function fallbackCopy(t, done){
- try {
-  const a = document.createElement('textarea');
-  a.value = t;
-  a.style.position = 'fixed';
-  a.style.opacity = '0';
-  document.body.appendChild(a);
-  a.select();
-  document.execCommand('copy');
-  a.remove();
-  done();
- } catch(e){}
-}
-
-function copyPassword(ev){
- const val = $('pw-out').value;
- if(!val || val === 'Pilih min. 1 opsi') return;
- cp(val, $('pw-copy'), ev);
-}
-
-addEventListener('hashchange',route);
-route();
-detectUserLocation();
-initGatekeeper();
-</script>
+    function addOmzetItem(){
+      const name = $('omz-pname').value.trim() || 'Produk ' + (omzetItems.length + 1);
+      const price = parseFloat($('omz-price').value) || 0;
+      const qty = parseInt($('omz-qty').value) || 0;
+      const hpp = parseFloat($('omz-hpp').value) || 0;
+      if(price <= 0 || qty <= 0){ alert('Masukkan harga jual dan qty valid!'); return; }
+      omzetItems.push({ id: Date.now(), name, price, qty, hpp });
+      $('omz-pname').value = ''; $('omz-price').value = ''; $('omz-qty').value = '1'; $('omz-hpp').value = '';
+      renderOmzetTable();
+    }
+
+    function removeOmzetItem(id){
+      omzetItems = omzetItems.filter(item => item.id !== id);
+      renderOmzetTable();
+    }
+
+    function renderOmzetTable(){
+      const tbody = $('omz-table-body');
+      if(!tbody) return;
+      if(omzetItems.length === 0){
+        tbody.innerHTML = '<tr><td colspan="7" style="color:var(--mut);padding:18px">Belum ada item produk.</td></tr>';
+        $('omz-total-gross').textContent = 'Rp 0'; $('omz-total-hpp').textContent = 'Rp 0';
+        $('omz-total-net').textContent = 'Rp 0'; $('omz-margin').textContent = '0%';
+        return;
+      }
+      let totalGross = 0, totalHpp = 0;
+      tbody.innerHTML = omzetItems.map(item => {
+        const gross = item.price * item.qty, hppTotal = item.hpp * item.qty, net = gross - hppTotal;
+        totalGross += gross; totalHpp += hppTotal;
+        return `<tr>
+          <td class="l"><b>${esc(item.name)}</b></td>
+          <td>${formatRupiah(item.price)}</td>
+          <td>${item.qty}</td>
+          <td>${formatRupiah(item.hpp)}</td>
+          <td><b style="color:#fff">${formatRupiah(gross)}</b></td>
+          <td><b style="color:${net >= 0 ? '#4caf50' : '#ff6666'}">${formatRupiah(net)}</b></td>
+          <td><button class="btn alt" style="padding:4px 10px;font-size:0.75rem;color:#ff6666" onclick="removeOmzetItem(${item.id})">Hapus</button></td>
+        </tr>`;
+      }).join('');
+
+      const totalNet = totalGross - totalHpp;
+      const marginPercent = totalGross > 0 ? ((totalNet / totalGross) * 100).toFixed(1) : 0;
+      $('omz-total-gross').textContent = formatRupiah(totalGross);
+      $('omz-total-hpp').textContent = formatRupiah(totalHpp);
+      $('omz-total-net').textContent = formatRupiah(totalNet);
+      $('omz-margin').textContent = marginPercent + '%';
+    }
+
+    /* SALIN TEKS UTILS */
+    function cp(t, b, ev){
+      if(ev){ ev.preventDefault(); ev.stopPropagation(); }
+      const textToCopy = String(t || '').trim();
+      const done = () => {
+        if(b){
+          const orig = b.textContent;
+          b.textContent = 'Tersalin ✓';
+          setTimeout(() => { b.textContent = orig; }, 1200);
+        }
+      };
+      if(navigator.clipboard && window.isSecureContext){
+        navigator.clipboard.writeText(textToCopy).then(done).catch(() => fallbackCopy(textToCopy, done));
+      } else { fallbackCopy(textToCopy, done); }
+    }
+
+    function fallbackCopy(t, done){
+      try {
+        const a = document.createElement('textarea');
+        a.value = t; a.style.position = 'fixed'; a.style.opacity = '0';
+        document.body.appendChild(a); a.select();
+        document.execCommand('copy'); a.remove(); done();
+      } catch(e){}
+    }
+
+    /* CLI SCANNER GENERATORS */
+    function genZapCmd(){
+      const target = $('zap-target').value.trim() || 'http://example.com';
+      const mode = $('zap-mode').value;
+      $('zap-cmd-out').textContent = mode === 'baseline' ? `zap-baseline.py -t ${target} -g gen.conf -r report.html` :
+                                      mode === 'full' ? `zap-full-scan.py -t ${target} -g gen.conf -r full_report.html` :
+                                      `zap-api-scan.py -t ${target} -f openapi -r api_report.html`;
+    }
+
+    function genNmapCmd(){
+      const target = $('nmap-target').value.trim() || '127.0.0.1';
+      const type = $('nmap-type').value;
+      $('nmap-cmd-out').textContent = type === 'quick' ? `nmap -F ${target}` :
+                                       type === 'service' ? `nmap -sV -O ${target}` :
+                                       type === 'full' ? `nmap -p- -A ${target}` : `nmap --script vuln ${target}`;
+    }
+
+    function genNiktoCmd(){
+      const target = $('nikto-target').value.trim() || 'example.com';
+      $('nikto-cmd-out').textContent = `nikto -h ${target} -p ${$('nikto-port').value}`;
+    }
+
+    function genSqlmapCmd(){
+      const url = $('sqlmap-url').value.trim() || 'http://example.com/page.php?id=1';
+      $('sqlmap-cmd-out').textContent = `sqlmap -u "${url}" --level=${$('sqlmap-level').value} --batch --dbs`;
+    }
+
+    /* CANVAS 3D PARTIKEL ANIMASI BACKGROUND */
+    (function(){
+      const cv = $('bg'), ctx = cv.getContext('2d');
+      let w, h, cx, cy, angleY = 0, angleX = 0, velY = 0.004, velX = 0;
+      let isDragging = false, lastMouseX = 0, lastMouseY = 0, mouseX = -1000, mouseY = -1000;
+
+      const resize = () => { w = cv.width = window.innerWidth; h = cv.height = window.innerHeight; cx = w / 2; cy = h / 2; };
+      window.addEventListener('resize', resize); resize();
+
+      window.addEventListener('mousedown', e => {
+        if(['INPUT','BUTTON','SELECT','TEXTAREA'].includes(e.target.tagName)) return;
+        isDragging = true; lastMouseX = e.clientX; lastMouseY = e.clientY;
+      });
+      window.addEventListener('mousemove', e => {
+        mouseX = e.clientX; mouseY = e.clientY;
+        if(!isDragging) return;
+        angleY += (e.clientX - lastMouseX) * 0.005;
+        angleX += (e.clientY - lastMouseY) * 0.005;
+        lastMouseX = e.clientX; lastMouseY = e.clientY;
+      });
+      window.addEventListener('mouseup', () => isDragging = false);
+
+      const particles = Array.from({length: 70}, () => ({
+        x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight,
+        s: Math.random() * 2.5 + 1, vx: (Math.random() - .5) * 0.8, vy: (Math.random() - .5) * 0.8,
+        c: Math.random() > .4 ? 'rgba(255, 51, 51, 0.75)' : 'rgba(255, 255, 255, 0.65)'
+      }));
+
+      function render(){
+        ctx.clearRect(0, 0, w, h);
+        if(!isDragging){ angleY += 0.002; }
+        const radius = Math.min(w, h) * 0.32;
+        const cosX = Math.cos(angleX), sinX = Math.sin(angleX), cosY = Math.cos(angleY), sinY = Math.sin(angleY);
+
+        function project(lat, lon){
+          const x0 = radius * Math.cos(lat) * Math.sin(lon);
+          const y0 = radius * Math.sin(lat);
+          const z0 = radius * Math.cos(lat) * Math.cos(lon);
+          const x1 = x0 * cosY + z0 * sinY;
+          const z1 = -x0 * sinY + z0 * cosY;
+          const y2 = y0 * cosX - z1 * sinX;
+          const z2 = y0 * sinX + z1 * cosX;
+          const scale = 600 / (600 + z2 + radius);
+          return { x: cx + x1 * scale, y: cy + y2 * scale, z: z2 };
+        }
+
+        for(let i = 1; i < 10; i++){
+          const lat = (i / 10 - 0.5) * Math.PI;
+          for(let j = 0; j < 16; j++){
+            const p1 = project(lat, (j / 16) * 2 * Math.PI);
+            const p2 = project(lat, ((j + 1) / 16) * 2 * Math.PI);
+            ctx.strokeStyle = `rgba(255, 51, 51, ${Math.max(0.02, Math.min(0.25, (p1.z + radius) / (2.5 * radius)))})`;
+            ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
+          }
+        }
+
+        particles.forEach(p => {
+          p.x += p.vx; p.y += p.vy;
+          if(p.x < 0) p.x = w; if(p.x > w) p.x = 0;
+          if(p.y < 0) p.y = h; if(p.y > h) p.y = 0;
+          const dx = mouseX - p.x, dy = mouseY - p.y, dist = Math.sqrt(dx*dx + dy*dy);
+          if(dist < 120){ p.x -= (dx / dist) * 3; p.y -= (dy / dist) * 3; }
+          ctx.fillStyle = p.c; ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, Math.PI * 2); ctx.fill();
+        });
+        requestAnimationFrame(render);
+      }
+      render();
+    })();
+
+    /* INITIALIZATION & EVENT LISTENERS */
+    window.addEventListener('hashchange', route);
+    route();
+    initGatekeeper();
+  </script>
 </body>
 </html>
