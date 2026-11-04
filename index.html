@@ -1,0 +1,1838 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kimsweb - Super Web Tools</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff3333' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><polygon points='13 2 3 14 12 14 11 22 21 10 12 10 13 2'/></svg>">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--r:#ff3333;--bd:rgba(255,255,255,.1);--mut:#90909a;--card:rgba(255,255,255,.05)}
+html{scroll-behavior:smooth}
+body{background:#0b0b0e;color:#fff;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;min-height:100vh;overflow-x:hidden;user-select:none}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:-1;cursor:grab}
+#bg:active{cursor:grabbing}
+
+/* Modal Gatekeeper Verifikasi Penjumlahan & Pengurangan */
+#gatekeeper{position:fixed;inset:0;background:rgba(8,8,12,0.95);backdrop-filter:blur(15px);z-index:100000;display:flex;justify-content:center;align-items:center;padding:20px}
+.gk-card{background:#121218;border:1px solid var(--r);border-radius:20px;padding:30px;max-width:440px;width:100%;text-align:center;box-shadow:0 0 35px rgba(255,51,51,0.3);animation:zoomInPage 0.3s cubic-bezier(0.16,1,0.3,1)}
+
+header{padding:16px 32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;position:sticky;top:0;z-index:1000;background:rgba(11,11,14,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd)}
+.logo{display:flex;align-items:center;gap:10px;font-size:1.35rem;font-weight:700;color:#fff;cursor:pointer;letter-spacing:.5px}
+.logo .lightning-icon{width:24px;height:24px;filter:drop-shadow(0 0 6px rgba(255,51,51,0.7));transition:transform .3s}
+.logo:hover .lightning-icon{transform:scale(1.2) rotate(-6deg)}
+
+.header-info{display:flex;align-items:center;gap:10px;background:rgba(21,21,28,0.75);border:1px solid var(--bd);padding:6px 14px;border-radius:30px;backdrop-filter:blur(10px);font-size:0.82rem;cursor:pointer;transition:border-color .3s}
+.header-info:hover{border-color:var(--r)}
+.header-info .info-item{display:flex;align-items:center;gap:5px;color:#d0d0d8}
+.header-info .info-item b{color:#fff}
+.header-info .info-item.highlight{color:var(--r);font-weight:600}
+.header-info .divider{width:1px;height:12px;background:var(--bd)}
+
+main{max-width:1000px;margin:0 auto;padding:10px 20px 40px;perspective:1000px}
+h1{font-size:2.4rem;text-align:center;margin:20px 0 8px}h1 span{color:var(--r)}
+h2{font-size:1.5rem;margin-bottom:6px}
+.sub{text-align:center;color:var(--mut);margin-bottom:20px}
+
+/* Container Tampilan WELCOME */
+.hero-section{display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:70vh;text-align:center;padding:20px}
+.welcome-title{font-size:3.5rem;font-weight:800;letter-spacing:4px;text-transform:uppercase;margin:0;line-height:1.2;text-shadow:0 0 25px rgba(255,51,51,0.3)}
+.welcome-sub{font-size:1.15rem;color:var(--mut);margin-top:14px;letter-spacing:1px}
+.drag-hint{font-size:0.85rem;color:rgba(255,255,255,0.4);margin-top:8px;letter-spacing:0.5px}
+
+.scroll-down-btn{margin-top:30px;background:rgba(255,51,51,0.12);border:1px solid var(--r);color:#fff;padding:12px 24px;border-radius:30px;cursor:pointer;font-size:0.95rem;font-weight:600;display:flex;align-items:center;gap:10px;backdrop-filter:blur(10px);animation:bounce 2.2s infinite;transition:all .3s}
+.scroll-down-btn:hover{background:var(--r);box-shadow:0 0 20px rgba(255,51,51,0.6);transform:scale(1.05)}
+
+@keyframes bounce{
+ 0%,20%,50%,80%,100%{transform:translateY(0)}
+ 40%{transform:translateY(-12px)}
+ 60%{transform:translateY(-6px)}
+}
+
+.tools-section-title{text-align:center;font-size:1.6rem;margin-bottom:16px;padding-top:40px;border-top:1px solid rgba(255,255,255,0.08)}
+
+.category-dropdown{display:flex;justify-content:center;margin-bottom:26px}
+.dropdown-select{background:#15151c;color:#fff;border:1px solid var(--r);border-radius:12px;padding:10px 18px;font-size:1rem;font-weight:600;cursor:pointer;outline:none;max-width:320px;text-align:center;box-shadow:0 0 15px rgba(255,51,51,0.2);transition:all .3s}
+.dropdown-select:hover{background:#1c1c26;border-color:#ff5555}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:16px}
+.tile{--mx:50%;--my:50%;position:relative;padding:22px;border-radius:18px;border:1px solid var(--bd);cursor:pointer;opacity:0;transform:translateY(24px);
+ animation:rise .6s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--i)*60ms);backdrop-filter:blur(10px);
+ background:radial-gradient(220px circle at var(--mx) var(--my),rgba(255,51,51,.2),transparent 70%),var(--card);transition:transform .2s,border-color .3s,box-shadow .3s}
+.tile:hover{transform:translateY(-6px) scale(1.02);border-color:var(--r);box-shadow:0 12px 30px rgba(255,51,51,.2)}
+.tile:active{transform:scale(0.95)}
+.tile .ic{font-size:2rem;display:inline-block;transition:transform .4s}
+.tile:hover .ic{transform:scale(1.25) rotate(-8deg)}
+.tile h3{margin:10px 0 4px;font-size:1.05rem}.tile p{color:var(--mut);font-size:.85rem;line-height:1.4}
+@keyframes rise{to{opacity:1;transform:none}}
+
+.view{display:none;will-change:transform,opacity,filter}
+.view.on{display:block;animation:zoomInPage 0.38s cubic-bezier(0.16,1,0.3,1) forwards}
+
+@keyframes zoomInPage{
+ 0%{opacity:0;transform:scale(0.82);filter:blur(6px)}
+ 100%{opacity:1;transform:scale(1);filter:blur(0)}
+}
+
+.back{background:none;border:1px solid var(--bd);color:#ccc;padding:6px 14px;border-radius:20px;cursor:pointer;margin-bottom:18px;transition:.3s}
+.back:hover{border-color:var(--r);color:#fff}
+.panel{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:20px;margin-top:18px;backdrop-filter:blur(12px)}
+
+textarea,input[type=text],input[type=number],input[type=password],select{width:100%;background:#15151c;color:#fff;border:1px solid var(--bd);border-radius:10px;padding:10px 12px;font:inherit;outline:none;user-select:text}
+textarea{min-height:200px;resize:vertical;font-family:Consolas,monospace;font-size:.9rem;line-height:1.5}
+textarea:focus,input:focus,select:focus{border-color:var(--r)}
+input[type=range]{accent-color:var(--r);cursor:pointer}
+::selection { background: var(--r); color: #fff; }
+
+.btn{background:var(--r);color:#fff;border:none;padding:10px 20px;border-radius:10px;font-weight:600;cursor:pointer;transition:.3s;text-decoration:none;display:inline-block}
+.btn:hover{background:#e02828;transform:scale(1.03)}.btn:disabled{opacity:.5;cursor:wait}
+.btn.alt{background:#252530}.btn.alt:hover{background:#33333f}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.msg{margin-top:12px;font-size:.9rem;color:var(--mut)}
+.ok{color:#4caf50}.err{color:#ff6666}.warn{color:#ffb74d}
+.cmd-box{background:#0e0e12;border:1px solid var(--bd);border-radius:10px;padding:14px;font-family:Consolas,monospace;color:#4caf50;word-break:break-all;margin-top:10px;position:relative;user-select:text}
+.tip-box{background:rgba(255,255,255,0.03);border-left:3px solid var(--r);border-radius:6px;padding:12px 14px;margin-top:14px;font-size:0.88rem;line-height:1.6}
+.tip-box ul{list-style:none;padding-left:0}
+.tip-box li{margin-bottom:6px}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px;text-align:center}
+.stat{background:#15151c;border:1px solid var(--bd);border-radius:12px;padding:14px 8px}
+.stat b{font-size:1.5rem;display:block;color:var(--r);font-family:Consolas,monospace}
+.stat small{color:var(--mut);font-size:0.78rem}
+
+.meter{height:6px;background:#222;border-radius:3px;overflow:hidden}
+.meter i{display:block;height:100%;transition:width .4s,background .4s}
+
+.calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.calc-btn{background:#15151c;border:1px solid var(--bd);color:#fff;padding:14px;font-size:1.1rem;font-weight:600;border-radius:10px;cursor:pointer;transition:.2s}
+.calc-btn:hover{background:#22222e;border-color:var(--r)}
+.calc-btn.op{background:rgba(255,51,51,0.15);color:var(--r)}
+.calc-btn.op:hover{background:var(--r);color:#fff}
+
+.prayer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-top:16px}
+.prayer-card{background:#15151c;border:1px solid var(--bd);border-radius:14px;padding:14px;text-align:center;transition:all .3s}
+.prayer-card.next{border-color:var(--r);background:rgba(255,51,51,0.12);box-shadow:0 0 16px rgba(255,51,51,0.25);transform:scale(1.04)}
+.prayer-card .p-name{color:var(--mut);font-size:0.85rem;margin-bottom:6px}
+.prayer-card .p-time{font-size:1.3rem;font-weight:700;color:#fff}
+.prayer-card.next .p-name{color:var(--r);font-weight:600}
+
+.wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+th{color:var(--mut);font-weight:600;text-align:center;padding:8px 6px;font-size:.8rem;border-bottom:1px solid var(--bd)}
+td{text-align:center;padding:9px 6px;border-bottom:1px solid rgba(255,255,255,.05)}
+th.l,td.l{text-align:left}
+tr:hover td{background:rgba(255,255,255,.03)}
+td b{color:var(--r)}
+
+.loader{display:inline-block;width:14px;height:14px;border:2px solid var(--bd);border-top-color:var(--r);border-radius:50%;animation:spin .8s linear infinite;margin-right:8px;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+.panel{user-select:text}
+footer{text-align:center;padding:25px;color:#555560;font-size:.85rem}
+@media(max-width:680px){
+ header{justify-content:center}
+ .header-info{width:100%;justify-content:center}
+ .welcome-title{font-size:2.4rem}
+}
+</style>
+</head>
+<body>
+<canvas id="bg" title="Klik dan geser kursor untuk memutar bola dunia 3D & gerakkan partikel"></canvas>
+
+<!-- GATEKEEPER OVERLAY VERIFIKASI TAMBAH & KURANG -->
+<div id="gatekeeper">
+  <div class="gk-card" id="gk-box"></div>
+</div>
+
+<header>
+  <div class="logo" onclick="clearAllAndHome()">
+    <svg class="lightning-icon" viewBox="0 0 24 24" fill="none" stroke="#ff3333" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+    </svg>
+    <span>Kimsweb</span>
+  </div>
+
+  <div class="header-info" onclick="openTool('sholat', this)" title="Klik untuk lihat jadwal sholat lengkap">
+    <div class="info-item"><span>🕒</span> <b id="hdr-clock">--:--:-- WIB</b></div>
+    <div class="divider"></div>
+    <div class="info-item"><span>📍</span> <span id="hdr-loc">Mendeteksi lokasi...</span></div>
+    <div class="divider"></div>
+    <div class="info-item highlight"><span>🕌</span> <span id="hdr-prayer">Menghitung sholat...</span></div>
+  </div>
+</header>
+
+<main>
+
+<!-- HALAMAN UTAMA WELCOME -->
+<section class="view on" id="home">
+ <div class="hero-section">
+  <h1 class="welcome-title">WELCOME TO <span style="color:var(--r)">KIMSWEB</span></h1>
+  <p class="welcome-sub">Super Web Tools & Security Reconnaissance Kit</p>
+  <p class="drag-hint">🖱️ <i>Gerakkan kursor mouse untuk mendorong butiran & memutar bola dunia 3D</i></p>
+  
+  <button class="scroll-down-btn" onclick="scrollToTools()">
+   <span>Gulir Ke Bawah Untuk Akses Tools</span>
+   <span style="font-size:1.2rem">↓</span>
+  </button>
+ </div>
+
+ <div id="tools-section">
+  <h2 class="tools-section-title">🛠️ Daftar Web Tools</h2>
+  
+  <div class="category-dropdown">
+   <select class="dropdown-select" id="cat-select" onchange="filterCategory(this.value)">
+    <option value="all">🌐 Semua Kategori Tool</option>
+    <option value="utility">🛠️ General Utilities</option>
+    <option value="pentest">🛡️ Penetration Testing</option>
+   </select>
+  </div>
+
+  <div class="grid" id="grid"></div>
+ </div>
+</section>
+
+<!-- 1. CEK KEAMANAN WEB -->
+<section class="view" id="site">
+ <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+ <h2>🛡️ Cek Keamanan Web & Deteksi Phishing</h2>
+ <p class="msg">Periksa alamat IP server asal, sertifikat SSL/TLS, catatan DNS lengkap, lokasi ISP, dan analisa reputasi keamanan domain secara akurat.</p>
+ <div class="panel">
+  <div class="row" style="margin:0">
+   <input type="text" id="site-url" autocomplete="off" spellcheck="false" placeholder="Masukkan URL atau domain (contoh: youtube.com atau google.com)" style="flex:1;min-width:220px" onkeydown="if(event.key==='Enter')checkSite()">
+   <button class="btn" id="site-btn" onclick="checkSite()">Periksa Keamanan</button>
+  </div>
+  <div id="site-out" style="margin-top:18px"></div>
+ </div>
+</section>
+
+<!-- 2. TES KECEPATAN -->
+<section class="view" id="speed">
+ <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+ <h2>⚡ Tes Kecepatan Internet</h2>
+ <p class="msg">Uji responsifitas latensi ping, jitter, serta kecepatan unduh dan unggah koneksi internet Anda secara rinci.</p>
+ <div class="panel">
+  <div class="stats">
+   <div class="stat"><b id="sp-ping">-</b><small>Ping (ms)</small></div>
+   <div class="stat"><b id="sp-jit">-</b><small>Jitter (ms)</small></div>
+   <div class="stat"><b id="sp-down">-</b><small>Unduh (Mbps)</small></div>
+   <div class="stat"><b id="sp-up">-</b><small>Unggah (Mbps)</small></div>
+  </div>
+  <div class="row" style="justify-content:center;margin-top:16px;gap:12px">
+   <button class="btn" id="sp-btn" onclick="speedTest()">Mulai Tes Kecepatan</button>
+   
+  </div>
+  <p class="msg" id="sp-st" style="text-align:center"></p>
+  <div id="turbo-res" style="margin-top:16px"></div>
+ </div>
+</section>
+
+<!-- 3. CONVERT FILE -->
+<section class="view" id="conv">
+ <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+ <h2>🔄 Konversi File</h2>
+ <p class="msg">Konversi format gambar (PNG, JPG, WEBP, BMP), data (JSON ⇄ CSV), atau dokumen teks secara langsung di browser.</p>
+ <div class="panel">
+  <input type="file" id="cv-file" onchange="cvOpts()" style="color:#ccc">
+  <div class="row" style="margin-top:14px">
+   <label>Ubah ke Format:</label>
+   <select id="cv-to" style="width:auto">
+    <option value="png">Gambar PNG</option>
+    <option value="jpeg">Gambar JPG / JPEG</option>
+    <option value="webp">Gambar WEBP</option>
+    <option value="bmp">Gambar BMP</option>
+    <option value="json">CSV ke JSON (Teks/File)</option>
+    <option value="csv">JSON ke CSV (Teks/File)</option>
+   </select>
+   <button class="btn" id="cv-btn" onclick="cvGo()">Konversi File</button>
+  </div>
+  <p class="msg" id="cv-msg"></p>
+ </div>
+</section>
+
+<!-- 4. KOMPRES FILE -->
+<section class="view" id="comp">
+ <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+ <h2>🗜️ Kompres File</h2>
+ <p class="msg">Kecilkan ukuran file gambar (JPG, PNG, WEBP, BMP) atau bungkus menjadi file ZIP. Kompresi gambar bersifat lossy, sehingga kualitas bisa sedikit turun.</p>
+ <div class="panel">
+  <input type="file" id="cmp-file" style="color:#ccc">
+  <div class="row" style="margin-top:14px">
+   <label>Tingkat Kompresi:</label>
+   <select id="cmp-quality" style="width:auto">
+    <option value="70" selected>Otomatis (Sedang / Quality 70%)</option>
+    <option value="50">Tinggi (Ukuran Lebih Kecil / Quality 50%)</option>
+    <option value="85">Ringan (Kualitas Tinggi / Quality 85%)</option>
+    <option value="zip">Arsip ZIP Terkompresi</option>
+   </select>
+   <button class="btn" id="cmp-btn" onclick="cmpGo()">Kompres Sekarang</button>
+  </div>
+  <p class="msg" id="cmp-msg"></p>
+ </div>
+</section>
+
+<!-- 5. PASSWORD GENERATOR -->
+<section class="view" id="pass">
+ <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+ <div style="max-width:520px;margin:0 auto">
+  <h2 style="text-align:center">🔑 Password Generator</h2>
+  <p class="msg" style="text-align:center;margin-bottom:16px">Buat kata sandi acak yang kuat, aman, dan terenkripsi untuk akun Anda.</p>
+  <div class="panel">
+   <div style="position:relative;margin-bottom:12px">
+    <input type="text" id="pw-out" readonly autocomplete="off" spellcheck="false" style="font-size:1.25rem;letter-spacing:1px;font-family:Consolas,monospace;padding-right:95px;text-align:center;font-weight:bold;color:#fff;background:#0d0d12">
+    <button class="btn" id="pw-copy" onclick="copyPassword(event)" style="position:absolute;right:4px;top:4px;bottom:4px;padding:0 14px;font-size:0.85rem">Salin</button>
+   </div>
+   
+   <div class="meter" style="margin:6px 0 12px"><i id="pw-meter-bar" style="width:0%"></i></div>
+   <p class="msg" id="pw-strength-txt" style="text-align:center;margin-top:-4px;margin-bottom:16px;font-weight:600">-</p>
+
+   <div style="background:#15151c;padding:16px;border-radius:12px;border:1px solid var(--bd)">
+    <div class="row" style="justify-content:space-between;margin:0 0 14px">
+     <label>Panjang Karakter: <b id="pw-len-val" style="color:var(--r);font-size:1.1rem">16</b></label>
+     <input type="range" id="pw-len" min="6" max="64" value="16" oninput="$('pw-len-val').textContent=this.value;genPassword()" style="width:170px">
+    </div>
+    
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:0.9rem">
+     <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="pw-upper" checked onchange="genPassword()"> Huruf Besar (A-Z)</label>
+     <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="pw-lower" checked onchange="genPassword()"> Huruf Kecil (a-z)</label>
+     <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="pw-num" checked onchange="genPassword()"> Angka (0-9)</label>
+     <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="pw-sym" checked onchange="genPassword()"> Simbol (!@#$...)</label>
+    </div>
+    
+    <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);font-size:0.85rem;color:var(--mut)">
+     <input type="checkbox" id="pw-no-ambig" onchange="genPassword()"> Hindari Karakter Mirip (1, l, I, 0, O)
+    </label>
+   </div>
+
+   <div class="row" style="justify-content:center;margin-top:16px">
+    <button class="btn" onclick="genPassword()">🔄 Acak Ulang Password</button>
+   </div>
+  </div>
+ </div>
+</section>
+
+<!-- 6. DNS GRATIS -->
+<section class="view" id="dns">
+ <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+ <h2>🌐 DNS Gratis & Tercepat</h2>
+ <p class="msg">Pilihan server DNS publik yang cepat, stabil, dan aman dari pemblokiran. Klik salin untuk menggunakan.</p>
+ <div class="panel">
+  <div id="dns-list" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:16px"></div>
+  
+  <div class="tip-box">
+   <b>Cara Menggunakan DNS di Perangkat Anda:</b>
+   <ul>
+    <li>• <b>Android:</b> Pengaturan → Jaringan & Internet → DNS Pribadi → Pilih "Nama Host Penyedia DNS" → Tempel hostname.</li>
+    <li>• <b>Windows:</b> Pengaturan → Jaringan & Internet → Wi-Fi / Ethernet → Properti → Edit Penetapan Server DNS.</li>
+    <li>• <b>iPhone / iOS:</b> Pengaturan → Wi-Fi → Ketuk ikon (i) → Konfigurasi DNS → Pilih Manual → Tambah Server.</li>
+   </ul>
+  </div>
+ </div>
+</section>
+
+<!-- 7. KALKULATOR -->
+<section class="view" id="calc">
+ <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+ <div style="max-width:420px;margin:0 auto">
+  <h2 style="text-align:center;margin-bottom:12px">🧮 Kalkulator Interaktif</h2>
+  <div class="panel" style="padding:16px">
+   <input type="text" id="c-in" autocomplete="off" spellcheck="false" placeholder="0" style="text-align:right;font-size:1.6rem;font-family:Consolas,monospace;font-weight:bold;margin-bottom:8px" onkeydown="if(event.key==='Enter')evalCalc()">
+   <p class="msg err" id="c-err" style="min-height:1.2em;text-align:right;margin-top:0"></p>
+   
+   <div class="calc-grid">
+    <button class="calc-btn op" onclick="calcInput('C')">C</button>
+    <button class="calc-btn op" onclick="calcInput('(')">(</button>
+    <button class="calc-btn op" onclick="calcInput(')')">)</button>
+    <button class="calc-btn op" onclick="calcInput('/')">÷</button>
+    
+    <button class="calc-btn" onclick="calcInput('7')">7</button>
+    <button class="calc-btn" onclick="calcInput('8')">8</button>
+    <button class="calc-btn" onclick="calcInput('9')">9</button>
+    <button class="calc-btn op" onclick="calcInput('*')">×</button>
+    
+    <button class="calc-btn" onclick="calcInput('4')">4</button>
+    <button class="calc-btn" onclick="calcInput('5')">5</button>
+    <button class="calc-btn" onclick="calcInput('6')">6</button>
+    <button class="calc-btn op" onclick="calcInput('-')">-</button>
+    
+    <button class="calc-btn" onclick="calcInput('1')">1</button>
+    <button class="calc-btn" onclick="calcInput('2')">2</button>
+    <button class="calc-btn" onclick="calcInput('3')">3</button>
+    <button class="calc-btn op" onclick="calcInput('+')">+</button>
+    
+    <button class="calc-btn" onclick="calcInput('0')">0</button>
+    <button class="calc-btn" onclick="calcInput('.')">.</button>
+    <button class="calc-btn op" onclick="calcInput('DEL')">⌫</button>
+    <button class="calc-btn btn" onclick="evalCalc()" style="padding:0">=</button>
+   </div>
+   
+   <div id="c-hist" style="margin-top:14px;max-height:120px;overflow-y:auto;font-family:Consolas,monospace;font-size:0.85rem;color:var(--mut);border-top:1px solid var(--bd);padding-top:8px"></div>
+  </div>
+ </div>
+</section>
+
+<!-- 8. PENGHITUNG OMZET PENJUALAN -->
+<section class="view" id="omzet">
+ <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+ <h2>💰 Penghitung Omzet Penjualan</h2>
+ <p class="msg">Hitung total omzet kotor, total modal (HPP), keuntungan bersih (net profit), dan margin profit bisnis Anda secara otomatis.</p>
+ 
+ <div class="panel">
+  <div class="stats" style="grid-template-columns:repeat(auto-fit,minmax(140px,1fr));margin-bottom:18px">
+   <div class="stat"><b id="omz-total-gross">Rp 0</b><small>Total Omzet (Kotor)</small></div>
+   <div class="stat"><b id="omz-total-hpp" style="color:#ffb74d">Rp 0</b><small>Total Modal (HPP)</small></div>
+   <div class="stat"><b id="omz-total-net" style="color:#4caf50">Rp 0</b><small>Keuntungan Bersih</small></div>
+   <div class="stat"><b id="omz-margin" style="color:#64b5f6">0%</b><small>Margin Profit</small></div>
+  </div>
+
+  <div style="background:#15151c;border:1px solid var(--bd);border-radius:12px;padding:16px;margin-bottom:16px">
+   <h4 style="margin-bottom:12px;color:var(--r)">➕ Tambah Item Produk / Penjualan</h4>
+   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:12px">
+    <input type="text" id="omz-pname" autocomplete="off" spellcheck="false" placeholder="Nama Produk (misal: Kaos Polo)">
+    <input type="number" id="omz-price" autocomplete="off" placeholder="Harga Jual / Pcs (Rp)">
+    <input type="number" id="omz-qty" autocomplete="off" placeholder="Jumlah Terjual (Qty)" value="1">
+    <input type="number" id="omz-hpp" autocomplete="off" placeholder="Modal / HPP Pcs (Rp)">
+   </div>
+   <button class="btn" onclick="addOmzetItem()" style="width:100%">Tambah Ke Daftar Omzet</button>
+  </div>
+
+  <div class="wrap">
+   <table>
+    <thead>
+     <tr>
+      <th class="l">Produk</th>
+      <th>Harga Jual</th>
+      <th>Qty</th>
+      <th>HPP / Pcs</th>
+      <th>Total Omzet</th>
+      <th>Profit Netto</th>
+      <th>Aksi</th>
+     </tr>
+    </thead>
+    <tbody id="omz-table-body">
+     <tr><td colspan="7" style="color:var(--mut);padding:18px">Belum ada item produk yang ditambahkan.</td></tr>
+    </tbody>
+   </table>
+  </div>
+ </div>
+</section>
+
+<!-- 9. SHOLAT -->
+<section class="view" id="sholat">
+ <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+ <h2>🕌 Jadwal & Pengingat Waktu Sholat</h2>
+ <p class="msg">Waktu sholat presisi sesuai lokasi GPS/Kota Anda dengan hitung mundur dan pengingat adzan.</p>
+ 
+ <div class="panel">
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--bd)">
+   <div>
+    <small style="color:var(--mut);display:block">📍 Lokasi Terdeteksi:</small>
+    <b id="sh-loc-name" style="font-size:1.15rem;color:#fff">Mendeteksi...</b>
+    <small id="sh-date-hijri" style="color:var(--r);display:block;margin-top:2px"></small>
+   </div>
+   <button class="btn alt" onclick="detectUserLocation(true)">🔄 Refresh Lokasi GPS</button>
+  </div>
+
+  <div style="text-align:center;padding:24px 10px 16px;background:rgba(255,51,51,0.06);border-radius:14px;margin-top:16px;border:1px solid rgba(255,51,51,0.2)">
+   <small style="color:var(--mut);letter-spacing:1px;text-transform:uppercase;font-weight:600">Menuju Waktu Sholat Berikutnya</small>
+   <h3 id="sh-next-name" style="font-size:1.8rem;margin:6px 0;color:var(--r)">-</h3>
+   <div id="sh-countdown" style="font-size:2.2rem;font-weight:800;letter-spacing:1px;font-family:Consolas,monospace;color:#fff">00:00:00</div>
+   <p class="msg" id="sh-next-time-sub" style="margin-top:4px">-</p>
+  </div>
+
+  <div class="prayer-grid" id="prayer-cards"></div>
+
+  <div class="row" style="justify-content:space-between;margin-top:20px;padding-top:14px;border-top:1px solid var(--bd)">
+   <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:0.9rem">
+    <input type="checkbox" id="sh-sound-opt" onchange="toggleAdhanSound(this.checked)"> 🔔 Aktifkan Pengingat Suara Adzan / Alert
+   </label>
+   <small style="color:var(--mut)">Standar Perhitungan: Kemenag RI / MABIMS</small>
+  </div>
+ </div>
+</section>
+
+<!-- RECON -->
+<section class="view" id="recon">
+ <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+ <h2>🕵️ Web Recon & IP/Port Finder</h2>
+ <p class="msg">Cari alamat IP server, catatan DNS, port utama web, serta rincian header HTTP target.</p>
+ <div class="panel">
+  <div class="row" style="margin:0">
+   <input type="text" id="recon-target" autocomplete="off" spellcheck="false" placeholder="Masukkan domain atau IP (contoh: example.com)" style="flex:1;min-width:220px" onkeydown="if(event.key==='Enter')runWebRecon()">
+   <button class="btn" id="recon-btn" onclick="runWebRecon()">🔍 Cari Informasi Web</button>
+  </div>
+  
+  <div id="recon-out" style="margin-top:18px"></div>
+
+  <div class="tip-box">
+   <b>Tips Singkat Penggunaan:</b>
+   <ul>
+    <li>• Gunakan nama domain tanpa http:// (misal: google.com atau IP 8.8.8.8). Tekan Enter untuk memproses.</li>
+    <li>• Fitur ini membantu tahap awal reconnaissance untuk memetakan IP target & DNS sebelum pengujian jaringan.</li>
+   </ul>
+  </div>
+ </div>
+</section>
+
+<!-- ZAP -->
+<section class="view" id="zap">
+ <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+ <h2>⚡ OWASP ZAP (Zed Attack Proxy)</h2>
+ <p class="msg">Panduan penggunaan dan generator perintah pemindaian keamanan aplikasi web berbasis OWASP ZAP.</p>
+ <div class="panel">
+  <h3>🛠️ CLI Command Generator</h3>
+  <div class="row">
+   <input type="text" id="zap-target" autocomplete="off" spellcheck="false" placeholder="Target URL (misal: http://example.com)" value="http://example.com" style="flex:1" oninput="genZapCmd()" onkeydown="if(event.key==='Enter')genZapCmd()">
+   <select id="zap-mode" style="width:auto" onchange="genZapCmd()">
+    <option value="baseline">Baseline Scan (Quick)</option>
+    <option value="full">Full Scan (Deep)</option>
+    <option value="api">API Scan (OpenAPI/Swagger)</option>
+   </select>
+  </div>
+  <div class="cmd-box" id="zap-cmd-out">zap-baseline.py -t http://example.com -g gen.conf -r report.html</div>
+  <button class="btn alt" style="margin-top:10px" onclick="cp($('zap-cmd-out').textContent, this, event)">Salin Perintah CLI</button>
+
+  <div class="tip-box">
+   <b>Tips Singkat Pemakaian ZAP:</b>
+   <ul>
+    <li>• <b>Mode GUI:</b> Buka ZAP desktop → Masukkan URL di Automated Scan → Klik Attack untuk pemindaian cepat.</li>
+    <li>• <b>Mode CLI/Docker:</b> Salin perintah di atas untuk otomasi CI/CD atau audit terjadwal via terminal.</li>
+    <li>• Mulai selalu dengan Baseline Scan agar tidak mengganggu kinerja server target.</li>
+   </ul>
+  </div>
+ </div>
+</section>
+
+<!-- BURP -->
+<section class="view" id="burp">
+ <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+ <h2>🟠 Burp Suite Community</h2>
+ <p class="msg">Panduan konfigurasi Proxy Interceptor, Repeater, dan Decoder untuk audit keamanan web secara praktis.</p>
+ <div class="panel">
+  <h3>🌐 Quick Setup Browser Proxy</h3>
+  <p class="msg">Atur Proxy HTTP browser Anda ke alamat lokal berikut untuk mengintersepsi trafik lalu lintas:</p>
+  <div class="cmd-box">IP: 127.0.0.1  |  Port: 8080</div>
+
+  <div class="tip-box">
+   <b>Tips Singkat Pemakaian Burp Suite:</b>
+   <ul>
+    <li>• Tekan tombol Open Browser di tab Proxy -> Intercept (menggunakan browser bawaan Burp).</li>
+    <li>• Aktifkan Intercept is on untuk menahan dan mengedit request HTTP sebelum terkirim ke server.</li>
+    <li>• Klik kanan request → Send to Repeater (Ctrl+R) untuk uji coba pengiriman payload secara cepat.</li>
+   </ul>
+  </div>
+ </div>
+</section>
+
+<!-- NMAP -->
+<section class="view" id="nmap">
+ <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+ <h2>🔍 Nmap (Network Mapper)</h2>
+ <p class="msg">Generator perintah audit port & analisis layanan jaringan menggunakan Nmap CLI.</p>
+ <div class="panel">
+  <h3>⚙️ Command Generator</h3>
+  <div class="row">
+   <input type="text" id="nmap-target" autocomplete="off" spellcheck="false" placeholder="Target IP / Hostname (misal: 192.168.1.1)" value="127.0.0.1" style="flex:1" oninput="genNmapCmd()" onkeydown="if(event.key==='Enter')genNmapCmd()">
+   <select id="nmap-type" style="width:auto" onchange="genNmapCmd()">
+    <option value="quick">Quick Scan (-F)</option>
+    <option value="service">Detect Service & OS (-sV -O)</option>
+    <option value="full">Full Port Scan (-p- -A)</option>
+    <option value="vuln">NSE Vulnerability Script (--script vuln)</option>
+   </select>
+  </div>
+  <div class="cmd-box" id="nmap-cmd-out">nmap -F 127.0.0.1</div>
+  <button class="btn alt" style="margin-top:10px" onclick="cp($('nmap-cmd-out').textContent, this, event)">Salin Perintah CLI</button>
+
+  <div class="tip-box">
+   <b>Tips Singkat Pemakaian Nmap:</b>
+   <ul>
+    <li>• Gunakan -F untuk cek 100 port paling umum terlebih dahulu (hemat waktu).</li>
+    <li>• Gunakan -sV untuk mengetahui versi aplikasi yang berjalan di balik port terbuka.</li>
+    <li>• Pada Linux/Mac, jalankan dengan sudo nmap untuk pemindaian mode Stealth (SYN Scan).</li>
+   </ul>
+  </div>
+ </div>
+</section>
+
+<!-- NIKTO -->
+<section class="view" id="nikto">
+ <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+ <h2>🌐 Nikto Web Server Scanner</h2>
+ <p class="msg">Generator perintah pemindaian konfigurasi server dan file sensitif berbahaya dengan Nikto CLI.</p>
+ <div class="panel">
+  <h3>⚙️ Command Generator</h3>
+  <div class="row">
+   <input type="text" id="nikto-target" autocomplete="off" spellcheck="false" placeholder="Target Host / URL (misal: example.com)" value="example.com" style="flex:1" oninput="genNiktoCmd()" onkeydown="if(event.key==='Enter')genNiktoCmd()">
+   <select id="nikto-port" style="width:auto" onchange="genNiktoCmd()">
+    <option value="80">Port 80 (HTTP)</option>
+    <option value="443">Port 443 (HTTPS)</option>
+    <option value="8080">Port 8080 (Custom)</option>
+   </select>
+  </div>
+  <div class="cmd-box" id="nikto-cmd-out">nikto -h example.com -p 80</div>
+  <button class="btn alt" style="margin-top:10px" onclick="cp($('nikto-cmd-out').textContent, this, event)">Salin Perintah CLI</button>
+
+  <div class="tip-box">
+   <b>Tips Singkat Pemakaian Nikto:</b>
+   <ul>
+    <li>• Jalankan di terminal untuk memindai direktori tersembunyi (seperti /admin, /config, .env).</li>
+    <li>• Tambahkan opsi -ssl di akhir perintah jika server menggunakan enkripsi HTTPS.</li>
+   </ul>
+  </div>
+ </div>
+</section>
+
+<!-- SQLMAP -->
+<section class="view" id="sqlmap">
+ <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+ <h2>🗄️ SQLMap</h2>
+ <p class="msg">Generator perintah dan acuan parameter pengujian kerentanan SQL Injection pada aplikasi database.</p>
+ <div class="panel">
+  <h3>⚙️ Command Generator</h3>
+  <div class="row">
+   <input type="text" id="sqlmap-url" autocomplete="off" spellcheck="false" placeholder="URL Parameter Target (misal: http://example.com/page.php?id=1)" value="http://example.com/page.php?id=1" style="flex:1" oninput="genSqlmapCmd()" onkeydown="if(event.key==='Enter')genSqlmapCmd()">
+   <select id="sqlmap-level" style="width:auto" onchange="genSqlmapCmd()">
+    <option value="1">Level 1 (Aman / Dasar)</option>
+    <option value="3">Level 3 (Termasuk HTTP Headers)</option>
+    <option value="5">Level 5 (Maksimal & Komprehensif)</option>
+   </select>
+  </div>
+  <div class="cmd-box" id="sqlmap-cmd-out">sqlmap -u "http://example.com/page.php?id=1" --level=1 --batch --dbs</div>
+  <button class="btn alt" style="margin-top:10px" onclick="cp($('sqlmap-cmd-out').textContent, this, event)">Salin Perintah CLI</button>
+
+  <div class="tip-box">
+   <b>Tips Singkat Pemakaian SQLMap:</b>
+   <ul>
+    <li>• Salin perintah CLI lalu jalankan di Terminal / Command Prompt yang terinstall Python.</li>
+    <li>• Parameter --batch berguna agar SQLMap tidak terus-menerus meminta jawaban manual (Y/N).</li>
+    <li>• Gunakan --dbs terlebih dahulu untuk memastikan nama-nama database sebelum mengekstrak tabel.</li>
+   </ul>
+  </div>
+ </div>
+</section>
+
+</main>
+
+<footer>Kimsweb &copy; 2026</footer>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s??'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function scrollToTools(){
+ const target = $('tools-section');
+ if(target) target.scrollIntoView({ behavior: 'smooth' });
+}
+
+/* DAFTAR TOOLS */
+const TOOLS=[
+ {id:'site', cat:'utility', icon:'🛡️', title:'Cek Keamanan Web', desc:'Cek SSL, deteksi phishing, IP & lokasi server asal'},
+ {id:'speed', cat:'utility', icon:'⚡', title:'Tes Kecepatan', desc:'Ukur ping, jitter, kecepatan unduh & unggah'},
+ {id:'conv', cat:'utility', icon:'🔄', title:'Konversi File', desc:'Ubah format gambar, data (CSV ⇄ JSON), dan teks'},
+ {id:'comp', cat:'utility', icon:'🗜️', title:'Kompres File', desc:'Kecilkan ukuran gambar & buat arsip ZIP terkompresi'},
+ {id:'pass', cat:'utility', icon:'🔑', title:'Password Generator', desc:'Buat kata sandi kuat, aman & kustom secara instan'},
+ {id:'dns', cat:'utility', icon:'🌐', title:'DNS Gratis', desc:'Pilihan DNS siap pakai untuk Android, Windows & iOS'},
+ {id:'calc', cat:'utility', icon:'🧮', title:'Kalkulator', desc:'Hitung cepat dengan tombol interaktif & riwayat'},
+ {id:'omzet', cat:'utility', icon:'💰', title:'Penghitung Omzet Penjualan', desc:'Hitung total omzet kotor, modal HPP, profit & margin'},
+ {id:'recon', cat:'pentest', icon:'🕵️', title:'Web Recon & IP/Port Finder', desc:'Cari IP server, DNS records & port umum web'},
+ {id:'zap', cat:'pentest', icon:'⚡', title:'OWASP ZAP', desc:'DAST scanner, pemindaian otomatis & analisis web'},
+ {id:'burp', cat:'pentest', icon:'🟠', title:'Burp Suite Community', desc:'Interceptor HTTP Proxy, Repeater & Decoder'},
+ {id:'nmap', cat:'pentest', icon:'🔍', title:'Nmap', desc:'Audit port jaringan, pemindaian layanan & OS'},
+ {id:'nikto', cat:'pentest', icon:'🌐', title:'Nikto', desc:'Scanner web server untuk file berisiko'},
+ {id:'sqlmap', cat:'pentest', icon:'🗄️', title:'SQLMap', desc:'Pengujian kerentanan SQL Injection database'}
+];
+
+function renderGrid(filterCategoryName = 'all'){
+ const container = $('grid');
+ if(!container) return;
+ const filtered = filterCategoryName === 'all' ? TOOLS : TOOLS.filter(t => t.cat === filterCategoryName);
+ container.innerHTML = filtered.map((t, i) => 
+  `<div class="tile" style="--i:${i}" onclick="openTool('${t.id}', this)"><span class="ic">${t.icon}</span><h3>${t.title}</h3><p>${t.desc}</p></div>`
+ ).join('');
+ 
+ document.querySelectorAll('.tile').forEach(t=>t.addEventListener('mousemove',e=>{
+  const r=t.getBoundingClientRect();
+  t.style.setProperty('--mx',e.clientX-r.left+'px');
+  t.style.setProperty('--my',e.clientY-r.top+'px');
+ }));
+}
+
+function filterCategory(cat){ renderGrid(cat); }
+renderGrid('all');
+
+/* VERIFIKASI GATEKEEPER */
+let gkAnswer = 0;
+let gkTries = 3;
+
+function initGatekeeper(){
+ const isKicked = localStorage.getItem('kimsweb_kicked') === 'true';
+ const isPassed = sessionStorage.getItem('kimsweb_passed') === 'true';
+
+ if(isPassed){
+  $('gatekeeper').style.display = 'none';
+  return;
+ }
+
+ $('gatekeeper').style.display = 'flex';
+ if(isKicked){ showRetryPrompt(); } else { generateGatekeeperQuestion(); }
+}
+
+function showRetryPrompt(){
+ $('gk-box').innerHTML = `
+  <h2 style="color:var(--r);margin-bottom:10px">⚠️ Akses Diblokir</h2>
+  <p class="msg" style="margin-bottom:20px;color:#d0d0d8">Anda sebelumnya dikeluarkan karena 3 kali salah menjawab pertanyaan. Apakah Anda ingin mencoba lagi menjawab?</p>
+  <div class="row" style="justify-content:center;gap:12px">
+   <button class="btn" onclick="resetAndRetryGK()">Ya, Coba Lagi</button>
+   <button class="btn alt" onclick="showKickedScreen()">Tidak</button>
+  </div>
+ `;
+}
+
+function resetAndRetryGK(){
+ localStorage.removeItem('kimsweb_kicked');
+ gkTries = 3;
+ generateGatekeeperQuestion();
+}
+
+function generateGatekeeperQuestion(){
+ const isAddition = Math.random() > 0.5;
+ let n1, n2, symbol;
+
+ if(isAddition){
+  n1 = Math.floor(Math.random() * 45) + 5;
+  n2 = Math.floor(Math.random() * 45) + 5;
+  gkAnswer = n1 + n2;
+  symbol = '+';
+ } else {
+  n1 = Math.floor(Math.random() * 50) + 15;
+  n2 = Math.floor(Math.random() * (n1 - 1)) + 1;
+  gkAnswer = n1 - n2;
+  symbol = '-';
+ }
+
+ $('gk-box').innerHTML = `
+  <h2 style="margin-bottom:8px">🔒 Syarat Masuk Website</h2>
+  <p class="msg" style="margin-bottom:16px;color:#ccc">Jawab persoalan tambah / kurang di bawah ini untuk mengakses web (Sisa Percobaan: <b id="gk-tries-txt" style="color:var(--r);font-size:1.1rem">${gkTries}</b>/3):</p>
+  
+  <div style="font-size:2.4rem;font-weight:bold;margin:18px 0;color:#fff;letter-spacing:2px;background:rgba(255,51,51,0.1);padding:14px;border-radius:14px;border:1px solid rgba(255,51,51,0.2)">
+   ${n1} ${symbol} ${n2} = ?
+  </div>
+
+  <div style="margin-bottom:14px">
+   <input type="number" id="gk-input" autocomplete="off" placeholder="Masukkan jawaban..." style="text-align:center;font-size:1.25rem;font-weight:bold" onkeydown="if(event.key==='Enter')submitGKAnswer()">
+  </div>
+  
+  <button class="btn" onclick="submitGKAnswer()" style="width:100%;font-size:1rem;padding:12px">Masuk Ke Website ➔</button>
+  <p class="msg err" id="gk-err-msg" style="margin-top:12px;min-height:1.2em"></p>
+ `;
+ setTimeout(() => { if($('gk-input')) $('gk-input').focus(); }, 100);
+}
+
+function submitGKAnswer(){
+ const inputVal = parseInt(($('gk-input').value || '').trim());
+ const errMsg = $('gk-err-msg');
+
+ if(isNaN(inputVal)){
+  if(errMsg) errMsg.textContent = 'Masukkan angka jawaban yang tepat!';
+  return;
+ }
+
+ if(inputVal === gkAnswer){
+  sessionStorage.setItem('kimsweb_passed', 'true');
+  $('gatekeeper').style.display = 'none';
+ } else {
+  gkTries--;
+  if(gkTries <= 0){
+   localStorage.setItem('kimsweb_kicked', 'true');
+   showKickedScreen();
+  } else {
+   if($('gk-tries-txt')) $('gk-tries-txt').textContent = gkTries;
+   if(errMsg) errMsg.textContent = `Jawaban salah! Sisa percobaan: ${gkTries}`;
+   $('gk-input').value = '';
+   $('gk-input').focus();
+  }
+ }
+}
+
+function showKickedScreen(){
+ $('gk-box').innerHTML = `
+  <h2 style="color:var(--r);font-size:2rem;margin-bottom:10px">⛔ AKSES DITOLAK!</h2>
+  <p class="msg" style="font-size:1rem;color:#ff9a9a;margin-bottom:20px">Anda telah ditendang dari website karena 3 kali salah menjawab pertanyaan.</p>
+  <p class="msg" style="font-size:0.85rem">Refresh halaman jika Anda ingin mencoba lagi.</p>
+ `;
+}
+
+function clearAllInputs(){
+ if($('site-url')) $('site-url').value = '';
+ if($('site-out')) $('site-out').innerHTML = '';
+ if($('cv-file')) $('cv-file').value = '';
+ if($('cv-msg')) $('cv-msg').innerHTML = '';
+ if($('cmp-file')) $('cmp-file').value = '';
+ if($('cmp-msg')) $('cmp-msg').innerHTML = '';
+ if($('c-in')) $('c-in').value = '';
+ if($('c-err')) $('c-err').textContent = '';
+ if($('c-hist')) $('c-hist').innerHTML = '';
+ if($('turbo-res')) $('turbo-res').innerHTML = '';
+ if($('sp-st')) $('sp-st').textContent = '';
+ if($('recon-target')) $('recon-target').value = '';
+ if($('recon-out')) $('recon-out').innerHTML = '';
+ ['sp-ping','sp-jit','sp-down','sp-up'].forEach(k=>{ if($(k)) $(k).textContent='-'; });
+}
+
+function openTool(id, el){
+ const home = $('home');
+ if(el){
+  const r = el.getBoundingClientRect();
+  const hr = home.getBoundingClientRect();
+  const ox = ((r.left + r.width/2 - hr.left) / hr.width) * 100;
+  const oy = ((r.top + r.height/2 - hr.top) / hr.height) * 100;
+  home.style.transformOrigin = `${ox}% ${oy}%`;
+ } else {
+  home.style.transformOrigin = 'center center';
+ }
+ home.style.transition = 'transform 0.42s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.38s ease, filter 0.38s ease';
+ home.style.transform = 'scale(3.5)';
+ home.style.opacity = '0';
+ home.style.filter = 'blur(8px)';
+ 
+ setTimeout(() => {
+  location.hash = id;
+  home.style.transform = '';
+  home.style.opacity = '';
+  home.style.filter = '';
+  home.style.transformOrigin = 'center center';
+ }, 360);
+}
+
+function clearAllAndHome(){
+ clearAllInputs();
+ const currentView = document.querySelector('.view.on');
+ if(currentView && currentView.id !== 'home'){
+  currentView.style.transition = 'transform 0.3s ease, opacity 0.3s ease, filter 0.3s ease';
+  currentView.style.transform = 'scale(0.85)';
+  currentView.style.opacity = '0';
+  currentView.style.filter = 'blur(4px)';
+  setTimeout(() => {
+   currentView.style.transform = '';
+   currentView.style.opacity = '';
+   currentView.style.filter = '';
+   location.hash = '';
+  }, 250);
+ } else {
+  location.hash = '';
+ }
+}
+
+/* 3D GLOBE & INTERAKSI BUTIRAN PARTIKEL KURSOR */
+(function(){
+ const cv = $('bg'), ctx = cv.getContext('2d');
+ let w, h, cx, cy;
+ let angleY = 0, angleX = 0;
+ let velY = 0.004, velX = 0;
+ let isDragging = false, lastMouseX = 0, lastMouseY = 0;
+ let mouseX = -1000, mouseY = -1000;
+
+ const resize = () => {
+  w = cv.width = window.innerWidth;
+  h = cv.height = window.innerHeight;
+  cx = w / 2; cy = h / 2;
+ };
+ window.addEventListener('resize', resize);
+ resize();
+
+ // Event listener global di window agar tidak terhalang elemen HTML
+ window.addEventListener('mousedown', e => {
+  if(e.target.tagName === 'INPUT' || e.target.tagName === 'BUTTON' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') return;
+  isDragging = true;
+  lastMouseX = e.clientX;
+  lastMouseY = e.clientY;
+ });
+
+ window.addEventListener('mousemove', e => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  if(!isDragging) return;
+  const dx = e.clientX - lastMouseX;
+  const dy = e.clientY - lastMouseY;
+  velY = dx * 0.005;
+  velX = dy * 0.005;
+  angleY += velY;
+  angleX += velX;
+  lastMouseX = e.clientX;
+  lastMouseY = e.clientY;
+ });
+
+ window.addEventListener('mouseup', () => { isDragging = false; });
+ 
+ window.addEventListener('touchstart', e => {
+  if(e.touches.length === 1){
+   mouseX = e.touches[0].clientX;
+   mouseY = e.touches[0].clientY;
+   isDragging = true;
+   lastMouseX = mouseX;
+   lastMouseY = mouseY;
+  }
+ }, {passive: true});
+
+ window.addEventListener('touchmove', e => {
+  if(e.touches.length === 1){
+   mouseX = e.touches[0].clientX;
+   mouseY = e.touches[0].clientY;
+   if(isDragging){
+    const dx = mouseX - lastMouseX;
+    const dy = mouseY - lastMouseY;
+    velY = dx * 0.005;
+    velX = dy * 0.005;
+    angleY += velY;
+    angleX += velX;
+    lastMouseX = mouseX;
+    lastMouseY = mouseY;
+   }
+  }
+ }, {passive: true});
+
+ window.addEventListener('touchend', () => { isDragging = false; });
+
+ const particles = Array.from({length: 80}, () => ({
+  x: Math.random() * window.innerWidth,
+  y: Math.random() * window.innerHeight,
+  baseX: Math.random() * window.innerWidth,
+  baseY: Math.random() * window.innerHeight,
+  s: Math.random() * 2.5 + 1,
+  vx: (Math.random() - .5) * 0.8,
+  vy: (Math.random() - .5) * 0.8,
+  c: Math.random() > .4 ? 'rgba(255, 51, 51, 0.75)' : 'rgba(255, 255, 255, 0.65)'
+ }));
+
+ const latCount = 12, lonCount = 20;
+
+ function render(){
+  ctx.clearRect(0, 0, w, h);
+  
+  if(!isDragging){
+   velY *= 0.96;
+   velX *= 0.96;
+   angleY += velY + 0.002;
+   angleX += velX;
+  }
+
+  const radius = Math.min(w, h) * 0.32;
+  const cosX = Math.cos(angleX), sinX = Math.sin(angleX);
+  const cosY = Math.cos(angleY), sinY = Math.sin(angleY);
+
+  function project(lat, lon){
+   const x0 = radius * Math.cos(lat) * Math.sin(lon);
+   const y0 = radius * Math.sin(lat);
+   const z0 = radius * Math.cos(lat) * Math.cos(lon);
+
+   const x1 = x0 * cosY + z0 * sinY;
+   const z1 = -x0 * sinY + z0 * cosY;
+
+   const y2 = y0 * cosX - z1 * sinX;
+   const z2 = y0 * sinX + z1 * cosX;
+
+   const fov = 600;
+   const scale = fov / (fov + z2 + radius);
+   return { x: cx + x1 * scale, y: cy + y2 * scale, z: z2 };
+  }
+
+  function drawSegment(p1, p2){
+   const avgZ = (p1.z + p2.z) / 2;
+   const alpha = Math.max(0.02, Math.min(0.25, (avgZ + radius) / (2.5 * radius)));
+   ctx.strokeStyle = `rgba(255, 51, 51, ${alpha})`;
+   ctx.lineWidth = avgZ > 0 ? 0.95 : 0.45;
+   ctx.beginPath();
+   ctx.moveTo(p1.x, p1.y);
+   ctx.lineTo(p2.x, p2.y);
+   ctx.stroke();
+  }
+
+  for(let i = 1; i < latCount; i++){
+   const lat = (i / latCount - 0.5) * Math.PI;
+   for(let j = 0; j < lonCount; j++){
+    drawSegment(project(lat, (j / lonCount) * 2 * Math.PI), project(lat, ((j + 1) / lonCount) * 2 * Math.PI));
+   }
+  }
+
+  for(let j = 0; j < lonCount; j++){
+   const lon = (j / lonCount) * 2 * Math.PI;
+   for(let i = 0; i < latCount; i++){
+    drawSegment(project((i / latCount - 0.5) * Math.PI, lon), project(((i + 1) / latCount - 0.5) * Math.PI, lon));
+   }
+  }
+
+  // Animasi & Interaksi Butiran Partikel Terhadap Kursor Mouse
+  particles.forEach(p => {
+   p.x += p.vx;
+   p.y += p.vy;
+
+   if(p.x < 0) p.x = w; if(p.x > w) p.x = 0;
+   if(p.y < 0) p.y = h; if(p.y > h) p.y = 0;
+
+   // Efek Dorongan Kursor (Mouse Repel)
+   const dx = mouseX - p.x;
+   const dy = mouseY - p.y;
+   const dist = Math.sqrt(dx * dx + dy * dy);
+   const maxDist = 140;
+
+   if(dist < maxDist){
+    const force = (maxDist - dist) / maxDist;
+    p.x -= (dx / dist) * force * 5;
+    p.y -= (dy / dist) * force * 5;
+   }
+
+   ctx.fillStyle = p.c;
+   ctx.beginPath();
+   ctx.arc(p.x, p.y, p.s, 0, Math.PI * 2);
+   ctx.fill();
+  });
+
+  requestAnimationFrame(render);
+ }
+ render();
+})();
+
+/* WAKTU & SHOLAT (zona waktu WIB / Asia/Jakarta) */
+let userLat = -6.2088, userLng = 106.8456, userCity = "Jakarta";
+let prayerTimings = null, enableAdhanSound = false;
+let timingsDate = null, lastTimingsTry = 0, fetchingTimings = false, lastAdhanKey = '';
+
+// Waktu WIB sebagai objek Date: komponen lokalnya = jam & tanggal di Jakarta,
+// sehingga perhitungan selisih tidak terpengaruh zona waktu perangkat pengguna
+function wibNow(){
+ const parts = new Intl.DateTimeFormat('en-US', {
+  timeZone: 'Asia/Jakarta', year: 'numeric', month: 'numeric', day: 'numeric',
+  hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: false
+ }).formatToParts(new Date());
+ const v = Object.fromEntries(parts.map(p => [p.type, p.value]));
+ return new Date(+v.year, +v.month - 1, +v.day, (+v.hour) % 24, +v.minute, +v.second);
+}
+const wibDateKey = d => `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`;
+const cleanTime = s => String(s || '--:--').split(' ')[0]; // "04:30 (WIB)" -> "04:30"
+const pad2 = n => String(n).padStart(2, '0');
+
+function updateWIBClock(){
+ const now = wibNow();
+ if($('hdr-clock')) $('hdr-clock').textContent = `${pad2(now.getHours())}:${pad2(now.getMinutes())}:${pad2(now.getSeconds())} WIB`;
+ // Pergantian hari (WIB): ambil ulang jadwal, dibatasi sekali per menit
+ if(prayerTimings && timingsDate !== wibDateKey(now) && Date.now() - lastTimingsTry > 60000){
+  fetchPrayerSchedule(userLat, userLng);
+ }
+ if(prayerTimings) updatePrayerCountdown();
+}
+setInterval(updateWIBClock, 1000);
+
+async function detectUserLocation(manual = false){
+ if(manual && $('sh-loc-name')) $('sh-loc-name').textContent = 'Memperbarui GPS...';
+ if('geolocation' in navigator){
+  navigator.geolocation.getCurrentPosition(
+   async (pos) => {
+    userLat = pos.coords.latitude; userLng = pos.coords.longitude;
+    await fetchReverseGeocode(userLat, userLng);
+    fetchPrayerSchedule(userLat, userLng);
+   },
+   async () => {
+    await fetchIPLocationFallback();
+    fetchPrayerSchedule(userLat, userLng);
+   },
+   { timeout: 7000 }
+  );
+ } else {
+  await fetchIPLocationFallback();
+  fetchPrayerSchedule(userLat, userLng);
+ }
+}
+
+async function fetchReverseGeocode(lat, lng){
+ try{
+  const r = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=id`);
+  const d = await r.json();
+  userCity = d.city || d.locality || d.principalSubdivision || "Lokasi Anda";
+  if($('hdr-loc')) $('hdr-loc').textContent = userCity;
+  if($('sh-loc-name')) $('sh-loc-name').textContent = `${userCity} (${d.countryName || 'ID'})`;
+ }catch(e){
+  userCity = "Koordinat Presisi";
+  if($('hdr-loc')) $('hdr-loc').textContent = userCity;
+  if($('sh-loc-name')) $('sh-loc-name').textContent = `${lat.toFixed(2)}, ${lng.toFixed(2)}`;
+ }
+}
+
+async function fetchIPLocationFallback(){
+ try{
+  const r = await fetch('https://ipapi.co/json/');
+  const d = await r.json();
+  if(d.latitude && d.longitude){
+   userLat = d.latitude; userLng = d.longitude;
+   userCity = d.city || "Jakarta";
+   if($('hdr-loc')) $('hdr-loc').textContent = userCity;
+   if($('sh-loc-name')) $('sh-loc-name').textContent = `${userCity}, ${d.region || ''}`;
+  }
+ }catch(e){
+  userCity = "Jakarta (Default)";
+  if($('hdr-loc')) $('hdr-loc').textContent = userCity;
+  if($('sh-loc-name')) $('sh-loc-name').textContent = userCity;
+ }
+}
+
+async function fetchPrayerSchedule(lat, lng){
+ if(fetchingTimings) return;
+ fetchingTimings = true;
+ lastTimingsTry = Date.now();
+ try{
+  const t = wibNow();
+  const dateStr = `${t.getDate()}-${t.getMonth() + 1}-${t.getFullYear()}`;
+  const r = await fetch(`https://api.aladhan.com/v1/timings/${dateStr}?latitude=${lat}&longitude=${lng}&method=20`);
+  const d = await r.json();
+  if(d.code !== 200 || !d.data) throw new Error('Jadwal tidak tersedia');
+  prayerTimings = d.data.timings;
+  timingsDate = wibDateKey(t);
+  const hijri = d.data.date.hijri;
+  if($('sh-date-hijri')) $('sh-date-hijri').textContent = `${hijri.day} ${hijri.month.id || hijri.month.en} ${hijri.year} H`;
+  renderPrayerCards(prayerTimings);
+  updatePrayerCountdown();
+ }catch(e){
+  if($('hdr-prayer')) $('hdr-prayer').textContent = "Jadwal offline";
+ }finally{
+  fetchingTimings = false;
+ }
+}
+
+function renderPrayerCards(t){
+ const pList = [
+  { k: 'Imsak', n: 'Imsak' }, { k: 'Fajr', n: 'Subuh' }, { k: 'Sunrise', n: 'Terbit' },
+  { k: 'Dhuhr', n: 'Dzuhur' }, { k: 'Asr', n: 'Ashar' }, { k: 'Maghrib', n: 'Maghrib' }, { k: 'Isha', n: 'Isya' }
+ ];
+ const container = $('prayer-cards');
+ if(!container) return;
+ container.innerHTML = pList.map(p => `
+  <div class="prayer-card" id="card-${p.k}">
+   <div class="p-name">${p.n}</div>
+   <div class="p-time">${cleanTime(t[p.k])}</div>
+  </div>
+ `).join('');
+}
+
+function updatePrayerCountdown(){
+ if(!prayerTimings) return;
+ const now = wibNow();
+ const list = [
+  { key: 'Fajr', name: 'Subuh' }, { key: 'Dhuhr', name: 'Dzuhur' },
+  { key: 'Asr', name: 'Ashar' }, { key: 'Maghrib', name: 'Maghrib' }, { key: 'Isha', name: 'Isya' }
+ ];
+ const at = (base, t) => {
+  const [h, m] = cleanTime(t).split(':').map(Number);
+  return new Date(base.getFullYear(), base.getMonth(), base.getDate(), h, m, 0);
+ };
+
+ let nextP = null, minDiff = Infinity, justPassed = null;
+ for(const p of list){
+  const diff = at(now, prayerTimings[p.key]) - now;
+  if(diff > 0 && diff < minDiff){
+   minDiff = diff;
+   nextP = { ...p, timeStr: cleanTime(prayerTimings[p.key]), diff };
+  }
+  if(diff <= 0 && diff > -1500) justPassed = p; // baru masuk waktunya (1,5 detik terakhir)
+ }
+
+ // Alarm adzan: sekali per waktu sholat
+ if(justPassed && enableAdhanSound){
+  const key = wibDateKey(now) + justPassed.key;
+  if(key !== lastAdhanKey){
+   lastAdhanKey = key;
+   const msg = `🕌 Waktu Sholat ${justPassed.name} telah tiba untuk wilayah ${userCity} dan sekitarnya!`;
+   if(typeof Notification !== 'undefined' && Notification.permission === 'granted'){
+    new Notification('Kimsweb - Waktu Sholat', { body: msg });
+   }
+   alert(msg);
+  }
+ }
+
+ if(!nextP){
+  // Setelah Isya: Subuh besok memakai jadwal hari ini sebagai perkiraan
+  const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+  nextP = { key: 'Fajr', name: 'Subuh', timeStr: cleanTime(prayerTimings.Fajr), diff: at(tomorrow, prayerTimings.Fajr) - now };
+ }
+
+ const totalSec = Math.max(0, Math.floor(nextP.diff / 1000));
+ const hrs = pad2(Math.floor(totalSec / 3600));
+ const mins = pad2(Math.floor((totalSec % 3600) / 60));
+ const secs = pad2(totalSec % 60);
+
+ if($('hdr-prayer')) $('hdr-prayer').textContent = `${nextP.name} ${nextP.timeStr} (-${hrs}j ${mins}m)`;
+ if($('sh-next-name')) $('sh-next-name').textContent = nextP.name;
+ if($('sh-countdown')) $('sh-countdown').textContent = `${hrs}:${mins}:${secs}`;
+ if($('sh-next-time-sub')) $('sh-next-time-sub').textContent = `Pukul ${nextP.timeStr} WIB (${userCity})`;
+
+ document.querySelectorAll('.prayer-card').forEach(c => c.classList.remove('next'));
+ const card = $(`card-${nextP.key}`);
+ if(card) card.classList.add('next');
+}
+
+function toggleAdhanSound(active){
+ enableAdhanSound = active;
+ if(active && typeof Notification !== 'undefined' && Notification.permission === 'default'){
+  Notification.requestPermission();
+ }
+}
+
+/* CEK KEAMANAN WEB (memakai backend /api/check-site + DNS MX/TXT) */
+async function checkSite(){
+ const rawUrl = $('site-url').value.trim();
+ const box = $('site-out');
+ const btn = $('site-btn');
+ if(!rawUrl){ box.innerHTML = "<span class='err'>Masukkan URL atau nama domain situs terlebih dahulu!</span>"; return; }
+
+ btn.disabled = true;
+ box.innerHTML = '<span class="loader"></span>Melakukan pemeriksaan DNS, sertifikat SSL/TLS, dan reputasi domain...';
+
+ try {
+  const res = await fetch('/api/check-site', {
+   method: 'POST',
+   headers: { 'Content-Type': 'application/json' },
+   body: JSON.stringify({ url: rawUrl })
+  });
+  const d = await res.json().catch(() => ({}));
+  if(!res.ok) throw new Error(d.error || 'Permintaan ke server gagal.');
+
+  const dnsFailed = d.primary_ip === '-';
+  const checks = [...(d.checks || [])];
+  let score = d.score;
+  let mxList = [];
+
+  if(!dnsFailed){
+   const [mxRes, txtRes] = await Promise.all(['MX', 'TXT'].map(t =>
+    fetch(`https://dns.google/resolve?name=${encodeURIComponent(d.domain)}&type=${t}`).then(r => r.json()).catch(() => ({}))
+   ));
+   mxList = (mxRes.Answer || []).map(a => a.data);
+   const txtList = (txtRes.Answer || []).map(a => String(a.data));
+
+   if(txtList.some(t => t.includes('v=spf1'))){
+    checks.push({ title: 'Proteksi Email (SPF)', status: 'ok', msg: 'Record SPF terdeteksi untuk perlindungan spoofing email.' });
+   } else {
+    score = Math.max(0, score - 10);
+    checks.push({ title: 'Proteksi Email (SPF)', status: 'warn', msg: 'Record SPF tidak terdeteksi pada DNS TXT.' });
+   }
+  }
+
+  const verdict = dnsFailed ? d.verdict
+   : score >= 80 ? '✅ WEBSITE AMAN & TERVERIFIKASI'
+   : score < 40 ? '⚠️ BERPOTENSI PHISHING / MALWARE'
+   : '⚡ WASPADA / RISIKO SEDANG';
+  const badge = score >= 80 ? 'ok' : score < 40 ? 'err' : 'warn';
+
+  const loc = d.location || {};
+  const locStr = [loc.city, loc.region, loc.country].filter(x => x && x !== '-').join(', ') || '-';
+  const ispStr = (loc.isp && loc.isp !== '-') ? loc.isp : ((loc.org && loc.org !== '-') ? loc.org : '-');
+  const ipList = (d.ip_list || []).join(', ') || 'Tidak ada';
+  const mxStr = mxList.length ? mxList.join(' | ') : 'Tidak ada';
+
+  box.innerHTML = `
+   <div style="background:#15151c;padding:20px;border-radius:14px;border:1px solid var(--bd)">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--bd)">
+     <div>
+      <small style="color:var(--mut);display:block">Target Web:</small>
+      <h3 style="margin:0;font-size:1.3rem;color:var(--r);word-break:break-all">${esc(d.domain)}</h3>
+     </div>
+     <div style="text-align:right">
+      <span class="${badge}" style="font-size:1.15rem;font-weight:bold">${esc(verdict)}</span>
+      <div style="font-size:0.85rem;color:var(--mut);margin-top:2px">Skor Keamanan: <b style="color:#fff">${score}/100</b></div>
+     </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;background:#0e0e12;padding:14px;border-radius:10px;margin-bottom:14px;border:1px solid var(--bd)">
+     <div><small style="color:var(--mut)">🌐 IP Server Utama (IPv4):</small><br><b style="color:#4caf50;font-size:1.1rem">${esc(d.primary_ip)}</b></div>
+     <div><small style="color:var(--mut)">📍 Lokasi Server:</small><br><b>${esc(locStr)}</b></div>
+     <div><small style="color:var(--mut)">🏢 Provider / ISP:</small><br><b>${esc(ispStr)}</b></div>
+    </div>
+
+    <div style="margin-bottom:14px">
+     <h4 style="font-size:0.95rem;margin-bottom:8px">📋 Rincian Catatan DNS:</h4>
+     <div class="cmd-box" style="font-size:0.85rem">
+      <b>IP IPv4 (A):</b> ${esc(ipList)}<br>
+      <b>Reverse DNS:</b> ${esc(d.reverse_dns || '-')}<br>
+      <b>Mail Server (MX):</b> ${esc(mxStr)}
+     </div>
+    </div>
+
+    <div>
+     <h4 style="font-size:0.95rem;margin-bottom:8px">🔍 Hasil Audit Keamanan & Phishing Detection:</h4>
+     ${checks.map(c => `<div style="margin-bottom:6px;padding:8px 12px;border-radius:8px;background:rgba(255,255,255,0.03);border-left:3px solid ${c.status==='ok'?'#4caf50':c.status==='warn'?'#ffb74d':'#ff6666'}"><b class="${c.status}">[${esc(c.title)}]</b> ${esc(c.msg)}</div>`).join('')}
+    </div>
+   </div>
+  `;
+ } catch(e) {
+  box.innerHTML = '';
+  const s = document.createElement('span');
+  s.className = 'err';
+  s.textContent = 'Gagal memeriksa keamanan website: ' + e.message;
+  box.appendChild(s);
+ }
+ btn.disabled = false;
+}
+
+/* TES KECEPATAN (diukur sungguhan: Cloudflare, dengan cadangan server Kimsweb) */
+const SPEED_SOURCES = [
+ {
+  name: 'Cloudflare',
+  ping: () => 'https://speed.cloudflare.com/__down?bytes=0&_=' + Date.now(),
+  down: bytes => `https://speed.cloudflare.com/__down?bytes=${bytes}&_=${Date.now()}`,
+  up: 'https://speed.cloudflare.com/__up'
+ },
+ {
+  name: 'Server Kimsweb',
+  ping: () => '/api/ping?_=' + Date.now(),
+  down: bytes => `/api/speed-down?mb=${Math.max(1, Math.round(bytes / 1048576))}&_=${Date.now()}`,
+  up: '/api/speed-up'
+ }
+];
+const SPEED_DL_BYTES = 5 * 1048576;
+const SPEED_UL_BYTES = 2 * 1048576;
+
+async function measureOnce(url, opts){
+ const t0 = performance.now();
+ const res = await fetch(url, { cache: 'no-store', ...opts });
+ if(!res.ok) throw new Error('HTTP ' + res.status);
+ const buf = await res.arrayBuffer();
+ return { ms: performance.now() - t0, bytes: buf.byteLength };
+}
+
+async function runSpeedTest(onStatus){
+ let lastErr = null;
+ for(const src of SPEED_SOURCES){
+  try{
+   onStatus(`Menguji latensi ke ${src.name}...`);
+   const samples = [];
+   for(let i = 0; i < 6; i++){
+    const r = await measureOnce(src.ping(), {});
+    if(i > 0) samples.push(r.ms);   // sampel pertama memuat handshake koneksi, dibuang
+   }
+   const sorted = [...samples].sort((a, b) => a - b);
+   const ping = sorted[Math.floor(sorted.length / 2)];
+   let jitterSum = 0;
+   for(let i = 1; i < samples.length; i++) jitterSum += Math.abs(samples[i] - samples[i - 1]);
+   const jitter = samples.length > 1 ? jitterSum / (samples.length - 1) : 0;
+
+   onStatus(`Menguji kecepatan unduh (${src.name})...`);
+   const dl = await measureOnce(src.down(SPEED_DL_BYTES), {});
+   const downMbps = (dl.bytes * 8) / (dl.ms / 1000) / 1e6;
+
+   onStatus(`Menguji kecepatan unggah (${src.name})...`);
+   const payload = new Blob([new Uint8Array(SPEED_UL_BYTES)]);
+   const t0 = performance.now();
+   const up = await fetch(src.up, { method: 'POST', body: payload, cache: 'no-store' });
+   if(!up.ok) throw new Error('unggah HTTP ' + up.status);
+   await up.arrayBuffer().catch(() => {});
+   const upMs = performance.now() - t0;
+   const upMbps = (SPEED_UL_BYTES * 8) / (upMs / 1000) / 1e6;
+
+   return { source: src.name, ping, jitter, down: downMbps, up: upMbps };
+  } catch(e){
+   lastErr = e;
+  }
+ }
+ throw new Error(lastErr ? lastErr.message : 'semua sumber pengujian gagal');
+}
+
+async function speedTest(){
+ const btn = $('sp-btn');
+ const st = $('sp-st');
+ btn.disabled = true;
+ try{
+  const r = await runSpeedTest(msg => { st.textContent = msg; });
+  $('sp-ping').textContent = r.ping.toFixed(0);
+  $('sp-jit').textContent = r.jitter.toFixed(1);
+  $('sp-down').textContent = r.down.toFixed(1);
+  $('sp-up').textContent = r.up.toFixed(1);
+  st.textContent = `✅ Pengujian selesai (diukur ke ${r.source}). Hasil bisa berbeda tiap pengujian.`;
+ } catch(e){
+  st.textContent = 'Pengujian gagal: ' + e.message + '. Pastikan koneksi internet aktif.';
+ }
+ btn.disabled = false;
+}
+
+/* KONVERSI FILE */
+function cvOpts(){}
+
+function showMsg(el, cls, text){
+ el.innerHTML = '';
+ const s = document.createElement('span');
+ if(cls) s.className = cls;
+ s.textContent = text;
+ el.appendChild(s);
+}
+
+function showDownload(el, blob, name){
+ el.innerHTML = '';
+ const s = document.createElement('span');
+ s.className = 'ok';
+ s.textContent = '✅ Berhasil!';
+ const a = document.createElement('a');
+ a.className = 'btn';
+ a.style.marginTop = '10px';
+ a.style.display = 'inline-block';
+ a.href = URL.createObjectURL(blob);
+ a.download = name;
+ a.textContent = '⬇️ Unduh ' + name;
+ el.append(s, document.createElement('br'), a);
+}
+
+const CV_IMG_EXT = ['png', 'jpg', 'jpeg', 'webp', 'bmp'];
+
+function convertImageCanvas(file, mime){
+ return new Promise((resolve, reject) => {
+  const url = URL.createObjectURL(file);
+  const img = new Image();
+  img.onload = () => {
+   const canvas = document.createElement('canvas');
+   canvas.width = img.naturalWidth;
+   canvas.height = img.naturalHeight;
+   const ctx = canvas.getContext('2d');
+   if(mime === 'image/jpeg'){ // JPG tidak punya transparansi: latar putih
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+   }
+   ctx.drawImage(img, 0, 0);
+   URL.revokeObjectURL(url);
+   canvas.toBlob(b => {
+    if(b && b.type === mime) resolve(b);
+    else reject(new Error('Browser ini tidak dapat membuat format tersebut.'));
+   }, mime, 0.92);
+  };
+  img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Gagal membaca file gambar.')); };
+  img.src = url;
+ });
+}
+
+async function postToBackend(url, file){
+ const res = await fetch(url, { method: 'POST', body: file });
+ if(!res.ok){
+  const d = await res.json().catch(() => ({}));
+  throw new Error(d.error || 'Konversi gagal.');
+ }
+ return res.blob();
+}
+
+async function cvGo(){
+ const fileInput = $('cv-file');
+ const target = $('cv-to').value;
+ const msg = $('cv-msg');
+ if(!fileInput.files.length){ showMsg(msg, 'err', 'Pilih file terlebih dahulu!'); return; }
+
+ const file = fileInput.files[0];
+ const ext = (file.name.split('.').pop() || '').toLowerCase();
+ const stem = file.name.includes('.') ? file.name.slice(0, file.name.lastIndexOf('.')) : file.name;
+ showMsg(msg, '', 'Memproses konversi file...');
+
+ try{
+  // CSV ⇄ JSON diproses di backend
+  if((ext === 'csv' || ext === 'json') && (target === 'csv' || target === 'json')){
+   if(ext === target) throw new Error('File sudah dalam format tersebut.');
+   const blob = await postToBackend(`/api/convert?name=${encodeURIComponent(file.name)}&to=${target}`, file);
+   showDownload(msg, blob, `${stem}.${target}`);
+   return;
+  }
+  // Gambar: PNG/JPG/WEBP lewat canvas; BMP lewat backend (canvas browser tidak bisa ekspor BMP)
+  if(CV_IMG_EXT.includes(ext) && ['png', 'jpeg', 'webp', 'bmp'].includes(target)){
+   if(target === 'bmp'){
+    const blob = await postToBackend(`/api/convert?name=${encodeURIComponent(file.name)}&to=bmp`, file);
+    showDownload(msg, blob, `${stem}.bmp`);
+   } else {
+    const blob = await convertImageCanvas(file, 'image/' + target);
+    const outExt = target === 'jpeg' ? 'jpg' : target;
+    showDownload(msg, blob, `${stem}.${outExt}`);
+   }
+   return;
+  }
+  throw new Error('Kombinasi format ini tidak didukung. Gambar hanya ke PNG/JPG/WEBP/BMP; CSV ⇄ JSON.');
+ } catch(e){
+  showMsg(msg, 'err', e.message);
+ }
+}
+
+/* KOMPRES FILE (diproses di backend: Pillow untuk gambar, ZIP untuk lainnya) */
+function parseDispositionName(h){
+ if(!h) return null;
+ const m = /filename\*=UTF-8''([^;]+)/i.exec(h);
+ if(!m) return null;
+ try{ return decodeURIComponent(m[1]); } catch(e){ return null; }
+}
+
+function fmtSize(n){
+ return n >= 1048576 ? (n / 1048576).toFixed(2) + ' MB' : (n / 1024).toFixed(1) + ' KB';
+}
+
+async function cmpGo(){
+ const fileInput = $('cmp-file');
+ const sel = $('cmp-quality').value;
+ const msg = $('cmp-msg');
+ if(!fileInput.files.length){ showMsg(msg, 'err', 'Pilih file yang ingin dikompres!'); return; }
+
+ const file = fileInput.files[0];
+ const isZip = sel === 'zip';
+ const quality = isZip ? 70 : (parseInt(sel, 10) || 70);
+ showMsg(msg, '', 'Mengompres file...');
+
+ try{
+  const q = new URLSearchParams({ name: file.name, quality: String(quality), mode: isZip ? 'zip' : 'auto' });
+  const res = await fetch('/api/compress?' + q.toString(), { method: 'POST', body: file });
+  if(!res.ok){
+   const d = await res.json().catch(() => ({}));
+   throw new Error(d.error || 'Kompresi gagal.');
+  }
+  const blob = await res.blob();
+  const origSize = Number(res.headers.get('X-Original-Size')) || file.size;
+  const saved = Math.max(0, Math.round((1 - blob.size / origSize) * 100));
+  const outName = parseDispositionName(res.headers.get('Content-Disposition')) || `compressed_${file.name}`;
+
+  showDownload(msg, blob, outName);
+  const info = document.createElement('small');
+  info.style.cssText = 'display:block;color:var(--mut);margin-top:6px';
+  info.textContent = `Ukuran asli: ${fmtSize(origSize)} | Hasil: ${fmtSize(blob.size)} (hemat ${saved}%)`;
+  msg.appendChild(info);
+ } catch(e){
+  showMsg(msg, 'err', e.message);
+ }
+}
+
+/* PASSWORD GENERATOR */
+function genPassword(){
+ const len = parseInt($('pw-len').value) || 16;
+ const u = $('pw-upper').checked;
+ const l = $('pw-lower').checked;
+ const n = $('pw-num').checked;
+ const s = $('pw-sym').checked;
+ const noAmbig = $('pw-no-ambig').checked;
+
+ let chars = '';
+ if(u) chars += 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+ if(l) chars += 'abcdefghijkmnpqrstuvwxyz';
+ if(n) chars += '23456789';
+ if(s) chars += '!@#$%^&*()_+-=[]{}';
+ if(!noAmbig && u) chars += 'IO';
+ if(!noAmbig && l) chars += 'l';
+ if(!noAmbig && n) chars += '01';
+
+ if(!chars){
+  $('pw-out').value = 'Pilih min. 1 opsi';
+  return;
+ }
+
+ let pass = '';
+ const array = new Uint32Array(len);
+ crypto.getRandomValues(array);
+ for(let i = 0; i < len; i++){
+  pass += chars[array[i] % chars.length];
+ }
+
+ $('pw-out').value = pass;
+
+ const score = Math.min(100, Math.round((len / 32) * 60 + (u+l+n+s)*10));
+ const bar = $('pw-meter-bar');
+ const txt = $('pw-strength-txt');
+ bar.style.width = score + '%';
+ if(score > 75){
+  bar.style.background = '#4caf50'; txt.textContent = 'Kekuatan: Sangat Kuat 🔒'; txt.className = 'msg ok';
+ } else if(score > 50){
+  bar.style.background = '#ffb74d'; txt.textContent = 'Kekuatan: Sedang ⚠️'; txt.className = 'msg warn';
+ } else {
+  bar.style.background = '#ff3333'; txt.textContent = 'Kekuatan: Lemah 🚨'; txt.className = 'msg err';
+ }
+}
+
+/* DNS GRATIS */
+const DNS_PROVIDERS = [
+ { name: 'Cloudflare DNS', primary: '1.1.1.1', secondary: '1.0.0.1', host: 'one.one.one.one' },
+ { name: 'Google Public DNS', primary: '8.8.8.8', secondary: '8.8.4.4', host: 'dns.google' },
+ { name: 'AdGuard AdBlock DNS', primary: '94.140.14.14', secondary: '94.140.15.15', host: 'dns.adguard.com' },
+ { name: 'Quad9 Secure DNS', primary: '9.9.9.9', secondary: '149.112.112.112', host: 'dns.quad9.net' }
+];
+
+function renderDnsList(){
+ const box = $('dns-list');
+ if(!box) return;
+ box.innerHTML = DNS_PROVIDERS.map(d => `
+  <div style="background:#15151c;border:1px solid var(--bd);padding:14px;border-radius:12px">
+   <b style="color:#fff;font-size:1.05rem">${d.name}</b>
+   <div style="font-family:Consolas,monospace;margin:8px 0;font-size:0.9rem">
+    IP 1: <span style="color:var(--r)">${d.primary}</span><br>
+    IP 2: <span style="color:var(--r)">${d.secondary}</span><br>
+    Host: <span style="color:#4caf50">${d.host}</span>
+   </div>
+   <button class="btn alt" style="padding:4px 12px;font-size:0.8rem;width:100%" onclick="cp('${d.host}', this, event)">Salin Hostname DNS</button>
+  </div>
+ `).join('');
+}
+
+/* KALKULATOR */
+function calcInput(v){
+ const input = $('c-in');
+ $('c-err').textContent = '';
+ if(v === 'C'){ input.value = ''; return; }
+ if(v === 'DEL'){ input.value = input.value.slice(0, -1); return; }
+ input.value += v;
+}
+
+function evalCalc(){
+ const input = $('c-in');
+ const err = $('c-err');
+ const hist = $('c-hist');
+ try {
+  let expr = input.value.replace(/×/g, '*').replace(/÷/g, '/');
+  if(!expr.trim()) return;
+  const res = Function(`'use strict'; return (${expr})`)();
+  hist.innerHTML = `<div>${input.value} = <b>${res}</b></div>` + hist.innerHTML;
+  input.value = res;
+  err.textContent = '';
+ } catch(e) {
+  err.textContent = 'Ekspresi matematika tidak valid!';
+ }
+}
+
+/* PENGHITUNG OMZET PENJUALAN */
+let omzetItems = [];
+
+function formatRupiah(num){
+ return 'Rp ' + Math.round(num).toLocaleString('id-ID');
+}
+
+function addOmzetItem(){
+ const name = $('omz-pname').value.trim() || 'Produk ' + (omzetItems.length + 1);
+ const price = parseFloat($('omz-price').value) || 0;
+ const qty = parseInt($('omz-qty').value) || 0;
+ const hpp = parseFloat($('omz-hpp').value) || 0;
+
+ if(price <= 0 || qty <= 0){
+  alert('Masukkan harga jual dan jumlah terjual yang valid (lebih dari 0)!');
+  return;
+ }
+
+ omzetItems.push({ id: Date.now(), name, price, qty, hpp });
+ 
+ $('omz-pname').value = '';
+ $('omz-price').value = '';
+ $('omz-qty').value = '1';
+ $('omz-hpp').value = '';
+ 
+ renderOmzetTable();
+}
+
+function removeOmzetItem(id){
+ omzetItems = omzetItems.filter(item => item.id !== id);
+ renderOmzetTable();
+}
+
+function renderOmzetTable(){
+ const tbody = $('omz-table-body');
+ if(!tbody) return;
+
+ if(omzetItems.length === 0){
+  tbody.innerHTML = '<tr><td colspan="7" style="color:var(--mut);padding:18px">Belum ada item produk yang ditambahkan.</td></tr>';
+  $('omz-total-gross').textContent = 'Rp 0';
+  $('omz-total-hpp').textContent = 'Rp 0';
+  $('omz-total-net').textContent = 'Rp 0';
+  $('omz-margin').textContent = '0%';
+  return;
+ }
+
+ let totalGross = 0;
+ let totalHpp = 0;
+
+ tbody.innerHTML = omzetItems.map(item => {
+  const gross = item.price * item.qty;
+  const hppTotal = item.hpp * item.qty;
+  const net = gross - hppTotal;
+  
+  totalGross += gross;
+  totalHpp += hppTotal;
+
+  return `
+   <tr>
+    <td class="l"><b>${esc(item.name)}</b></td>
+    <td>${formatRupiah(item.price)}</td>
+    <td>${item.qty}</td>
+    <td>${formatRupiah(item.hpp)}</td>
+    <td><b style="color:#fff">${formatRupiah(gross)}</b></td>
+    <td><b style="color:${net >= 0 ? '#4caf50' : '#ff6666'}">${formatRupiah(net)}</b></td>
+    <td><button class="btn alt" style="padding:4px 10px;font-size:0.75rem;color:#ff6666" onclick="removeOmzetItem(${item.id})">Hapus</button></td>
+   </tr>
+  `;
+ }).join('');
+
+ const totalNet = totalGross - totalHpp;
+ const marginPercent = totalGross > 0 ? ((totalNet / totalGross) * 100).toFixed(1) : 0;
+
+ $('omz-total-gross').textContent = formatRupiah(totalGross);
+ $('omz-total-hpp').textContent = formatRupiah(totalHpp);
+ $('omz-total-net').textContent = formatRupiah(totalNet);
+ $('omz-margin').textContent = marginPercent + '%';
+}
+
+/* WEB RECON (DNS via dns.google + pengecekan port TCP dari server Kimsweb) */
+async function runWebRecon(){
+ const input = $('recon-target').value.trim();
+ const box = $('recon-out');
+ const btn = $('recon-btn');
+ if(!input){ box.innerHTML = '<span class="err">Masukkan domain atau alamat IP terlebih dahulu!</span>'; return; }
+
+ const cleanTarget = input.replace(/^https?:\/\//i, '').replace(/\/.*$/, '');
+ const isIp = /^[\d.]+$/.test(cleanTarget);
+ btn.disabled = true;
+ box.innerHTML = '<span class="loader"></span>Melakukan pencarian IP, resolver DNS, dan pengecekan port...';
+
+ try{
+  const portPromise = fetch(`/api/port-check?host=${encodeURIComponent(cleanTarget)}`).then(async r => {
+   const d = await r.json().catch(() => ({}));
+   if(!r.ok) throw new Error(d.error || 'Pengecekan port gagal.');
+   return d;
+  });
+  const dnsPromise = isIp ? Promise.resolve({}) :
+   fetch(`https://dns.google/resolve?name=${encodeURIComponent(cleanTarget)}&type=A`).then(r => r.json()).catch(() => ({}));
+  const [portRes, dnsRes] = await Promise.all([portPromise, dnsPromise]);
+
+  const ipList = (dnsRes.Answer || []).filter(a => a.type === 1).map(a => a.data);
+  const shownIps = ipList.length ? ipList : [portRes.ip];
+
+  let ipInfoHtml = '';
+  try{
+   const ipData = await fetch(`https://ipapi.co/${encodeURIComponent(portRes.ip)}/json/`).then(r => r.json());
+   ipInfoHtml = `
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;background:#0e0e12;padding:14px;border-radius:10px;margin-bottom:14px;border:1px solid var(--bd)">
+     <div><small style="color:var(--mut)">🌐 IP Server:</small><br><b style="color:#4caf50;font-size:1.1rem">${esc(portRes.ip)}</b></div>
+     <div><small style="color:var(--mut)">📍 Lokasi & ISP:</small><br><b>${esc(ipData.city || '-')}, ${esc(ipData.country_name || '-')}</b><br><small style="color:var(--mut)">${esc(ipData.org || '-')}</small></div>
+     <div><small style="color:var(--mut)">🏢 ASN Network:</small><br><b>${esc(ipData.asn || '-')}</b></div>
+    </div>`;
+  } catch(e){ ipInfoHtml = ''; }
+
+  const portsHtml = portRes.ports.map(p => `
+   <div style="background:#0e0e12;padding:8px 12px;border-radius:8px">Port ${p.port} (${esc(p.service)}): <b class="${p.open ? 'ok' : 'err'}">${p.open ? 'Terbuka' : 'Tertutup / tidak terjangkau'}</b></div>`).join('');
+
+  box.innerHTML = `
+   <div style="background:#15151c;padding:18px;border-radius:12px;border:1px solid var(--bd)">
+    <h3 style="margin-bottom:12px;color:var(--r)">Informasi Reconnaissance: ${esc(cleanTarget)}</h3>
+    ${ipInfoHtml}
+    <div style="margin-bottom:14px">
+     <h4 style="font-size:0.95rem;margin-bottom:6px">📡 Status Port (dicek dari server Kimsweb):</h4>
+     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;font-size:0.85rem">${portsHtml}</div>
+     <small class="msg" style="display:block;margin-top:6px">Diuji dengan koneksi TCP sederhana (timeout 1,5 detik) hanya untuk port umum. Hasil "tertutup" bisa berarti difilter firewall.</small>
+    </div>
+    <div>
+     <h4 style="font-size:0.95rem;margin-bottom:6px">📋 Hasil DNS A-Records:</h4>
+     <div class="cmd-box">${shownIps.map(ip => esc(ip)).join('<br>')}</div>
+    </div>
+   </div>
+  `;
+ } catch(e){
+  box.innerHTML = '';
+  const s = document.createElement('span');
+  s.className = 'err';
+  s.textContent = 'Gagal mengambil data recon: ' + e.message;
+  box.appendChild(s);
+ }
+ btn.disabled = false;
+}
+
+/* CLI GENERATORS */
+function genZapCmd(){
+ const target = $('zap-target').value.trim() || 'http://example.com';
+ const mode = $('zap-mode').value;
+ let cmd = '';
+ if(mode === 'baseline') cmd = `zap-baseline.py -t ${target} -g gen.conf -r report.html`;
+ else if(mode === 'full') cmd = `zap-full-scan.py -t ${target} -g gen.conf -r full_report.html`;
+ else if(mode === 'api') cmd = `zap-api-scan.py -t ${target} -f openapi -r api_report.html`;
+ $('zap-cmd-out').textContent = cmd;
+}
+
+function genNmapCmd(){
+ const target = $('nmap-target').value.trim() || '127.0.0.1';
+ const type = $('nmap-type').value;
+ let cmd = '';
+ if(type === 'quick') cmd = `nmap -F ${target}`;
+ else if(type === 'service') cmd = `nmap -sV -O ${target}`;
+ else if(type === 'full') cmd = `nmap -p- -A ${target}`;
+ else if(type === 'vuln') cmd = `nmap --script vuln ${target}`;
+ $('nmap-cmd-out').textContent = cmd;
+}
+
+function genNiktoCmd(){
+ const target = $('nikto-target').value.trim() || 'example.com';
+ const port = $('nikto-port').value;
+ $('nikto-cmd-out').textContent = `nikto -h ${target} -p ${port}`;
+}
+
+function genSqlmapCmd(){
+ const url = $('sqlmap-url').value.trim() || 'http://example.com/page.php?id=1';
+ const level = $('sqlmap-level').value;
+ $('sqlmap-cmd-out').textContent = `sqlmap -u "${url}" --level=${level} --batch --dbs`;
+}
+
+function route(){
+ let id = location.hash.slice(1);
+ const validToolIds = TOOLS.map(t=>t.id).concat(['sholat']);
+ if(!validToolIds.includes(id)) id='home';
+ 
+ document.querySelectorAll('.view').forEach(v=>{
+  v.classList.remove('on');
+  if(v.id===id){
+   v.offsetHeight;
+   v.classList.add('on');
+  }
+ });
+ clearAllInputs();
+ if(id==='pass') genPassword();
+ if(id==='dns') renderDnsList();
+ if(id==='sholat') detectUserLocation();
+ if(id==='omzet') renderOmzetTable();
+ if(id==='zap') genZapCmd();
+ if(id==='nmap') genNmapCmd();
+ if(id==='nikto') genNiktoCmd();
+ if(id==='sqlmap') genSqlmapCmd();
+ scrollTo(0,0);
+}
+
+/* SALIN TEKS AMAN */
+function cp(t, b, ev){
+ if(ev){
+  if(ev.preventDefault) ev.preventDefault();
+  if(ev.stopPropagation) ev.stopPropagation();
+ }
+ const textToCopy = String(t || '').trim();
+ const origText = b ? b.textContent : '';
+ const done = () => {
+  if(b){
+   b.textContent = 'Tersalin ✓';
+   setTimeout(() => { b.textContent = origText; }, 1200);
+  }
+ };
+
+ if(navigator.clipboard && window.isSecureContext){
+  navigator.clipboard.writeText(textToCopy).then(done).catch(() => fallbackCopy(textToCopy, done));
+ } else {
+  fallbackCopy(textToCopy, done);
+ }
+}
+
+function fallbackCopy(t, done){
+ try {
+  const a = document.createElement('textarea');
+  a.value = t;
+  a.style.position = 'fixed';
+  a.style.opacity = '0';
+  document.body.appendChild(a);
+  a.select();
+  document.execCommand('copy');
+  a.remove();
+  done();
+ } catch(e){}
+}
+
+function copyPassword(ev){
+ const val = $('pw-out').value;
+ if(!val || val === 'Pilih min. 1 opsi') return;
+ cp(val, $('pw-copy'), ev);
+}
+
+addEventListener('hashchange',route);
+route();
+detectUserLocation();
+initGatekeeper();
+</script>
+</body>
+</html>
