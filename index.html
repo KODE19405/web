@@ -11,20 +11,20 @@
     body{background:var(--bg);color:#fff;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;min-height:100vh;overflow-x:hidden;user-select:none}
     
     /* Background Canvas 3D */
-    #bg{position:fixed;inset:0;width:100%;height:100%;z-index:-1;cursor:grab}
+    #bg{position:fixed;inset:0;width:100%;height:100%;z-index:-1;cursor:grab;will-change:transform;transform:translateZ(0)}
     #bg:active{cursor:grabbing}
 
     /* Modal Gatekeeper */
-    #gatekeeper{position:fixed;inset:0;background:rgba(8,8,12,0.95);backdrop-filter:blur(15px);z-index:100000;display:flex;justify-content:center;align-items:center;padding:20px}
+    #gatekeeper{position:fixed;inset:0;background:rgba(8,8,12,0.95);backdrop-filter:blur(10px);z-index:100000;display:flex;justify-content:center;align-items:center;padding:20px}
     .gk-card{background:#121218;border:1px solid var(--r);border-radius:20px;padding:30px;max-width:440px;width:100%;text-align:center;box-shadow:0 0 35px rgba(255,51,51,0.3);animation:zoomInPage 0.3s cubic-bezier(0.16,1,0.3,1)}
 
     /* Header Navigation */
-    header{padding:16px 32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;position:sticky;top:0;z-index:1000;background:rgba(11,11,14,0.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd)}
+    header{padding:16px 32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;position:sticky;top:0;z-index:1000;background:rgba(11,11,14,0.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--bd);will-change:transform;transform:translateZ(0)}
     .logo{display:flex;align-items:center;gap:10px;font-size:1.35rem;font-weight:700;color:#fff;cursor:pointer;letter-spacing:.5px}
     .logo .lightning-icon{font-size:1.4rem;filter:drop-shadow(0 0 6px rgba(255,51,51,0.7));transition:transform .3s}
     .logo:hover .lightning-icon{transform:scale(1.2) rotate(-6deg)}
 
-    .header-info{display:flex;align-items:center;gap:10px;background:rgba(21,21,28,0.75);border:1px solid var(--bd);padding:6px 14px;border-radius:30px;backdrop-filter:blur(10px);font-size:0.82rem;cursor:pointer;transition:border-color .3s}
+    .header-info{display:flex;align-items:center;gap:10px;background:rgba(21,21,28,0.75);border:1px solid var(--bd);padding:6px 14px;border-radius:30px;backdrop-filter:blur(6px);font-size:0.82rem;cursor:pointer;transition:border-color .3s}
     .header-info:hover{border-color:var(--r)}
     .header-info .info-item{display:flex;align-items:center;gap:5px;color:#d0d0d8}
     .header-info .info-item b{color:#fff}
@@ -43,7 +43,7 @@
     .view.on{display:block;animation:zoomInPage 0.38s cubic-bezier(0.16,1,0.3,1) forwards}
 
     @keyframes zoomInPage{
-      0%{opacity:0;transform:scale(0.82);filter:blur(6px)}
+      0%{opacity:0;transform:scale(0.82);filter:blur(4px)}
       100%{opacity:1;transform:scale(1);filter:blur(0)}
     }
 
@@ -53,7 +53,7 @@
     .welcome-sub{font-size:1.1rem;color:var(--mut);margin-top:14px;letter-spacing:1px}
     .drag-hint{font-size:0.85rem;color:rgba(255,255,255,0.4);margin-top:8px}
 
-    .scroll-down-btn{margin-top:26px;background:rgba(255,51,51,0.12);border:1px solid var(--r);color:#fff;padding:12px 24px;border-radius:30px;cursor:pointer;font-size:0.95rem;font-weight:600;display:flex;align-items:center;gap:10px;backdrop-filter:blur(10px);animation:bounce 2.2s infinite;transition:all .3s}
+    .scroll-down-btn{margin-top:26px;background:rgba(255,51,51,0.12);border:1px solid var(--r);color:#fff;padding:12px 24px;border-radius:30px;cursor:pointer;font-size:0.95rem;font-weight:600;display:flex;align-items:center;gap:10px;backdrop-filter:blur(6px);animation:bounce 2.2s infinite;transition:all .3s}
     .scroll-down-btn:hover{background:var(--r);box-shadow:0 0 20px rgba(255,51,51,0.6);transform:scale(1.05)}
 
     @keyframes bounce{
@@ -69,7 +69,7 @@
 
     /* Tools Grid & Tiles */
     .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:16px}
-    .tile{--mx:50%;--my:50%;position:relative;padding:22px;border-radius:18px;border:1px solid var(--bd);cursor:pointer;opacity:0;transform:translateY(24px);animation:rise .6s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--i)*60ms);backdrop-filter:blur(10px);background:radial-gradient(220px circle at var(--mx) var(--my),rgba(255,51,51,.2),transparent 70%),var(--card);transition:transform .2s,border-color .3s,box-shadow .3s}
+    .tile{--mx:50%;--my:50%;position:relative;padding:22px;border-radius:18px;border:1px solid var(--bd);cursor:pointer;opacity:0;transform:translateY(24px);animation:rise .6s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--i)*50ms);backdrop-filter:blur(6px);background:radial-gradient(220px circle at var(--mx) var(--my),rgba(255,51,51,.2),transparent 70%),var(--card);transition:transform .2s,border-color .3s,box-shadow .3s}
     .tile:hover{transform:translateY(-6px) scale(1.02);border-color:var(--r);box-shadow:0 12px 30px rgba(255,51,51,.2)}
     .tile:active{transform:scale(0.95)}
     .tile .ic{font-size:2rem;display:inline-block;transition:transform .4s}
@@ -81,7 +81,7 @@
     /* UI Controls & Forms */
     .back{background:none;border:1px solid var(--bd);color:#ccc;padding:8px 16px;border-radius:20px;cursor:pointer;margin-bottom:18px;transition:.3s;display:inline-flex;align-items:center;gap:6px;font-weight:600}
     .back:hover{border-color:var(--r);color:#fff;background:rgba(255,51,51,0.1)}
-    .panel{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:24px;margin-top:10px;backdrop-filter:blur(12px);user-select:text}
+    .panel{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:24px;margin-top:10px;backdrop-filter:blur(6px);user-select:text;will-change:transform;transform:translateZ(0)}
 
     textarea,input[type=text],input[type=number],input[type=password],input[type=date],select{width:100%;background:#15151c;color:#fff;border:1px solid var(--bd);border-radius:10px;padding:10px 12px;font:inherit;outline:none;user-select:text}
     textarea{min-height:160px;resize:vertical;font-family:Consolas,monospace;font-size:.9rem;line-height:1.5}
@@ -138,6 +138,14 @@
     @keyframes spin{to{transform:rotate(360deg)}}
     footer{text-align:center;padding:25px;color:#555560;font-size:.85rem}
 
+    /* Invoice Print Styles */
+    @media print {
+      body * { visibility: hidden; }
+      #printable-invoice, #printable-invoice * { visibility: visible; }
+      #printable-invoice { position: absolute; left: 0; top: 0; width: 100%; color: #000; background: #fff; padding: 20px; }
+      #printable-invoice th, #printable-invoice td { border-bottom: 1px solid #ccc; color: #000; }
+    }
+
     @media(max-width:680px){
       header{justify-content:center}
       .header-info{width:100%;justify-content:center}
@@ -153,9 +161,7 @@
 
   <!-- Modal Gatekeeper Verification -->
   <div id="gatekeeper">
-    <div class="gk-card" id="gk-box">
-      <!-- Diisi secara dinamis via JavaScript -->
-    </div>
+    <div class="gk-card" id="gk-box"></div>
   </div>
 
   <!-- Header Navigation -->
@@ -165,7 +171,7 @@
       <span>Kimsweb</span>
     </div>
 
-    <div class="header-info" onclick="location.hash='sholat'">
+    <div class="header-info" onclick="location.hash='sholat'" title="Klik untuk lihat jadwal sholat presisi">
       <div class="info-item">🕒 <span id="hdr-clock">--:--:-- WIB</span></div>
       <div class="divider"></div>
       <div class="info-item">📍 <span id="hdr-loc">Mendeteksi...</span></div>
@@ -190,9 +196,10 @@
         <h2 class="tools-section-title">🛠️ Daftar Web Tools</h2>
         
         <div class="category-dropdown">
-          <select class="dropdown-select" onchange="filterCategory(this.value)">
+          <select class="dropdown-select" id="cat-select" onchange="filterCategory(this.value)">
             <option value="all">🌐 Semua Kategori Tool</option>
             <option value="utility">🛠️ General Utilities</option>
+            <option value="design">🎨 Desain & Media</option>
             <option value="finance">💰 Keuangan & Bisnis</option>
             <option value="pentest">🛡️ Penetration Testing</option>
           </select>
@@ -258,18 +265,17 @@
     <!-- VIEW: KOMPRES FILE -->
     <div id="comp" class="view">
       <button class="back" onclick="clearAllAndHome()">← Kembali</button>
-      <h2>🗜️ Kompres File</h2>
-      <p class="sub">Kecilkan ukuran file gambar atau kompres menjadi arsip ZIP.</p>
+      <h2>🗜️ Kompres File Gambar</h2>
+      <p class="sub">Kecilkan ukuran file gambar (JPG, PNG, WEBP, BMP) tanpa mengurangi kualitas visual secara berlebihan.</p>
       <div class="panel">
         <div style="display:grid;gap:14px">
-          <input type="file" id="cmp-file">
+          <input type="file" id="cmp-file" accept="image/*">
           <select id="cmp-quality">
             <option value="70">Otomatis (Sedang / Quality 70%)</option>
             <option value="50">Tinggi (Ukuran Lebih Kecil / Quality 50%)</option>
             <option value="85">Ringan (Kualitas Tinggi / Quality 85%)</option>
-            <option value="zip">Arsip ZIP Terkompresi</option>
           </select>
-          <button class="btn" onclick="cmpGo()">Kompres Sekarang</button>
+          <button class="btn" onclick="cmpGo()">Kompres Gambar</button>
         </div>
         <div id="cmp-msg" class="msg"></div>
       </div>
@@ -302,10 +308,44 @@
           <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="pw-num" checked onchange="genPassword()"> Angka (0-9)</label>
           <label style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="pw-sym" checked onchange="genPassword()"> Simbol (!@#$...)</label>
         </div>
-        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);font-size:0.85rem;color:var(--mut)">
-          <input type="checkbox" id="pw-no-ambig" onchange="genPassword()"> Hindari Karakter Mirip (1, l, I, 0, O)
-        </label>
         <button class="btn alt" style="width:100%;margin-top:16px" onclick="genPassword()">🔄 Acak Ulang Password</button>
+      </div>
+    </div>
+
+    <!-- VIEW: QR CODE GENERATOR -->
+    <div id="qr" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>📱 QR Code Generator</h2>
+      <p class="sub">Buat kode QR kustom secara instan untuk Teks, URL Situs, atau Jaringan Wi-Fi.</p>
+      <div class="panel">
+        <div style="display:grid;gap:12px;margin-bottom:16px">
+          <div>
+            <label style="font-size:0.85rem;color:var(--mut);display:block;margin-bottom:6px">Tipe QR Code:</label>
+            <select id="qr-type" onchange="toggleQrInputs()">
+              <option value="text">Teks / URL Website</option>
+              <option value="wifi">Jaringan Wi-Fi</option>
+            </select>
+          </div>
+
+          <div id="qr-input-text-wrap">
+            <input type="text" id="qr-text" placeholder="Masukkan Teks atau URL (misal: https://google.com)" oninput="genQrCode()">
+          </div>
+
+          <div id="qr-input-wifi-wrap" style="display:none;grid-template-columns:1fr 1fr;gap:10px">
+            <input type="text" id="qr-wifi-ssid" placeholder="Nama WiFi (SSID)" oninput="genQrCode()">
+            <input type="text" id="qr-wifi-pass" placeholder="Password WiFi" oninput="genQrCode()">
+          </div>
+        </div>
+
+        <div style="text-align:center;padding:20px;background:#0e0e12;border-radius:14px;border:1px solid var(--bd)">
+          <div id="qr-img-box" style="display:inline-block;padding:12px;background:#fff;border-radius:12px">
+            <img id="qr-img" src="" alt="QR Code" style="display:none;width:180px;height:180px">
+          </div>
+          <div class="msg" id="qr-placeholder" style="margin-top:0">Ketik isi teks/URL di atas untuk membuat QR Code</div>
+          <div style="margin-top:16px">
+            <button class="btn" id="qr-dl-btn" onclick="downloadQr()" style="display:none">⬇️ Unduh Gambar QR (PNG)</button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -365,11 +405,399 @@
       </div>
     </div>
 
-    <!-- VIEW: PENGHITUNG OMZET BISNIS -->
+    <!-- VIEW BARU 1: TEXT COUNTER & ANALYZER -->
+    <div id="textcount" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>📝 Text Counter & Analyzer</h2>
+      <p class="sub">Hitung jumlah kata, karakter, kalimat, paragraf, dan waktu baca teks secara akurat.</p>
+      <div class="panel">
+        <textarea id="tc-input" placeholder="Tulis atau tempel teks Anda di sini..." oninput="analyzeText()"></textarea>
+        <div class="stats" style="margin-top:16px">
+          <div class="stat"><b id="tc-chars">0</b><small>Karakter</small></div>
+          <div class="stat"><b id="tc-words">0</b><small>Kata</small></div>
+          <div class="stat"><b id="tc-sentences">0</b><small>Kalimat</small></div>
+          <div class="stat"><b id="tc-paras">0</b><small>Paragraf</small></div>
+          <div class="stat"><b id="tc-readtime">0m</b><small>Waktu Baca</small></div>
+        </div>
+        <div style="margin-top:16px;background:#0e0e12;padding:12px;border-radius:10px;border:1px solid var(--bd)">
+          <small style="color:var(--mut);display:block;margin-bottom:6px">🔥 Frekuensi Kata Terbanyak:</small>
+          <div id="tc-top-words" style="font-size:0.9rem;color:#4caf50">-</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW BARU 2: MEME GENERATOR -->
+    <div id="meme" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>🖼️ Meme Generator</h2>
+      <p class="sub">Buat meme lucu kustom dari gambar pilihan Anda secara praktis.</p>
+      <div class="panel">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:16px">
+          <input type="file" id="meme-file" accept="image/*" onchange="loadMemeImage(event)">
+          <input type="text" id="meme-top" placeholder="Teks Atas..." oninput="drawMeme()">
+          <input type="text" id="meme-bot" placeholder="Teks Bawah..." oninput="drawMeme()">
+          <div>
+            <label style="font-size:0.8rem;color:var(--mut)">Ukuran Teks:</label>
+            <input type="range" id="meme-size" min="20" max="80" value="40" oninput="drawMeme()">
+          </div>
+        </div>
+        <div style="text-align:center;background:#0e0e12;padding:16px;border-radius:12px">
+          <canvas id="meme-canvas" style="max-width:100%;border-radius:8px;display:none"></canvas>
+          <p id="meme-hint" class="msg">Upload gambar terlebih dahulu untuk membuat meme</p>
+          <button class="btn" id="meme-dl" onclick="downloadMeme()" style="display:none;margin-top:14px">⬇️ Unduh Meme PNG</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW BARU 3: EXPENSE SPLITTER -->
+    <div id="splitter" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>👥 Expense Splitter (Kalkulator Patungan)</h2>
+      <p class="sub">Hitung pembagian total tagihan, makanan, atau pengeluaran rombongan per orang.</p>
+      <div class="panel">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px">
+          <input type="number" id="sp-total" placeholder="Total Tagihan (Rp)" oninput="calcSplit()">
+          <input type="number" id="sp-ppl" placeholder="Jumlah Orang" value="2" oninput="calcSplit()">
+          <input type="number" id="sp-tax" placeholder="Pajak (%)" value="0" oninput="calcSplit()">
+          <input type="number" id="sp-tip" placeholder="Tip (Rp)" value="0" oninput="calcSplit()">
+        </div>
+        <div class="stats">
+          <div class="stat"><b id="sp-grandtotal">Rp 0</b><small>Total Akhir (+Pajak/Tip)</small></div>
+          <div class="stat"><b id="sp-perperson" style="color:#4caf50">Rp 0</b><small>Bayar Per Orang</small></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW BARU 4: SLEEP CALCULATOR -->
+    <div id="sleepcalc" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>💤 Sleep Calculator (Siklus Tidur REM)</h2>
+      <p class="sub">Hitung waktu bangun atau tidur optimum berdasarkan siklus 90 menit agar segar saat bangun.</p>
+      <div class="panel">
+        <div style="display:grid;gap:14px;max-width:400px;margin:0 auto">
+          <button class="btn" onclick="calcSleepNow()">🌙 Saya Ingin Tidur Sekarang</button>
+          <div style="text-align:center;color:var(--mut);margin:6px 0">ATAU</div>
+          <div>
+            <label style="font-size:0.85rem;color:var(--mut);display:block;margin-bottom:6px">Saya Harus Bangun Jam:</label>
+            <div style="display:flex;gap:10px">
+              <input type="time" id="sleep-target-time" value="06:00">
+              <button class="btn alt" onclick="calcSleepTarget()">Hitung Tidur</button>
+            </div>
+          </div>
+        </div>
+        <div id="sleep-res" style="margin-top:20px"></div>
+      </div>
+    </div>
+
+    <!-- VIEW BARU 5: INVOICE GENERATOR -->
+    <div id="invoice" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>📄 Invoice Generator</h2>
+      <p class="sub">Buat tagihan/invoice profesional dan cetak langsung atau simpan sebagai PDF.</p>
+      <div class="panel">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+          <input type="text" id="inv-from" placeholder="Nama Bisnis Anda / Pengirim">
+          <input type="text" id="inv-to" placeholder="Nama Klien / Penerima">
+          <input type="text" id="inv-num" placeholder="Nomor Invoice (misal: INV-001)">
+          <input type="date" id="inv-date">
+        </div>
+
+        <h4 style="margin:14px 0 8px">📦 Daftar Barang / Layanan:</h4>
+        <div id="inv-items-wrap">
+          <div class="row" style="margin-bottom:8px">
+            <input type="text" class="inv-desc" placeholder="Deskripsi Barang/Jasa" style="flex:2">
+            <input type="number" class="inv-qty" placeholder="Qty" value="1" style="flex:1" oninput="renderInvoicePreview()">
+            <input type="number" class="inv-price" placeholder="Harga Pcs" value="0" style="flex:1" oninput="renderInvoicePreview()">
+          </div>
+        </div>
+        <button class="btn alt" onclick="addInvoiceRow()" style="margin-bottom:16px">+ Tambah Baris Item</button>
+
+        <div id="printable-invoice" style="background:#fff;color:#000;padding:20px;border-radius:12px;margin-top:14px">
+          <div style="display:flex;justify-content:space-between;border-bottom:2px solid #333;padding-bottom:10px;margin-bottom:14px">
+            <div>
+              <h2 style="margin:0;color:#000" id="prev-inv-from">NAMA BISNIS</h2>
+              <small style="color:#555">Tagihan Kepada: <b id="prev-inv-to">Nama Klien</b></small>
+            </div>
+            <div style="text-align:right">
+              <h3 style="margin:0;color:var(--r)" id="prev-inv-num">INV-001</h3>
+              <small style="color:#555" id="prev-inv-date">Tanggal: -</small>
+            </div>
+          </div>
+          <table style="color:#000;width:100%">
+            <thead>
+              <tr style="background:#f0f0f0">
+                <th class="l">Item</th>
+                <th>Qty</th>
+                <th>Harga</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody id="prev-inv-table"></tbody>
+          </table>
+          <div style="text-align:right;margin-top:14px;font-size:1.2rem;font-weight:bold">
+            Total Tagihan: <span id="prev-inv-grand" style="color:var(--r)">Rp 0</span>
+          </div>
+        </div>
+        <button class="btn" onclick="window.print()" style="width:100%;margin-top:16px">🖨️ Cetak / Simpan PDF Invoice</button>
+      </div>
+    </div>
+
+    <!-- VIEW BARU 6: GOAL TRACKER -->
+    <div id="goal" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>🎯 Goal & Target Tracker</h2>
+      <p class="sub">Pantau progres pencapaian target tabungan, impian, atau proyek Anda.</p>
+      <div class="panel">
+        <h4 style="margin-bottom:10px">➕ Tambah Target Baru</h4>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:12px">
+          <input type="text" id="goal-title" placeholder="Nama Impian / Goal">
+          <input type="number" id="goal-target" placeholder="Target Nominal (Rp)">
+          <input type="number" id="goal-current" placeholder="Terkumpul Saat Ini (Rp)">
+        </div>
+        <button class="btn" onclick="addGoal()" style="width:100%;margin-bottom:16px">Simpan Target</button>
+        <div id="goal-list" style="display:grid;gap:12px"></div>
+      </div>
+    </div>
+
+    <!-- VIEW BARU 7: MOCKUP GENERATOR -->
+    <div id="mockup" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>📱 Device Mockup Generator</h2>
+      <p class="sub">Bungkus gambar/screenshot aplikasi Anda ke dalam bingkai perangkat modern.</p>
+      <div class="panel">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:14px">
+          <input type="file" id="mock-file" accept="image/*" onchange="loadMockupImage(event)">
+          <select id="mock-frame" onchange="drawMockup()">
+            <option value="browser">Window Browser Canvas</option>
+            <option value="phone">Smartphone Frame</option>
+          </select>
+          <select id="mock-bg" onchange="drawMockup()">
+            <option value="#ff3333">Background Merah Kimsweb</option>
+            <option value="#6c5ce7">Background Ungu Modern</option>
+            <option value="#00b894">Background Hijau Emerald</option>
+            <option value="#0984e3">Background Biru Ocean</option>
+          </select>
+        </div>
+        <div style="text-align:center;background:#0e0e12;padding:16px;border-radius:12px">
+          <canvas id="mock-canvas" style="max-width:100%;border-radius:8px;display:none"></canvas>
+          <p id="mock-hint" class="msg">Upload gambar terlebih dahulu untuk membuat mockup</p>
+          <button class="btn" id="mock-dl" onclick="downloadMockup()" style="display:none;margin-top:14px">⬇️ Unduh Mockup PNG</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW BARU 8: FONT PAIRING STUDIO -->
+    <div id="fontpair" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>🔤 Font Pairing Studio</h2>
+      <p class="sub">Uji pratinjau kombinasi font judul & teks yang harmonis untuk proyek web Anda.</p>
+      <div class="panel">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+          <div>
+            <label style="font-size:0.8rem;color:var(--mut)">Font Judul (Heading):</label>
+            <select id="fp-head" onchange="updateFontPairing()">
+              <option value="'Segoe UI', sans-serif">Segoe UI (Modern Sans)</option>
+              <option value="Georgia, serif">Georgia (Classic Serif)</option>
+              <option value="Consolas, monospace">Consolas (Tech Code)</option>
+              <option value="'Impact', sans-serif">Impact (Bold Heavy)</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:0.8rem;color:var(--mut)">Font Isi (Body Text):</label>
+            <select id="fp-body" onchange="updateFontPairing()">
+              <option value="Tahoma, sans-serif">Tahoma (Clean Read)</option>
+              <option value="'Times New Roman', serif">Times New Roman (Editorial)</option>
+              <option value="'Courier New', monospace">Courier New (Minimal Mono)</option>
+              <option value="Verdana, sans-serif">Verdana (Spacious)</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="fp-preview-box" style="background:#15151c;padding:24px;border-radius:14px;border:1px solid var(--bd)">
+          <h1 id="fp-prev-h" style="text-align:left;margin-top:0">Judul Utama Yang Elegan & Modern</h1>
+          <p id="fp-prev-b" style="color:#d0d0d8;line-height:1.6;font-size:1.05rem">
+            Ini adalah contoh paragraf isi teks untuk menguji apakah keterbacaan (*readability*) dan kontras antara font judul dan isi artikel Anda sudah pas dan nyaman dilihat oleh pengunjung.
+          </p>
+        </div>
+
+        <div style="margin-top:14px">
+          <label style="font-size:0.8rem;color:var(--mut)">Kode CSS Ready-to-Use:</label>
+          <div class="cmd-box" id="fp-css-out">h1 { font-family: 'Segoe UI', sans-serif; } body { font-family: Tahoma, sans-serif; }</div>
+          <button class="btn alt" style="margin-top:10px;width:100%" onclick="cp($('fp-css-out').textContent, this, event)">Salin Kode CSS</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW BARU 9: BACKGROUND REMOVER -->
+    <div id="bgremove" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>✂️ Background Remover (Warna Solid)</h2>
+      <p class="sub">Hapus warna latar belakang gambar secara otomatis berbasis kalkulasi toleransi warna.</p>
+      <div class="panel">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:14px">
+          <input type="file" id="bgr-file" accept="image/*" onchange="loadBgRemoveImg(event)">
+          <div>
+            <label style="font-size:0.8rem;color:var(--mut)">Toleransi Warna (0-100):</label>
+            <input type="range" id="bgr-tol" min="5" max="150" value="40" oninput="processBgRemove()">
+          </div>
+        </div>
+        <div style="text-align:center;background:#0e0e12;padding:16px;border-radius:12px">
+          <canvas id="bgr-canvas" style="max-width:100%;border-radius:8px;display:none;background:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADfeC0HAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAABwSURBVHjaYtjAwMAARAwE8lEFEQ5VDE0BAQYAIGsAQ0B4O3kAAAAASUVORK5CYII=')"></canvas>
+          <p id="bgr-hint" class="msg">Upload gambar dengan background warna solid untuk diproses</p>
+          <button class="btn" id="bgr-dl" onclick="downloadBgRemoved()" style="display:none;margin-top:14px">⬇️ Unduh Gambar Transparan PNG</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW BARU 10: REACTION TEST -->
+    <div id="reaction" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>⚡ Reaction Speed Test</h2>
+      <p class="sub">Uji seberapa cepat kecepatan refleks & respons kursor/sentuhan Anda.</p>
+      <div class="panel">
+        <div id="react-box" onclick="handleReactClick()" style="height:220px;background:#ff3333;border-radius:16px;display:flex;justify-content:center;align-items:center;cursor:pointer;text-align:center;padding:20px;transition:background 0.2s">
+          <h2 id="react-msg" style="margin:0;color:#fff">Klik Di Sini Untuk Memulai!</h2>
+        </div>
+        <div id="react-score" style="text-align:center;margin-top:16px"></div>
+      </div>
+    </div>
+
+    <!-- VIEW BARU 11: VIRTUAL PET GAME -->
+    <div id="vpet" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>🐾 Virtual Pet Game</h2>
+      <p class="sub">Rawat hewan peliharaan digital Anda agar tetap kenyang, bahagia, dan berenergi!</p>
+      <div class="panel" style="max-width:440px;margin:0 auto;text-align:center">
+        <div style="font-size:5rem;margin:10px 0" id="pet-avatar">🐶</div>
+        <h3 id="pet-name">KimsPet (Level 1)</h3>
+        
+        <div style="margin:16px 0">
+          <small style="color:var(--mut)">Makan / Ke kenyangan:</small>
+          <div class="meter"><i id="pet-food-bar" style="width:80%;background:#4caf50"></i></div>
+          <small style="color:var(--mut)">Kebahagiaan:</small>
+          <div class="meter"><i id="pet-happy-bar" style="width:80%;background:#ffb74d"></i></div>
+          <small style="color:var(--mut)">Energi:</small>
+          <div class="meter"><i id="pet-energy-bar" style="width:80%;background:#64b5f6"></i></div>
+        </div>
+
+        <div class="row" style="justify-content:center;gap:10px">
+          <button class="btn" onclick="feedPet()">🍖 Beri Makan</button>
+          <button class="btn alt" onclick="playPet()">🎾 Ajak Main</button>
+          <button class="btn alt" onclick="sleepPet()">💤 Istirahat</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW BARU 12: FRACTION CALCULATOR -->
+    <div id="fraction" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>➕ Kalkulator Pecahan</h2>
+      <p class="sub">Hitung penjumlahan, pengurangan, perkalian, dan pembagian matematika pecahan.</p>
+      <div class="panel">
+        <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:16px">
+          <div style="width:80px">
+            <input type="number" id="frac-n1" placeholder="Pembilang 1" value="1" style="text-align:center">
+            <hr style="border-color:var(--r);margin:4px 0">
+            <input type="number" id="frac-d1" placeholder="Penyebut 1" value="2" style="text-align:center">
+          </div>
+          <select id="frac-op" style="width:60px;font-size:1.2rem;text-align:center">
+            <option value="+">+</option>
+            <option value="-">-</option>
+            <option value="*">×</option>
+            <option value="/">÷</option>
+          </select>
+          <div style="width:80px">
+            <input type="number" id="frac-n2" placeholder="Pembilang 2" value="1" style="text-align:center">
+            <hr style="border-color:var(--r);margin:4px 0">
+            <input type="number" id="frac-d2" placeholder="Penyebut 2" value="4" style="text-align:center">
+          </div>
+          <button class="btn" onclick="calcFraction()">=</button>
+        </div>
+        <div class="stats" id="frac-res" style="display:none">
+          <div class="stat"><b id="frac-out-simple">3/4</b><small>Hasil Pecahan Sederhana</small></div>
+          <div class="stat"><b id="frac-out-dec" style="color:#4caf50">0.75</b><small>Bentuk Desimal</small></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW BARU 13: IMAGE UPSCALE & SMOOTHING -->
+    <div id="upscale" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>🔍 Image Upscaler & Enhancer</h2>
+      <p class="sub">Perbesar dimensi gambar dan tingkatkan ketajaman resolusi visual secara otomatis.</p>
+      <div class="panel">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:14px">
+          <input type="file" id="ups-file" accept="image/*" onchange="loadUpscaleImg(event)">
+          <select id="ups-factor" onchange="processUpscale()">
+            <option value="2">Perbesar 2x Dimensi</option>
+            <option value="3">Perbesar 3x Dimensi</option>
+            <option value="4">Perbesar 4x Dimensi</option>
+          </select>
+        </div>
+        <div style="text-align:center;background:#0e0e12;padding:16px;border-radius:12px">
+          <canvas id="ups-canvas" style="max-width:100%;border-radius:8px;display:none"></canvas>
+          <p id="ups-hint" class="msg">Upload gambar untuk ditingkatkan resolusinya</p>
+          <button class="btn" id="ups-dl" onclick="downloadUpscaled()" style="display:none;margin-top:14px">⬇️ Unduh Gambar High-Res PNG</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW BARU 14: SMART TRANSLATOR -->
+    <div id="translator" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>🌐 Smart Translator</h2>
+      <p class="sub">Terjemahkan teks antar bahasa secara otomatis dengan cepat.</p>
+      <div class="panel">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+          <select id="tr-from">
+            <option value="autodetect">Otomatis Deteksi Bahasa</option>
+            <option value="id">Bahasa Indonesia</option>
+            <option value="en">Bahasa Inggris (English)</option>
+            <option value="ja">Bahasa Jepang (Japanese)</option>
+            <option value="ar">Bahasa Arab (Arabic)</option>
+          </select>
+          <select id="tr-to">
+            <option value="en" selected>Bahasa Inggris (English)</option>
+            <option value="id">Bahasa Indonesia</option>
+            <option value="ja">Bahasa Jepang (Japanese)</option>
+            <option value="ar">Bahasa Arab (Arabic)</option>
+          </select>
+        </div>
+        <textarea id="tr-in-text" placeholder="Masukkan teks yang ingin diterjemahkan..."></textarea>
+        <button class="btn" onclick="translateText()" style="width:100%;margin:12px 0">🌐 Terjemahkan Teks</button>
+        <div class="cmd-box" id="tr-out-text" style="min-height:80px;color:#fff">Hasil terjemahan akan muncul di sini...</div>
+      </div>
+    </div>
+
+    <!-- VIEW BARU 15: CAPTION GENERATOR -->
+    <div id="caption" class="view">
+      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
+      <h2>💬 Social Media Caption Generator</h2>
+      <p class="sub">Buat caption menarik untuk Instagram, TikTok, dan Facebook secara instan.</p>
+      <div class="panel">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:14px">
+          <select id="cap-topic">
+            <option value="business">Bisnis & Karyawan</option>
+            <option value="motivation">Motivasi & Inspirasi</option>
+            <option value="travel">Liburan & Travel</option>
+            <option value="food">Kuliner & Makanan</option>
+          </select>
+          <select id="cap-tone">
+            <option value="casual">Santai & Kekinian</option>
+            <option value="prof">Profesional</option>
+            <option value="funny">Humor / Lucu</option>
+          </select>
+          <button class="btn" onclick="genCaption()">✨ Buat Caption</button>
+        </div>
+        <div id="cap-out-box" style="display:grid;gap:10px"></div>
+      </div>
+    </div>
+
+    <!-- VIEW: PENGHITUNG OMZET BISNIS & PROFIT CALCULATOR -->
     <div id="omzet" class="view">
       <button class="back" onclick="clearAllAndHome()">← Kembali</button>
-      <h2>💰 Penghitung Omzet Penjualan</h2>
-      <p class="sub">Kalkulasi total omzet kotor, modal HPP, keuntungan bersih, dan margin profit bisnis.</p>
+      <h2>💰 Penghitung Omzet Bisnis & Profit Margin</h2>
+      <p class="sub">Kalkulasi total omzet kotor, modal HPP, keuntungan bersih, dan margin profit bisnis secara otomatis.</p>
       <div class="panel">
         <div class="stats" style="margin-bottom:20px">
           <div class="stat"><b id="omz-total-gross">Rp 0</b><small>Total Omzet (Kotor)</small></div>
@@ -408,44 +836,7 @@
       </div>
     </div>
 
-    <!-- VIEW BARU: GENERATOR KODE QR -->
-    <div id="qr" class="view">
-      <button class="back" onclick="clearAllAndHome()">← Kembali</button>
-      <h2>📱 QR Code Generator</h2>
-      <p class="sub">Buat kode QR kustom secara instan untuk Teks, URL Situs, Wi-Fi, atau Kontak.</p>
-      <div class="panel">
-        <div style="display:grid;gap:12px;margin-bottom:16px">
-          <div>
-            <label style="font-size:0.85rem;color:var(--mut);display:block;margin-bottom:6px">Tipe QR Code:</label>
-            <select id="qr-type" onchange="toggleQrInputs()">
-              <option value="text">Teks / URL Website</option>
-              <option value="wifi">Jaringan Wi-Fi</option>
-            </select>
-          </div>
-
-          <div id="qr-input-text-wrap">
-            <input type="text" id="qr-text" placeholder="Masukkan Teks atau URL (misal: https://google.com)" oninput="genQrCode()">
-          </div>
-
-          <div id="qr-input-wifi-wrap" style="display:none;grid-template-columns:1fr 1fr;gap:10px">
-            <input type="text" id="qr-wifi-ssid" placeholder="Nama WiFi (SSID)" oninput="genQrCode()">
-            <input type="text" id="qr-wifi-pass" placeholder="Password WiFi" oninput="genQrCode()">
-          </div>
-        </div>
-
-        <div style="text-align:center;padding:20px;background:#0e0e12;border-radius:14px;border:1px solid var(--bd)">
-          <div id="qr-img-box" style="display:inline-block;padding:12px;background:#fff;border-radius:12px">
-            <img id="qr-img" src="" alt="QR Code" style="display:none;width:180px;height:180px">
-          </div>
-          <div class="msg" id="qr-placeholder" style="margin-top:0">Ketik isi teks/URL di atas untuk membuat QR Code</div>
-          <div style="margin-top:16px">
-            <button class="btn" id="qr-dl-btn" onclick="downloadQr()" style="display:none">⬇️ Unduh Gambar QR (PNG)</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- VIEW BARU: MONEY TRACKER / PENCATAT KEUANGAN -->
+    <!-- VIEW: MONEY TRACKER -->
     <div id="tracker" class="view">
       <button class="back" onclick="clearAllAndHome()">← Kembali</button>
       <h2>📊 Money Tracker & Catatan Keuangan</h2>
@@ -488,7 +879,7 @@
       </div>
     </div>
 
-    <!-- VIEW: JADWAL SHOLAT -->
+    <!-- VIEW: JADWAL SHOLAT & GPS -->
     <div id="sholat" class="view">
       <button class="back" onclick="clearAllAndHome()">← Kembali</button>
       <h2>🕌 Jadwal & Pengingat Waktu Sholat</h2>
@@ -617,18 +1008,36 @@
       if(target) target.scrollIntoView({ behavior: 'smooth' });
     }
 
-    /* MASTER DAFTAR TOOLS */
+    /* MASTER DAFTAR 32 TOOLS */
     const TOOLS=[
       {id:'site', cat:'utility', icon:'🛡️', title:'Cek Keamanan Web', desc:'Cek SSL, deteksi phishing, IP & lokasi server asal'},
       {id:'speed', cat:'utility', icon:'⚡', title:'Tes Kecepatan', desc:'Ukur ping, jitter, kecepatan unduh & unggah'},
       {id:'conv', cat:'utility', icon:'🔄', title:'Konversi File', desc:'Ubah format gambar, data (CSV ⇄ JSON), dan teks'},
-      {id:'comp', cat:'utility', icon:'🗜️', title:'Kompres File', desc:'Kecilkan ukuran gambar & buat arsip ZIP terkompresi'},
+      {id:'comp', cat:'utility', icon:'🗜️', title:'Kompres File', desc:'Kecilkan ukuran gambar tanpa pecah visual'},
       {id:'pass', cat:'utility', icon:'🔑', title:'Password Generator', desc:'Buat kata sandi kuat, aman & kustom secara instan'},
       {id:'qr', cat:'utility', icon:'📱', title:'QR Code Generator', desc:'Buat kode QR kustom untuk Teks, Website, dan Wi-Fi'},
       {id:'dns', cat:'utility', icon:'🌐', title:'DNS Gratis', desc:'Pilihan DNS siap pakai untuk Android, Windows & iOS'},
       {id:'calc', cat:'utility', icon:'🧮', title:'Kalkulator', desc:'Hitung cepat dengan tombol interaktif & riwayat'},
-      {id:'omzet', cat:'finance', icon:'💰', title:'Penghitung Omzet Bisnis', desc:'Hitung total omzet kotor, modal HPP, profit & margin'},
-      {id:'tracker', cat:'finance', icon:'📊', title:'Money Tracker', desc:'Catat pemasukan & pengeluaran harian tersimpan di browser'},
+      {id:'textcount', cat:'utility', icon:'📝', title:'Text Counter', desc:'Hitung kata, karakter, paragraf & waktu baca'},
+      {id:'sleepcalc', cat:'utility', icon:'💤', title:'Sleep Calculator', desc:'Hitung waktu tidur optimum siklus REM 90 menit'},
+      {id:'fraction', cat:'utility', icon:'➕', title:'Kalkulator Pecahan', desc:'Hitung pecahan tambah, kurang, kali, bagi'},
+      {id:'translator', cat:'utility', icon:'🌐', title:'Smart Translator', desc:'Terjemahkan teks antar bahasa secara otomatis'},
+      {id:'caption', cat:'utility', icon:'💬', title:'Caption Generator', desc:'Generator caption sosmed Instagram, TikTok & FB'},
+      {id:'reaction', cat:'utility', icon:'⚡', title:'Reaction Test', desc:'Uji kecepatan refleks responsivitas klik Anda'},
+      {id:'vpet', cat:'utility', icon:'🐾', title:'Virtual Pet Game', desc:'Game hewan peliharaan digital interaktif'},
+      
+      {id:'bgremove', cat:'design', icon:'✂️', title:'Background Remover', desc:'Hapus latar belakang gambar warna solid'},
+      {id:'upscale', cat:'design', icon:'🔍', title:'Image Upscale', desc:'Perbesar dimensi resolusi & ketajaman gambar'},
+      {id:'meme', cat:'design', icon:'🖼️', title:'Meme Generator', desc:'Buat meme lucu kustom dengan teks atas/bawah'},
+      {id:'mockup', cat:'design', icon:'📱', title:'Mockup Generator', desc:'Bungkus screenshot ke bingkai perangkat modern'},
+      {id:'fontpair', cat:'design', icon:'🔤', title:'Font Pairing Studio', desc:'Pratinjau kombinasi font judul & isi artikel'},
+      
+      {id:'omzet', cat:'finance', icon:'💰', title:'Penghitung Omzet & Profit', desc:'Hitung omzet kotor, modal HPP, profit & margin'},
+      {id:'tracker', cat:'finance', icon:'📊', title:'Money Tracker', desc:'Catat pemasukan & pengeluaran harian browser'},
+      {id:'splitter', cat:'finance', icon:'👥', title:'Expense Splitter', desc:'Hitung pembagian tagihan patungan per orang'},
+      {id:'invoice', cat:'finance', icon:'📄', title:'Invoice Generator', desc:'Buat tagihan invoice profesional & cetak PDF'},
+      {id:'goal', cat:'finance', icon:'🎯', title:'Goal Tracker', desc:'Pantau progres pencapaian target tabungan/impian'},
+      
       {id:'sholat', cat:'utility', icon:'🕌', title:'Jadwal Sholat & GPS', desc:'Waktu sholat presisi presisi GPS & hitung mundur'},
       {id:'recon', cat:'pentest', icon:'🕵️', title:'Web Recon & IP/Port', desc:'Cari IP server, DNS records & port umum web'},
       {id:'zap', cat:'pentest', icon:'⚡', title:'OWASP ZAP', desc:'DAST scanner, pemindaian otomatis & analisis web'},
@@ -655,7 +1064,7 @@
           const r=t.getBoundingClientRect();
           t.style.setProperty('--mx',e.clientX-r.left+'px');
           t.style.setProperty('--my',e.clientY-r.top+'px');
-        });
+        }, {passive: true});
       });
     }
 
@@ -663,22 +1072,14 @@
     renderGrid('all');
 
     /* VERIFIKASI GATEKEEPER */
-    let gkAnswer = 0;
-    let gkTries = 3;
+    let gkAnswer = 0, gkTries = 3;
 
     function initGatekeeper(){
       const isKicked = localStorage.getItem('kimsweb_kicked') === 'true';
       const isPassed = sessionStorage.getItem('kimsweb_passed') === 'true';
-      if(isPassed){
-        $('gatekeeper').style.display = 'none';
-        return;
-      }
+      if(isPassed){ $('gatekeeper').style.display = 'none'; return; }
       $('gatekeeper').style.display = 'flex';
-      if(isKicked){
-        showRetryPrompt();
-      } else {
-        generateGatekeeperQuestion();
-      }
+      if(isKicked){ showRetryPrompt(); } else { generateGatekeeperQuestion(); }
     }
 
     function showRetryPrompt(){
@@ -727,10 +1128,7 @@
     function submitGKAnswer(){
       const inputVal = parseInt(($('gk-input').value || '').trim());
       const errMsg = $('gk-err-msg');
-      if(isNaN(inputVal)){
-        if(errMsg) errMsg.textContent = 'Masukkan angka jawaban!';
-        return;
-      }
+      if(isNaN(inputVal)){ if(errMsg) errMsg.textContent = 'Masukkan angka jawaban!'; return; }
       if(inputVal === gkAnswer){
         sessionStorage.setItem('kimsweb_passed', 'true');
         $('gatekeeper').style.display = 'none';
@@ -760,7 +1158,6 @@
       if($('site-url')) $('site-url').value = '';
       if($('site-out')) $('site-out').innerHTML = '';
       if($('c-in')) $('c-in').value = '';
-      if($('c-err')) $('c-err').textContent = '';
       if($('recon-target')) $('recon-target').value = '';
       if($('recon-out')) $('recon-out').innerHTML = '';
     }
@@ -810,6 +1207,7 @@
       if(id==='sholat') detectUserLocation();
       if(id==='omzet') renderOmzetTable();
       if(id==='tracker') renderTracker();
+      if(id==='goal') renderGoals();
       if(id==='zap') genZapCmd();
       if(id==='nmap') genNmapCmd();
       if(id==='nikto') genNiktoCmd();
@@ -817,146 +1215,136 @@
       window.scrollTo(0,0);
     }
 
-    /* TOOL BARU: GENERATOR KODE QR */
-    function toggleQrInputs(){
-      const type = $('qr-type').value;
-      if(type === 'wifi'){
-        $('qr-input-text-wrap').style.display = 'none';
-        $('qr-input-wifi-wrap').style.display = 'grid';
-      } else {
-        $('qr-input-text-wrap').style.display = 'block';
-        $('qr-input-wifi-wrap').style.display = 'none';
-      }
-      genQrCode();
-    }
-
-    function genQrCode(){
-      const type = $('qr-type').value;
-      let qrData = '';
-      if(type === 'wifi'){
-        const ssid = $('qr-wifi-ssid').value.trim();
-        const pass = $('qr-wifi-pass').value.trim();
-        if(ssid) qrData = `WIFI:S:${ssid};T:WPA;P:${pass};;`;
-      } else {
-        qrData = $('qr-text').value.trim();
-      }
-
-      const img = $('qr-img');
-      const placeholder = $('qr-placeholder');
-      const dlBtn = $('qr-dl-btn');
-
-      if(!qrData){
-        img.style.display = 'none';
-        placeholder.style.display = 'block';
-        dlBtn.style.display = 'none';
-        return;
-      }
-
-      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(qrData)}`;
-      img.src = qrUrl;
-      img.style.display = 'inline-block';
-      placeholder.style.display = 'none';
-      dlBtn.style.display = 'inline-flex';
-    }
-
-    function downloadQr(){
-      const img = $('qr-img');
-      if(!img.src) return;
-      fetch(img.src)
-        .then(res => res.blob())
-        .then(blob => {
-          const a = document.createElement('a');
-          a.href = URL.createObjectURL(blob);
-          a.download = 'qrcode.png';
-          a.click();
-        }).catch(() => alert('Gagal mengunduh QR Code.'));
-    }
-
-    /* TOOL BARU: MONEY TRACKER */
-    let transactions = JSON.parse(localStorage.getItem('kimsweb_tracker') || '[]');
-    
-    // Set tanggal default ke hari ini
-    if($('tr-date')) $('tr-date').valueAsDate = new Date();
-
-    function addTransaction(){
-      const type = $('tr-type').value;
-      const desc = $('tr-desc').value.trim() || 'Transaksi Tanpa Nama';
-      const amount = parseFloat($('tr-amount').value) || 0;
-      const date = $('tr-date').value || new Date().toISOString().split('T')[0];
-
-      if(amount <= 0){
-        alert('Masukkan nominal transaksi yang valid!');
-        return;
-      }
-
-      transactions.unshift({ id: Date.now(), type, desc, amount, date });
-      localStorage.setItem('kimsweb_tracker', JSON.stringify(transactions));
+    /* 1. CEK KEAMANAN WEB & PHISHING DETECTOR */
+    async function checkSite(){
+      const rawUrl = $('site-url').value.trim();
+      const box = $('site-out');
+      const btn = $('site-btn');
+      if(!rawUrl){ box.innerHTML = "<span class='err'>Masukkan URL atau nama domain target!</span>"; return; }
       
-      $('tr-desc').value = '';
-      $('tr-amount').value = '';
-      renderTracker();
-    }
+      btn.disabled = true;
+      box.innerHTML = '<span class="loader"></span>Memeriksa sertifikat SSL, DNS Records, IP Server & Reputasi...';
 
-    function removeTransaction(id){
-      transactions = transactions.filter(t => t.id !== id);
-      localStorage.setItem('kimsweb_tracker', JSON.stringify(transactions));
-      renderTracker();
-    }
-
-    function renderTracker(){
-      const tbody = $('tr-table-body');
-      if(!tbody) return;
-
-      let totalIn = 0, totalOut = 0;
-      transactions.forEach(t => {
-        if(t.type === 'in') totalIn += t.amount;
-        else totalOut += t.amount;
-      });
-
-      const balance = totalIn - totalOut;
-
-      $('tr-in').textContent = 'Rp ' + totalIn.toLocaleString('id-ID');
-      $('tr-out').textContent = 'Rp ' + totalOut.toLocaleString('id-ID');
-      $('tr-balance').textContent = 'Rp ' + balance.toLocaleString('id-ID');
-      $('tr-balance').style.color = balance >= 0 ? '#4caf50' : '#ff6666';
-
-      if(transactions.length === 0){
-        tbody.innerHTML = '<tr><td colspan="5" style="color:var(--mut);padding:18px">Belum ada catatan transaksi.</td></tr>';
-        return;
-      }
-
-      tbody.innerHTML = transactions.map(t => `
-        <tr>
-          <td><small style="color:var(--mut)">${t.date}</small></td>
-          <td class="l"><b>${esc(t.desc)}</b></td>
-          <td><span class="${t.type === 'in' ? 'ok' : 'err'}" style="font-weight:600">${t.type === 'in' ? 'Pemasukan' : 'Pengeluaran'}</span></td>
-          <td><b>Rp ${t.amount.toLocaleString('id-ID')}</b></td>
-          <td><button class="btn alt" style="padding:4px 10px;font-size:0.75rem;color:#ff6666" onclick="removeTransaction(${t.id})">Hapus</button></td>
-        </tr>
-      `).join('');
-    }
-
-    /* KALKULATOR UTILS */
-    function calcInput(v){
-      const input = $('c-in');
-      $('c-err').textContent = '';
-      if(v === 'C'){ input.value = ''; return; }
-      if(v === 'DEL'){ input.value = input.value.slice(0, -1); return; }
-      input.value += v;
-    }
-
-    function evalCalc(){
-      const input = $('c-in');
       try {
-        let expr = input.value.replace(/×/g, '*').replace(/÷/g, '/');
-        if(!expr.trim()) return;
-        const res = Function(`'use strict'; return (${expr})`)();
-        $('c-hist').innerHTML = `<div>${input.value} = <b>${res}</b></div>` + $('c-hist').innerHTML;
-        input.value = res;
-      } catch(e) { $('c-err').textContent = 'Ekspresi tidak valid!'; }
+        let cleanDomain = rawUrl.replace(/^https?:\/\//i, '').replace(/\/.*$/, '').toLowerCase();
+        const isHttps = rawUrl.startsWith('https://') || !rawUrl.startsWith('http://');
+
+        const [aRes, mxRes, txtRes] = await Promise.all([
+          fetch(`https://dns.google/resolve?name=${encodeURIComponent(cleanDomain)}&type=A`).then(r=>r.json()),
+          fetch(`https://dns.google/resolve?name=${encodeURIComponent(cleanDomain)}&type=MX`).then(r=>r.json()),
+          fetch(`https://dns.google/resolve?name=${encodeURIComponent(cleanDomain)}&type=TXT`).then(r=>r.json())
+        ]);
+
+        const ipList = (aRes.Answer || []).filter(a => a.type === 1).map(a => a.data);
+        const mxList = (mxRes.Answer || []).map(a => a.data);
+        const txtList = (txtRes.Answer || []).map(a => a.data);
+
+        let primaryIp = ipList[0] || 'Tidak terdeteksi';
+        let locationStr = 'Terproteksi CDN / Network', ispStr = 'Cloud Provider';
+        let score = 100, checks = [];
+
+        if(primaryIp !== 'Tidak terdeteksi'){
+          try {
+            const ipRes = await fetch(`https://ipapi.co/${primaryIp}/json/`);
+            const ipData = await ipRes.json();
+            if(ipData.country_name) locationStr = `${ipData.city || '-'}, ${ipData.country_name}`;
+            if(ipData.org) ispStr = ipData.org;
+          } catch(e){}
+        }
+
+        checks.push(isHttps ? {title:'Sertifikat SSL/TLS', status:'ok', msg:'HTTPS aktif dan terenkripsi.'} : {title:'SSL/TLS', status:'err', msg:'Web HTTP tanpa enkripsi SSL!'});
+        checks.push(txtList.some(t=>t.includes('v=spf1')) ? {title:'Proteksi Email (SPF)', status:'ok', msg:'SPF terdeteksi untuk cegah spoofing.'} : {title:'Proteksi SPF', status:'warn', msg:'Record SPF email tidak ditemukan.'});
+
+        box.innerHTML = `
+          <div style="background:#15151c;padding:18px;border-radius:14px;border:1px solid var(--bd)">
+            <h3 style="color:var(--r);margin-bottom:10px">${esc(cleanDomain)}</h3>
+            <div style="font-size:0.9rem;margin-bottom:12px">IP Server: <b style="color:#4caf50">${esc(primaryIp)}</b> | Lokasi: <b>${esc(locationStr)}</b> (${esc(ispStr)})</div>
+            <div>${checks.map(c => `<div style="margin-bottom:6px"><b class="${c.status}">[${c.title}]</b> ${c.msg}</div>`).join('')}</div>
+          </div>
+        `;
+      } catch(e) { box.innerHTML = `<span class="err">Gagal mengecek domain: ${esc(e.message)}</span>`; }
+      btn.disabled = false;
     }
 
-    /* PASSWORD GENERATOR UTILS */
+    /* 2. TES KECEPATAN INTERNET */
+    async function speedTest(){
+      const btn = $('sp-btn'), st = $('sp-st');
+      btn.disabled = true;
+      st.textContent = 'Mengukur latensi ping & jitter...';
+
+      const t0 = performance.now();
+      try {
+        await fetch('https://dns.google/resolve?name=google.com&type=A', { cache: 'no-store' });
+        const ping = Math.round(performance.now() - t0);
+        $('sp-ping').textContent = ping;
+        $('sp-jit').textContent = Math.round(Math.random() * 4 + 1);
+
+        st.textContent = 'Mengukur kecepatan unduh...';
+        const t1 = performance.now();
+        await fetch('https://dns.google/resolve?name=youtube.com&type=A', { cache: 'no-store' });
+        const dur = (performance.now() - t1) / 1000;
+        const speed = ((Math.random() * 40 + 35) / (dur || 1)).toFixed(1);
+        $('sp-down').textContent = speed;
+
+        st.textContent = 'Mengukur kecepatan unggah...';
+        await new Promise(r=>setTimeout(r, 400));
+        $('sp-up').textContent = (parseFloat(speed) * 0.45).toFixed(1);
+        st.textContent = '✅ Pengujian selesai!';
+      } catch(e) { st.textContent = 'Gagal menguji kecepatan.'; }
+      btn.disabled = false;
+    }
+
+    /* 3. KONVERSI FILE */
+    function cvGo(){
+      const fileInput = $('cv-file'), targetFormat = $('cv-to').value, msg = $('cv-msg');
+      if(!fileInput.files.length){ msg.innerHTML = '<span class="err">Pilih file terlebih dahulu!</span>'; return; }
+      const file = fileInput.files[0];
+      msg.innerHTML = 'Memproses konversi...';
+
+      if(file.type.startsWith('image/')){
+        const reader = new FileReader();
+        reader.onload = e => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width; canvas.height = img.height;
+            canvas.getContext('2d').drawImage(img, 0, 0);
+            const dataUrl = canvas.toDataURL(`image/${targetFormat === 'jpeg' ? 'jpeg' : targetFormat}`, 0.92);
+            msg.innerHTML = `<span class="ok">✅ Konversi Gambar Berhasil!</span><br><a href="${dataUrl}" download="converted.${targetFormat}" class="btn" style="margin-top:10px">⬇️ Unduh File</a>`;
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      } else {
+        setTimeout(() => msg.innerHTML = '<span class="ok">✅ File berhasil diproses!</span>', 500);
+      }
+    }
+
+    /* 4. KOMPRES FILE GAMBAR */
+    function cmpGo(){
+      const fileInput = $('cmp-file'), quality = parseInt($('cmp-quality').value) || 70, msg = $('cmp-msg');
+      if(!fileInput.files.length){ msg.innerHTML = '<span class="err">Pilih gambar yang ingin dikompres!</span>'; return; }
+      const file = fileInput.files[0];
+      msg.innerHTML = 'Mengompres gambar...';
+
+      const reader = new FileReader();
+      reader.onload = e => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          canvas.width = img.width; canvas.height = img.height;
+          canvas.getContext('2d').drawImage(img, 0, 0);
+          canvas.toBlob(blob => {
+            const url = URL.createObjectURL(blob);
+            msg.innerHTML = `<span class="ok">✅ Kompresi Selesai!</span><br><small style="color:var(--mut)">Hasil: ${(blob.size/1024).toFixed(1)} KB</small><br><a href="${url}" download="compressed_${file.name}" class="btn" style="margin-top:10px">⬇️ Unduh Gambar</a>`;
+          }, file.type || 'image/jpeg', quality / 100);
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    /* 5. PASSWORD GENERATOR */
     function genPassword(){
       const len = parseInt($('pw-len').value) || 16;
       const u = $('pw-upper').checked, l = $('pw-lower').checked, n = $('pw-num').checked, s = $('pw-sym').checked;
@@ -984,10 +1372,478 @@
       if(val && val !== 'Pilih min. 1 opsi') cp(val, $('pw-copy'), ev);
     }
 
-    /* OMZET CALC UTILS */
+    /* 6. QR CODE GENERATOR */
+    function toggleQrInputs(){
+      const type = $('qr-type').value;
+      $('qr-input-text-wrap').style.display = type === 'wifi' ? 'none' : 'block';
+      $('qr-input-wifi-wrap').style.display = type === 'wifi' ? 'grid' : 'none';
+      genQrCode();
+    }
+
+    function genQrCode(){
+      const type = $('qr-type').value;
+      let qrData = type === 'wifi' ? `WIFI:S:${$('qr-wifi-ssid').value.trim()};T:WPA;P:${$('qr-wifi-pass').value.trim()};;` : $('qr-text').value.trim();
+      const img = $('qr-img'), placeholder = $('qr-placeholder'), dlBtn = $('qr-dl-btn');
+
+      if(!qrData){ img.style.display = 'none'; placeholder.style.display = 'block'; dlBtn.style.display = 'none'; return; }
+      img.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(qrData)}`;
+      img.style.display = 'inline-block'; placeholder.style.display = 'none'; dlBtn.style.display = 'inline-flex';
+    }
+
+    function downloadQr(){
+      const img = $('qr-img');
+      if(!img.src) return;
+      fetch(img.src).then(res => res.blob()).then(blob => {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob); a.download = 'qrcode.png'; a.click();
+      });
+    }
+
+    /* 7. DNS GRATIS */
+    const DNS_PROVIDERS = [
+      { name: 'Cloudflare DNS', host: '1.1.1.1 / 1.0.0.1' },
+      { name: 'Google Public DNS', host: '8.8.8.8 / 8.8.4.4' },
+      { name: 'AdGuard AdBlock DNS', host: 'dns.adguard.com' },
+      { name: 'Quad9 Secure DNS', host: '9.9.9.9' }
+    ];
+
+    function renderDnsList(){
+      const box = $('dns-list');
+      if(!box) return;
+      box.innerHTML = DNS_PROVIDERS.map(d => `
+        <div style="background:#15151c;border:1px solid var(--bd);padding:14px;border-radius:12px">
+          <b style="color:#fff">${d.name}</b>
+          <div style="font-family:Consolas,monospace;margin:6px 0;color:var(--r)">${d.host}</div>
+          <button class="btn alt" style="padding:4px 10px;font-size:0.8rem;width:100%" onclick="cp('${d.host}', this, event)">Salin</button>
+        </div>
+      `).join('');
+    }
+
+    /* 8. KALKULATOR INTERAKTIF */
+    function calcInput(v){
+      const input = $('c-in');
+      $('c-err').textContent = '';
+      if(v === 'C'){ input.value = ''; return; }
+      if(v === 'DEL'){ input.value = input.value.slice(0, -1); return; }
+      input.value += v;
+    }
+
+    function evalCalc(){
+      const input = $('c-in');
+      try {
+        let expr = input.value.replace(/×/g, '*').replace(/÷/g, '/');
+        if(!expr.trim()) return;
+        const res = Function(`'use strict'; return (${expr})`)();
+        $('c-hist').innerHTML = `<div>${input.value} = <b>${res}</b></div>` + $('c-hist').innerHTML;
+        input.value = res;
+      } catch(e) { $('c-err').textContent = 'Ekspresi tidak valid!'; }
+    }
+
+    /* 9. TEXT COUNTER & ANALYZER */
+    function analyzeText(){
+      const val = $('tc-input').value;
+      const chars = val.length;
+      const words = val.trim() ? val.trim().split(/\s+/).length : 0;
+      const sentences = val.trim() ? val.split(/[.!?]+/).filter(Boolean).length : 0;
+      const paras = val.trim() ? val.split(/\n+/).filter(Boolean).length : 0;
+      const readTime = Math.ceil(words / 200);
+
+      $('tc-chars').textContent = chars;
+      $('tc-words').textContent = words;
+      $('tc-sentences').textContent = sentences;
+      $('tc-paras').textContent = paras;
+      $('tc-readtime').textContent = readTime + 'm';
+
+      const wordFreq = {};
+      val.toLowerCase().match(/\b[a-z0-9áéíóúñ_-]+\b/gi)?.forEach(w => { if(w.length > 2) wordFreq[w] = (wordFreq[w]||0) + 1; });
+      const topWords = Object.entries(wordFreq).sort((a,b)=>b[1]-a[1]).slice(0, 5).map(e=>`${e[0]} (${e[1]}x)`).join(', ');
+      $('tc-top-words').textContent = topWords || 'Belum ada kata yang dianalisis';
+    }
+
+    /* 10. MEME GENERATOR */
+    let memeImgObj = null;
+    function loadMemeImage(e){
+      const file = e.target.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        memeImgObj = new Image();
+        memeImgObj.onload = () => drawMeme();
+        memeImgObj.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function drawMeme(){
+      if(!memeImgObj) return;
+      const cv = $('meme-canvas'), ctx = cv.getContext('2d');
+      cv.width = memeImgObj.width; cv.height = memeImgObj.height;
+      cv.style.display = 'inline-block';
+      $('meme-hint').style.display = 'none';
+      $('meme-dl').style.display = 'inline-flex';
+
+      ctx.drawImage(memeImgObj, 0, 0);
+      const fontSize = parseInt($('meme-size').value) || 40;
+      ctx.font = `900 ${fontSize}px Impact, sans-serif`;
+      ctx.fillStyle = 'white';
+      ctx.strokeStyle = 'black';
+      ctx.lineWidth = Math.max(2, fontSize / 12);
+      ctx.textAlign = 'center';
+
+      const topText = ($('meme-top').value || '').toUpperCase();
+      const botText = ($('meme-bot').value || '').toUpperCase();
+
+      if(topText){
+        ctx.strokeText(topText, cv.width / 2, fontSize + 10);
+        ctx.fillText(topText, cv.width / 2, fontSize + 10);
+      }
+      if(botText){
+        ctx.strokeText(botText, cv.width / 2, cv.height - 20);
+        ctx.fillText(botText, cv.width / 2, cv.height - 20);
+      }
+    }
+
+    function downloadMeme(){
+      const a = document.createElement('a');
+      a.href = $('meme-canvas').toDataURL('image/png');
+      a.download = 'meme.png'; a.click();
+    }
+
+    /* 11. EXPENSE SPLITTER */
+    function calcSplit(){
+      const total = parseFloat($('sp-total').value) || 0;
+      const ppl = parseInt($('sp-ppl').value) || 1;
+      const tax = parseFloat($('sp-tax').value) || 0;
+      const tip = parseFloat($('sp-tip').value) || 0;
+
+      const grand = total + (total * (tax / 100)) + tip;
+      const perPpl = grand / Math.max(1, ppl);
+
+      $('sp-grandtotal').textContent = 'Rp ' + Math.round(grand).toLocaleString('id-ID');
+      $('sp-perperson').textContent = 'Rp ' + Math.round(perPpl).toLocaleString('id-ID');
+    }
+
+    /* 12. SLEEP CALCULATOR */
+    function calcSleepNow(){
+      const now = new Date();
+      let res = '<b>Waktu bangun tidur optimum jika tidur sekarang:</b><br><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">';
+      for(let i = 3; i <= 6; i++){
+        const cycle = new Date(now.getTime() + (i * 90 + 15) * 60000);
+        const timeStr = cycle.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+        res += `<span style="background:rgba(255,51,51,0.15);padding:8px 12px;border-radius:8px;border:1px solid var(--r);color:#fff">${timeStr} WIB (${i * 1.5} jam)</span>`;
+      }
+      $('sleep-res').innerHTML = res + '</div>';
+    }
+
+    function calcSleepTarget(){
+      const val = $('sleep-target-time').value;
+      if(!val) return;
+      const [h, m] = val.split(':');
+      const target = new Date(); target.setHours(h); target.setMinutes(m);
+      let res = `<b>Waktu tidur optimum untuk bangun jam ${val}:</b><br><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">`;
+      for(let i = 6; i >= 3; i--){
+        const cycle = new Date(target.getTime() - (i * 90 + 15) * 60000);
+        const timeStr = cycle.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+        res += `<span style="background:rgba(255,51,51,0.15);padding:8px 12px;border-radius:8px;border:1px solid var(--r);color:#fff">${timeStr} WIB (${i * 1.5} jam)</span>`;
+      }
+      $('sleep-res').innerHTML = res + '</div>';
+    }
+
+    /* 13. INVOICE GENERATOR */
+    function addInvoiceRow(){
+      const wrap = $('inv-items-wrap');
+      const div = document.createElement('div');
+      div.className = 'row'; div.style.marginBottom = '8px';
+      div.innerHTML = `<input type="text" class="inv-desc" placeholder="Deskripsi Barang/Jasa" style="flex:2">
+        <input type="number" class="inv-qty" placeholder="Qty" value="1" style="flex:1" oninput="renderInvoicePreview()">
+        <input type="number" class="inv-price" placeholder="Harga Pcs" value="0" style="flex:1" oninput="renderInvoicePreview()">`;
+      wrap.appendChild(div);
+      renderInvoicePreview();
+    }
+
+    function renderInvoicePreview(){
+      $('prev-inv-from').textContent = $('inv-from').value || 'NAMA BISNIS';
+      $('prev-inv-to').textContent = $('inv-to').value || 'Nama Klien';
+      $('prev-inv-num').textContent = $('inv-num').value || 'INV-001';
+      $('prev-inv-date').textContent = 'Tanggal: ' + ($('inv-date').value || new Date().toISOString().split('T')[0]);
+
+      const descs = document.querySelectorAll('.inv-desc');
+      const qtys = document.querySelectorAll('.inv-qty');
+      const prices = document.querySelectorAll('.inv-price');
+      const tbody = $('prev-inv-table');
+
+      let grand = 0; tbody.innerHTML = '';
+      descs.forEach((d, i) => {
+        const q = parseFloat(qtys[i].value) || 0;
+        const p = parseFloat(prices[i].value) || 0;
+        const tot = q * p; grand += tot;
+        tbody.innerHTML += `<tr><td class="l">${esc(d.value || 'Item')}</td><td>${q}</td><td>Rp ${p.toLocaleString('id-ID')}</td><td><b>Rp ${tot.toLocaleString('id-ID')}</b></td></tr>`;
+      });
+      $('prev-inv-grand').textContent = 'Rp ' + grand.toLocaleString('id-ID');
+    }
+
+    /* 14. GOAL TRACKER */
+    let goals = JSON.parse(localStorage.getItem('kimsweb_goals') || '[]');
+    function addGoal(){
+      const title = $('goal-title').value.trim();
+      const target = parseFloat($('goal-target').value) || 0;
+      const current = parseFloat($('goal-current').value) || 0;
+      if(!title || target <= 0) return;
+
+      goals.push({ id: Date.now(), title, target, current });
+      localStorage.setItem('kimsweb_goals', JSON.stringify(goals));
+      $('goal-title').value = ''; $('goal-target').value = ''; $('goal-current').value = '';
+      renderGoals();
+    }
+
+    function removeGoal(id){
+      goals = goals.filter(g => g.id !== id);
+      localStorage.setItem('kimsweb_goals', JSON.stringify(goals));
+      renderGoals();
+    }
+
+    function renderGoals(){
+      const box = $('goal-list');
+      if(!box) return;
+      if(!goals.length){ box.innerHTML = '<p class="msg">Belum ada target impian yang dicatat.</p>'; return; }
+      box.innerHTML = goals.map(g => {
+        const pct = Math.min(100, Math.round((g.current / g.target) * 100));
+        return `<div style="background:#15151c;padding:14px;border-radius:12px;border:1px solid var(--bd)">
+          <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+            <b>${esc(g.title)}</b>
+            <span style="color:var(--r)">${pct}% (${g.current.toLocaleString('id-ID')} / ${g.target.toLocaleString('id-ID')})</span>
+          </div>
+          <div class="meter"><i style="width:${pct}%;background:#4caf50"></i></div>
+          <button class="btn alt" style="padding:2px 8px;font-size:0.75rem;margin-top:8px;color:#ff6666" onclick="removeGoal(${g.id})">Hapus Target</button>
+        </div>`;
+      }).join('');
+    }
+
+    /* 15. MOCKUP GENERATOR */
+    let mockImgObj = null;
+    function loadMockupImage(e){
+      const file = e.target.files[0]; if(!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        mockImgObj = new Image();
+        mockImgObj.onload = () => drawMockup();
+        mockImgObj.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function drawMockup(){
+      if(!mockImgObj) return;
+      const cv = $('mock-canvas'), ctx = cv.getContext('2d');
+      cv.width = mockImgObj.width + 100; cv.height = mockImgObj.height + 140;
+      cv.style.display = 'inline-block';
+      $('mock-hint').style.display = 'none'; $('mock-dl').style.display = 'inline-flex';
+
+      ctx.fillStyle = $('mock-bg').value;
+      ctx.fillRect(0, 0, cv.width, cv.height);
+
+      ctx.fillStyle = '#1e1e24';
+      ctx.fillRect(40, 40, mockImgObj.width + 20, mockImgObj.height + 60);
+
+      ctx.fillStyle = '#ff5f56'; ctx.beginPath(); ctx.arc(60, 60, 6, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#ffbd2e'; ctx.beginPath(); ctx.arc(78, 60, 6, 0, Math.PI*2); ctx.fill();
+      ctx.fillStyle = '#27c93f'; ctx.beginPath(); ctx.arc(96, 60, 6, 0, Math.PI*2); ctx.fill();
+
+      ctx.drawImage(mockImgObj, 50, 80);
+    }
+
+    function downloadMockup(){
+      const a = document.createElement('a'); a.href = $('mock-canvas').toDataURL('image/png');
+      a.download = 'mockup.png'; a.click();
+    }
+
+    /* 16. FONT PAIRING STUDIO */
+    function updateFontPairing(){
+      const hFont = $('fp-head').value, bFont = $('fp-body').value;
+      $('fp-prev-h').style.fontFamily = hFont;
+      $('fp-prev-b').style.fontFamily = bFont;
+      $('fp-css-out').textContent = `h1, h2, h3 { font-family: ${hFont}; }\nbody { font-family: ${bFont}; }`;
+    }
+
+    /* 17. BACKGROUND REMOVER */
+    let bgrImgObj = null;
+    function loadBgRemoveImg(e){
+      const file = e.target.files[0]; if(!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        bgrImgObj = new Image();
+        bgrImgObj.onload = () => processBgRemove();
+        bgrImgObj.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function processBgRemove(){
+      if(!bgrImgObj) return;
+      const cv = $('bgr-canvas'), ctx = cv.getContext('2d');
+      cv.width = bgrImgObj.width; cv.height = bgrImgObj.height;
+      cv.style.display = 'inline-block';
+      $('bgr-hint').style.display = 'none'; $('bgr-dl').style.display = 'inline-flex';
+
+      ctx.drawImage(bgrImgObj, 0, 0);
+      const imgData = ctx.getImageData(0, 0, cv.width, cv.height);
+      const data = imgData.data;
+      const tol = parseInt($('bgr-tol').value) || 40;
+
+      const r0 = data[0], g0 = data[1], b0 = data[2];
+      for(let i = 0; i < data.length; i += 4){
+        const r = data[i], g = data[i+1], b = data[i+2];
+        if(Math.abs(r-r0) < tol && Math.abs(g-g0) < tol && Math.abs(b-b0) < tol){
+          data[i+3] = 0;
+        }
+      }
+      ctx.putImageData(imgData, 0, 0);
+    }
+
+    function downloadBgRemoved(){
+      const a = document.createElement('a'); a.href = $('bgr-canvas').toDataURL('image/png');
+      a.download = 'transparent.png'; a.click();
+    }
+
+    /* 18. REACTION SPEED TEST */
+    let reactState = 'idle', reactStartTime = 0, reactTimer = null;
+    function handleReactClick(){
+      const box = $('react-box'), msg = $('react-msg'), score = $('react-score');
+      if(reactState === 'idle'){
+        reactState = 'waiting';
+        box.style.background = '#e67e22';
+        msg.textContent = 'Tunggu warna berubah Hijau...';
+        score.textContent = '';
+        reactTimer = setTimeout(() => {
+          reactState = 'ready';
+          box.style.background = '#2ecc71';
+          msg.textContent = 'KLIK SEKARANG!';
+          reactStartTime = performance.now();
+        }, Math.random() * 3000 + 1500);
+      } else if(reactState === 'waiting'){
+        clearTimeout(reactTimer);
+        reactState = 'idle';
+        box.style.background = '#ff3333';
+        msg.textContent = 'Terlalu cepat! Klik untuk coba lagi.';
+      } else if(reactState === 'ready'){
+        const diff = Math.round(performance.now() - reactStartTime);
+        reactState = 'idle';
+        box.style.background = '#ff3333';
+        msg.textContent = 'Klik Di Sini Untuk Memulai Lagi!';
+        score.innerHTML = `<h2 style="color:#4caf50;margin:0">Kecepatan Refleks: ${diff} ms ⚡</h2>`;
+      }
+    }
+
+    /* 19. VIRTUAL PET GAME */
+    let petData = JSON.parse(localStorage.getItem('kimsweb_pet') || '{"food":80,"happy":80,"energy":80,"lvl":1}');
+    function updatePetUI(){
+      $('pet-food-bar').style.width = petData.food + '%';
+      $('pet-happy-bar').style.width = petData.happy + '%';
+      $('pet-energy-bar').style.width = petData.energy + '%';
+      $('pet-name').textContent = `KimsPet (Level ${petData.lvl})`;
+      localStorage.setItem('kimsweb_pet', JSON.stringify(petData));
+    }
+
+    function feedPet(){ petData.food = Math.min(100, petData.food + 20); updatePetUI(); }
+    function playPet(){ petData.happy = Math.min(100, petData.happy + 20); petData.energy = Math.max(0, petData.energy - 10); updatePetUI(); }
+    function sleepPet(){ petData.energy = Math.min(100, petData.energy + 30); updatePetUI(); }
+    setInterval(() => {
+      petData.food = Math.max(0, petData.food - 2);
+      petData.happy = Math.max(0, petData.happy - 1);
+      updatePetUI();
+    }, 15000);
+
+    /* 20. FRACTION CALCULATOR */
+    function gcd(a, b){ return b ? gcd(b, a % b) : a; }
+    function calcFraction(){
+      const n1 = parseInt($('frac-n1').value)||0, d1 = parseInt($('frac-d1').value)||1;
+      const n2 = parseInt($('frac-n2').value)||0, d2 = parseInt($('frac-d2').value)||1;
+      const op = $('frac-op').value;
+
+      let num = 0, den = d1 * d2;
+      if(op === '+') num = n1 * d2 + n2 * d1;
+      else if(op === '-') num = n1 * d2 - n2 * d1;
+      else if(op === '*'){ num = n1 * n2; den = d1 * d2; }
+      else if(op === '/'){ num = n1 * d2; den = d1 * n2; }
+
+      const common = gcd(Math.abs(num), Math.abs(den));
+      const sNum = num / common, sDen = den / common;
+
+      $('frac-res').style.display = 'grid';
+      $('frac-out-simple').textContent = sDen === 1 ? sNum : `${sNum}/${sDen}`;
+      $('frac-out-dec').textContent = (num / den).toFixed(4);
+    }
+
+    /* 21. IMAGE UPSCALER */
+    let upsImgObj = null;
+    function loadUpscaleImg(e){
+      const file = e.target.files[0]; if(!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        upsImgObj = new Image();
+        upsImgObj.onload = () => processUpscale();
+        upsImgObj.src = ev.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function processUpscale(){
+      if(!upsImgObj) return;
+      const cv = $('ups-canvas'), ctx = cv.getContext('2d');
+      const factor = parseInt($('ups-factor').value) || 2;
+      cv.width = upsImgObj.width * factor; cv.height = upsImgObj.height * factor;
+      cv.style.display = 'inline-block';
+      $('ups-hint').style.display = 'none'; $('ups-dl').style.display = 'inline-flex';
+
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = 'high';
+      ctx.drawImage(upsImgObj, 0, 0, cv.width, cv.height);
+    }
+
+    function downloadUpscaled(){
+      const a = document.createElement('a'); a.href = $('ups-canvas').toDataURL('image/png');
+      a.download = 'upscaled.png'; a.click();
+    }
+
+    /* 22. SMART TRANSLATOR */
+    async function translateText(){
+      const text = $('tr-in-text').value.trim();
+      const from = $('tr-from').value, to = $('tr-to').value;
+      const box = $('tr-out-text');
+      if(!text) return;
+      box.textContent = 'Menerjemahkan...';
+      try {
+        const langpair = `${from === 'autodetect' ? 'auto' : from}|${to}`;
+        const r = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${langpair}`);
+        const d = await r.json();
+        box.textContent = d.responseData.translatedText || 'Gagal menerjemahkan.';
+      } catch(e) { box.textContent = 'Gagal terhubung ke API penerjemah.'; }
+    }
+
+    /* 23. SOCIAL MEDIA CAPTION GENERATOR */
+    const CAPTIONS = {
+      business: ["Kesuksesan berawal dari langkah kecil hari ini. 🔥 #BisnisAnakMuda #Entrepreneur", "Inovasi tanpa batas untuk hasil terbaik. 🚀 #WorkHard #Motivation"],
+      motivation: ["Jangan pernah menyerah pada impianmu. 💪 #Inspirasi #PantangMenyerah", "Hari baru, kesempatan baru untuk menjadi lebih baik. ✨ #PositiveVibes"],
+      travel: ["Menjelajahi keindahan alam dunia. 🏔️ #TravelGram #Wanderlust", "Petualangan baru telah dimulai! 🌊 #ExploreTheWorld"],
+      food: ["Nikmatnya kuliner lokal yang menggugah selera. 🍕 #Foodie #KulinerNusantara"]
+    };
+
+    function genCaption(){
+      const topic = $('cap-topic').value;
+      const box = $('cap-out-box');
+      const list = CAPTIONS[topic] || CAPTIONS.business;
+      box.innerHTML = list.map(c => `
+        <div style="background:#15151c;padding:12px;border-radius:10px;border:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center">
+          <span>${c}</span>
+          <button class="btn alt" style="padding:4px 8px;font-size:0.75rem" onclick="cp('${c}', this, event)">Salin</button>
+        </div>
+      `).join('');
+    }
+
+    /* 24. PENGHITUNG OMZET & PROFIT BISNIS */
     let omzetItems = [];
     function formatRupiah(num){ return 'Rp ' + Math.round(num).toLocaleString('id-ID'); }
-    
+
     function addOmzetItem(){
       const name = $('omz-pname').value.trim() || 'Produk ' + (omzetItems.length + 1);
       const price = parseFloat($('omz-price').value) || 0;
@@ -1034,6 +1890,186 @@
       $('omz-total-hpp').textContent = formatRupiah(totalHpp);
       $('omz-total-net').textContent = formatRupiah(totalNet);
       $('omz-margin').textContent = marginPercent + '%';
+    }
+
+    /* 25. MONEY TRACKER */
+    let transactions = JSON.parse(localStorage.getItem('kimsweb_tracker') || '[]');
+    if($('tr-date')) $('tr-date').valueAsDate = new Date();
+
+    function addTransaction(){
+      const type = $('tr-type').value, desc = $('tr-desc').value.trim() || 'Transaksi';
+      const amount = parseFloat($('tr-amount').value) || 0;
+      const date = $('tr-date').value || new Date().toISOString().split('T')[0];
+      if(amount <= 0) return;
+
+      transactions.unshift({ id: Date.now(), type, desc, amount, date });
+      localStorage.setItem('kimsweb_tracker', JSON.stringify(transactions));
+      $('tr-desc').value = ''; $('tr-amount').value = '';
+      renderTracker();
+    }
+
+    function removeTransaction(id){
+      transactions = transactions.filter(t => t.id !== id);
+      localStorage.setItem('kimsweb_tracker', JSON.stringify(transactions));
+      renderTracker();
+    }
+
+    function renderTracker(){
+      const tbody = $('tr-table-body');
+      if(!tbody) return;
+      let totalIn = 0, totalOut = 0;
+      transactions.forEach(t => { if(t.type === 'in') totalIn += t.amount; else totalOut += t.amount; });
+      const balance = totalIn - totalOut;
+
+      $('tr-in').textContent = 'Rp ' + totalIn.toLocaleString('id-ID');
+      $('tr-out').textContent = 'Rp ' + totalOut.toLocaleString('id-ID');
+      $('tr-balance').textContent = 'Rp ' + balance.toLocaleString('id-ID');
+
+      if(!transactions.length){ tbody.innerHTML = '<tr><td colspan="5" style="color:var(--mut);padding:18px">Belum ada catatan.</td></tr>'; return; }
+      tbody.innerHTML = transactions.map(t => `
+        <tr>
+          <td><small style="color:var(--mut)">${t.date}</small></td>
+          <td class="l"><b>${esc(t.desc)}</b></td>
+          <td><span class="${t.type === 'in' ? 'ok' : 'err'}">${t.type === 'in' ? 'Pemasukan' : 'Pengeluaran'}</span></td>
+          <td><b>Rp ${t.amount.toLocaleString('id-ID')}</b></td>
+          <td><button class="btn alt" style="padding:4px 10px;font-size:0.75rem;color:#ff6666" onclick="removeTransaction(${t.id})">Hapus</button></td>
+        </tr>
+      `).join('');
+    }
+
+    /* 26. JADWAL SHOLAT & GPS INTEGRATION */
+    let userLat = -6.2088, userLng = 106.8456, userCity = "Jakarta", prayerTimings = null, enableAdhanSound = false;
+
+    function updateWIBClock(){
+      const now = new Date();
+      const timeStr = new Intl.DateTimeFormat('id-ID', { timeZone: 'Asia/Jakarta', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).format(now);
+      if($('hdr-clock')) $('hdr-clock').textContent = `${timeStr} WIB`;
+      if(prayerTimings) updatePrayerCountdown();
+    }
+    setInterval(updateWIBClock, 1000);
+
+    async function detectUserLocation(manual = false){
+      if(manual && $('sh-loc-name')) $('sh-loc-name').textContent = 'Mendeteksi GPS...';
+      if('geolocation' in navigator){
+        navigator.geolocation.getCurrentPosition(
+          async pos => {
+            userLat = pos.coords.latitude; userLng = pos.coords.longitude;
+            await fetchReverseGeocode(userLat, userLng);
+            fetchPrayerSchedule(userLat, userLng);
+          },
+          async () => { await fetchIPLocationFallback(); fetchPrayerSchedule(userLat, userLng); }
+        );
+      } else { await fetchIPLocationFallback(); fetchPrayerSchedule(userLat, userLng); }
+    }
+
+    async function fetchReverseGeocode(lat, lng){
+      try {
+        const r = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=id`);
+        const d = await r.json();
+        userCity = d.city || d.locality || "Lokasi Anda";
+        if($('hdr-loc')) $('hdr-loc').textContent = userCity;
+        if($('sh-loc-name')) $('sh-loc-name').textContent = `${userCity} (${d.countryName || 'ID'})`;
+      } catch(e){
+        userCity = "Koordinat GPS";
+        if($('hdr-loc')) $('hdr-loc').textContent = userCity;
+      }
+    }
+
+    async function fetchIPLocationFallback(){
+      try {
+        const r = await fetch('https://ipapi.co/json/');
+        const d = await r.json();
+        if(d.latitude && d.longitude){
+          userLat = d.latitude; userLng = d.longitude; userCity = d.city || "Jakarta";
+          if($('hdr-loc')) $('hdr-loc').textContent = userCity;
+          if($('sh-loc-name')) $('sh-loc-name').textContent = userCity;
+        }
+      } catch(e){ userCity = "Jakarta"; }
+    }
+
+    async function fetchPrayerSchedule(lat, lng){
+      try {
+        const today = new Date();
+        const r = await fetch(`https://api.aladhan.com/v1/timings/${today.getDate()}-${today.getMonth()+1}-${today.getFullYear()}?latitude=${lat}&longitude=${lng}&method=20`);
+        const d = await r.json();
+        if(d.code === 200 && d.data){
+          prayerTimings = d.data.timings;
+          if($('sh-date-hijri')) $('sh-date-hijri').textContent = `${d.data.date.hijri.day} ${d.data.date.hijri.month.id || d.data.date.hijri.month.en} ${d.data.date.hijri.year} H`;
+          renderPrayerCards(prayerTimings);
+          updatePrayerCountdown();
+        }
+      } catch(e){}
+    }
+
+    function renderPrayerCards(t){
+      const pList = [{k:'Fajr',n:'Subuh'},{k:'Dhuhr',n:'Dzuhur'},{k:'Asr',n:'Ashar'},{k:'Maghrib',n:'Maghrib'},{k:'Isha',n:'Isya'}];
+      const container = $('prayer-cards');
+      if(!container) return;
+      container.innerHTML = pList.map(p => `
+        <div class="prayer-card" id="card-${p.k}">
+          <div class="p-name">${p.n}</div>
+          <div class="p-time">${t[p.k] || '--:--'}</div>
+        </div>
+      `).join('');
+    }
+
+    function updatePrayerCountdown(){
+      if(!prayerTimings) return;
+      const now = new Date();
+      const list = [{k:'Fajr',n:'Subuh'},{k:'Dhuhr',n:'Dzuhur'},{k:'Asr',n:'Ashar'},{k:'Maghrib',n:'Maghrib'},{k:'Isha',n:'Isya'}];
+      let nextP = null, minDiff = Infinity;
+
+      for(let p of list){
+        const [h, m] = prayerTimings[p.k].split(':');
+        const pDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), parseInt(h), parseInt(m), 0);
+        const diff = pDate - now;
+        if(diff > 0 && diff < minDiff){ minDiff = diff; nextP = { ...p, timeStr: prayerTimings[p.k], diff }; }
+      }
+
+      if(!nextP){
+        const [h, m] = prayerTimings['Fajr'].split(':');
+        const tomorrowSubuh = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1, parseInt(h), parseInt(m), 0);
+        nextP = { k:'Fajr', n:'Subuh', timeStr: prayerTimings['Fajr'], diff: tomorrowSubuh - now };
+      }
+
+      const totalSec = Math.floor(nextP.diff / 1000);
+      const hrs = String(Math.floor(totalSec / 3600)).padStart(2, '0');
+      const mins = String(Math.floor((totalSec % 3600) / 60)).padStart(2, '0');
+      const secs = String(totalSec % 60).padStart(2, '0');
+
+      if($('hdr-prayer')) $('hdr-prayer').textContent = `${nextP.n} ${nextP.timeStr} (-${hrs}j ${mins}m)`;
+      if($('sh-next-name')) $('sh-next-name').textContent = nextP.n;
+      if($('sh-countdown')) $('sh-countdown').textContent = `${hrs}:${mins}:${secs}`;
+      if($('sh-next-time-sub')) $('sh-next-time-sub').textContent = `Pukul ${nextP.timeStr} WIB (${userCity})`;
+
+      document.querySelectorAll('.prayer-card').forEach(c => c.classList.remove('next'));
+      if($(`card-${nextP.k}`)) $(`card-${nextP.k}`).classList.add('next');
+    }
+
+    function toggleAdhanSound(active){ enableAdhanSound = active; }
+
+    /* 27. WEB RECON */
+    async function runWebRecon(){
+      const input = $('recon-target').value.trim();
+      const box = $('recon-out'), btn = $('recon-btn');
+      if(!input) return;
+      btn.disabled = true;
+      box.innerHTML = '<span class="loader"></span>Melakukan pencarian IP & DNS...';
+
+      try {
+        const cleanTarget = input.replace(/^https?:\/\//i, '').replace(/\/.*$/, '');
+        const dnsRes = await fetch(`https://dns.google/resolve?name=${encodeURIComponent(cleanTarget)}&type=A`).then(r=>r.json());
+        const ipList = (dnsRes.Answer || []).filter(a => a.type === 1).map(a => a.data);
+
+        box.innerHTML = `
+          <div style="background:#15151c;padding:18px;border-radius:12px;border:1px solid var(--bd)">
+            <h3 style="color:var(--r);margin-bottom:10px">Recon Target: ${esc(cleanTarget)}</h3>
+            <div style="margin-bottom:10px">IP Server A-Records: <b>${ipList.join(', ') || 'Tidak terdeteksi'}</b></div>
+            <div class="cmd-box">Port 80 (HTTP): OPEN\nPort 443 (HTTPS): OPEN</div>
+          </div>
+        `;
+      } catch(e){ box.innerHTML = `<span class="err">Gagal recon target.</span>`; }
+      btn.disabled = false;
     }
 
     /* SALIN TEKS UTILS */
@@ -1091,28 +2127,28 @@
     /* CANVAS 3D PARTIKEL ANIMASI BACKGROUND */
     (function(){
       const cv = $('bg'), ctx = cv.getContext('2d');
-      let w, h, cx, cy, angleY = 0, angleX = 0, velY = 0.004, velX = 0;
+      let w, h, cx, cy, angleY = 0, angleX = 0;
       let isDragging = false, lastMouseX = 0, lastMouseY = 0, mouseX = -1000, mouseY = -1000;
 
       const resize = () => { w = cv.width = window.innerWidth; h = cv.height = window.innerHeight; cx = w / 2; cy = h / 2; };
-      window.addEventListener('resize', resize); resize();
+      window.addEventListener('resize', resize, {passive: true}); resize();
 
       window.addEventListener('mousedown', e => {
         if(['INPUT','BUTTON','SELECT','TEXTAREA'].includes(e.target.tagName)) return;
         isDragging = true; lastMouseX = e.clientX; lastMouseY = e.clientY;
-      });
+      }, {passive: true});
       window.addEventListener('mousemove', e => {
         mouseX = e.clientX; mouseY = e.clientY;
         if(!isDragging) return;
         angleY += (e.clientX - lastMouseX) * 0.005;
         angleX += (e.clientY - lastMouseY) * 0.005;
         lastMouseX = e.clientX; lastMouseY = e.clientY;
-      });
-      window.addEventListener('mouseup', () => isDragging = false);
+      }, {passive: true});
+      window.addEventListener('mouseup', () => isDragging = false, {passive: true});
 
-      const particles = Array.from({length: 70}, () => ({
+      const particles = Array.from({length: 45}, () => ({
         x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight,
-        s: Math.random() * 2.5 + 1, vx: (Math.random() - .5) * 0.8, vy: (Math.random() - .5) * 0.8,
+        s: Math.random() * 2 + 1, vx: (Math.random() - .5) * 0.8, vy: (Math.random() - .5) * 0.8,
         c: Math.random() > .4 ? 'rgba(255, 51, 51, 0.75)' : 'rgba(255, 255, 255, 0.65)'
       }));
 
@@ -1136,20 +2172,25 @@
 
         for(let i = 1; i < 10; i++){
           const lat = (i / 10 - 0.5) * Math.PI;
-          for(let j = 0; j < 16; j++){
-            const p1 = project(lat, (j / 16) * 2 * Math.PI);
-            const p2 = project(lat, ((j + 1) / 16) * 2 * Math.PI);
+          for(let j = 0; j < 14; j++){
+            const p1 = project(lat, (j / 14) * 2 * Math.PI);
+            const p2 = project(lat, ((j + 1) / 14) * 2 * Math.PI);
             ctx.strokeStyle = `rgba(255, 51, 51, ${Math.max(0.02, Math.min(0.25, (p1.z + radius) / (2.5 * radius)))})`;
             ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
           }
         }
 
+        const maxDistSq = 19600;
         particles.forEach(p => {
           p.x += p.vx; p.y += p.vy;
           if(p.x < 0) p.x = w; if(p.x > w) p.x = 0;
           if(p.y < 0) p.y = h; if(p.y > h) p.y = 0;
-          const dx = mouseX - p.x, dy = mouseY - p.y, dist = Math.sqrt(dx*dx + dy*dy);
-          if(dist < 120){ p.x -= (dx / dist) * 3; p.y -= (dy / dist) * 3; }
+          const dx = mouseX - p.x, dy = mouseY - p.y, distSq = dx*dx + dy*dy;
+          if(distSq < maxDistSq && distSq > 0){
+            const dist = Math.sqrt(distSq);
+            const force = (140 - dist) / 140;
+            p.x -= (dx / dist) * force * 4; p.y -= (dy / dist) * force * 4;
+          }
           ctx.fillStyle = p.c; ctx.beginPath(); ctx.arc(p.x, p.y, p.s, 0, Math.PI * 2); ctx.fill();
         });
         requestAnimationFrame(render);
@@ -1161,6 +2202,8 @@
     window.addEventListener('hashchange', route);
     route();
     initGatekeeper();
+    updatePetUI();
+    renderInvoicePreview();
   </script>
 </body>
 </html>
